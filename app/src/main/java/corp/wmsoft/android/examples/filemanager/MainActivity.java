@@ -1,5 +1,8 @@
 package corp.wmsoft.android.examples.filemanager;
 
+import android.Manifest;
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -13,19 +16,32 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.tbruyelle.rxpermissions.RxPermissions;
+
+import corp.wmsoft.android.lib.filemanager.ui.widgets.nav.FileManagerView;
+import corp.wmsoft.android.lib.filemanager.ui.widgets.nav.IFileManagerEvent;
+import corp.wmsoft.android.lib.filemanager.ui.widgets.nav.IOnFileManagerEventListener;
 import hugo.weaving.DebugLog;
+import rx.functions.Action1;
 
 
 @DebugLog
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, IOnFileManagerEventListener {
+
+    /**/
+    private FileManagerView mNavigationView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        mNavigationView = (FileManagerView) findViewById(R.id.navigation_view);
+        mNavigationView.setOnFileManagerEventListener(this);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -43,6 +59,8 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
     }
 
     @Override
@@ -100,5 +118,33 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onFileManagerEvent(@IFileManagerEvent int event) {
+        switch (event) {
+            case IFileManagerEvent.NEED_EXTERNAL_STORAGE_PERMISSION:
+                askExtrnalStoragePermission();
+                break;
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    private void askExtrnalStoragePermission() {
+        RxPermissions.getInstance(this)
+                .request(Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .subscribe(new Action1<Boolean>() {
+                    @Override
+                    public void call(Boolean granted) {
+                        if (granted) {
+                            // All requested permissions are granted
+                            mNavigationView.onExternalStoragePermissionsGranted();
+                        } else {
+                            // At least one permission is denied
+                            mNavigationView.onExternalStoragePermissionsNotGranted();
+                        }
+                    }
+                });
     }
 }

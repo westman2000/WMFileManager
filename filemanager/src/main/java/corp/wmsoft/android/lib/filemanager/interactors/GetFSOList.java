@@ -3,6 +3,7 @@ package corp.wmsoft.android.lib.filemanager.interactors;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import corp.wmsoft.android.lib.filemanager.models.FileSystemObject;
 import corp.wmsoft.android.lib.filemanager.models.ParentDirectory;
@@ -47,6 +48,12 @@ public class GetFSOList extends MVPCUseCase<GetFSOList.RequestValues, List<FileS
                                 fsoList.add(fso);
                             }
                         }
+                    }
+
+                    try {
+                        TimeUnit.SECONDS.sleep(3);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
                     }
 
                     //Now if not is the root directory

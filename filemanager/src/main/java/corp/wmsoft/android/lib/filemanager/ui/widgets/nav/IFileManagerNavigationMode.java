@@ -10,9 +10,9 @@ import java.lang.annotation.RetentionPolicy;
 /**
  * <br/>Created by WestMan2000 on 9/1/16 at 11:31 AM.<br/>
  */
-@IntDef({NavigationMode.ICONS, NavigationMode.SIMPLE, NavigationMode.DETAILS})
+@IntDef({IFileManagerNavigationMode.ICONS, IFileManagerNavigationMode.SIMPLE, IFileManagerNavigationMode.DETAILS})
 @Retention(RetentionPolicy.SOURCE)
-public @interface NavigationMode {
+public @interface IFileManagerNavigationMode {
 
     /**
      * That mode shows a icon based view (icon + name) with a {@link GridLayoutManager}.

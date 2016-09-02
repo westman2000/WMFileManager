@@ -11,7 +11,7 @@ import java.util.List;
 import corp.wmsoft.android.lib.filemanager.R;
 import corp.wmsoft.android.lib.filemanager.adapters.holders.FSOViewHolder;
 import corp.wmsoft.android.lib.filemanager.models.FileSystemObject;
-import corp.wmsoft.android.lib.filemanager.ui.widgets.nav.NavigationMode;
+import corp.wmsoft.android.lib.filemanager.ui.widgets.nav.IFileManagerNavigationMode;
 
 /**
  * <br/>Created by WestMan2000 on 9/1/16 at 12:09 PM.<br/>
@@ -23,13 +23,13 @@ public class FileSystemObjectAdapter extends RecyclerView.Adapter<FSOViewHolder>
     /**/
     private View.OnClickListener   mViewOnClickListener;
     /**/
-    @NavigationMode
+    @IFileManagerNavigationMode
     private int mCurrentNavigationMode;
 
 
     public FileSystemObjectAdapter() {
         this.mFileSystemObjects = new ArrayList<>();
-        mCurrentNavigationMode = NavigationMode.DETAILS;
+        mCurrentNavigationMode = IFileManagerNavigationMode.DETAILS;
     }
 
     @Override
@@ -40,10 +40,10 @@ public class FileSystemObjectAdapter extends RecyclerView.Adapter<FSOViewHolder>
         View v;
 
         switch (viewType) {
-            case NavigationMode.ICONS:
+            case IFileManagerNavigationMode.ICONS:
                 v = inflater.inflate(R.layout.navigation_view_icons_item, parent, false);
                 break;
-            case NavigationMode.SIMPLE:
+            case IFileManagerNavigationMode.SIMPLE:
                 v = inflater.inflate(R.layout.navigation_view_simple_item, parent, false);
                 break;
             default:
@@ -64,7 +64,7 @@ public class FileSystemObjectAdapter extends RecyclerView.Adapter<FSOViewHolder>
         holder.bind(getItem(position));
     }
 
-    @NavigationMode
+    @IFileManagerNavigationMode
     @Override
     public int getItemViewType(int position) {
         return this.mCurrentNavigationMode;
@@ -75,7 +75,7 @@ public class FileSystemObjectAdapter extends RecyclerView.Adapter<FSOViewHolder>
         return mFileSystemObjects.size();
     }
 
-    public void setNavigationMode(@NavigationMode int newMode) {
+    public void setNavigationMode(@IFileManagerNavigationMode int newMode) {
         //Check that it is really necessary change the mode
         if (this.mCurrentNavigationMode == newMode) return;
 

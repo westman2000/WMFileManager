@@ -15,28 +15,29 @@
  -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  android:id="@+id/navigation_view_details_item"
-  android:layout_width="@dimen/navigation_grid_width"
-  android:layout_height="@dimen/navigation_grid_height">
+    android:id="@+id/navigation_view_details_item"
+    android:layout_width="@dimen/navigation_grid_width"
+    android:layout_height="@dimen/navigation_grid_height"
+    android:background="?attr/selectableItemBackground">
 
-  <com.cyanogenmod.filemanager.ui.widgets.FixedSizeImageView
-    android:id="@+id/navigation_view_item_icon"
-    android:layout_width="@dimen/default_row_height"
-    android:layout_height="@dimen/default_row_height"
-    android:scaleType="centerCrop"
-    android:contentDescription="@null"
-    android:gravity="center|center_vertical"
-    android:src="@null" />
+    <corp.wmsoft.android.lib.filemanager.ui.widgets.FixedSizeImageView
+        android:id="@+id/navigation_view_item_icon"
+        android:layout_width="@dimen/default_row_height"
+        android:layout_height="@dimen/default_row_height"
+        android:scaleType="centerCrop"
+        android:contentDescription="@null"
+        android:gravity="center|center_vertical"
+        android:src="@null" />
 
-  <TextView
-    android:id="@+id/navigation_view_item_name"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_below="@id/navigation_view_item_icon"
-    android:ellipsize="middle"
-    android:gravity="center|center_vertical"
-    android:maxLines="@integer/default_grid_item_text_max_lines"
-    android:textAppearance="@style/secondary_text_appearance"
-    android:textStyle="bold" />
+    <TextView
+        android:id="@+id/navigation_view_item_name"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/navigation_view_item_icon"
+        android:ellipsize="middle"
+        android:gravity="center|center_vertical"
+        android:maxLines="@integer/default_grid_item_text_max_lines"
+        android:textAppearance="@style/secondary_text_appearance"
+        android:textStyle="bold" />
 
 </RelativeLayout>

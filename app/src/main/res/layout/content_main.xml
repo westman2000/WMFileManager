@@ -12,7 +12,8 @@
     tools:context="corp.wmsoft.android.examples.filemanager.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
-    <corp.wmsoft.android.lib.filemanager.ui.widgets.NavigationView
+    <corp.wmsoft.android.lib.filemanager.ui.widgets.nav.FileManagerView
+        android:id="@+id/navigation_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
