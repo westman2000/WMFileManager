@@ -15,18 +15,17 @@ import corp.wmsoft.android.lib.filemanager.models.FileSystemObject;
 import corp.wmsoft.android.lib.filemanager.ui.widgets.nav.NavigationMode;
 import corp.wmsoft.android.lib.mvpc.predefined.MVPCFrameLayout;
 import corp.wmsoft.android.lib.mvpc.presenter.factory.IMVPCPresenterFactory;
+import hugo.weaving.DebugLog;
 
 
 /**
  * <br/>Created by WestMan2000 on 8/31/16 at 2:42 PM.<br/>
  */
+@DebugLog
 public class NavigationView extends MVPCFrameLayout<INavigationViewContract.View, INavigationViewContract.Presenter>
         implements INavigationViewContract.View, View.OnClickListener {
 
-    @Override
-    public void showError(Error error) {
 
-    }
 
     /**
      * An interface to communicate a request when the user choose a file.
@@ -91,6 +90,10 @@ public class NavigationView extends MVPCFrameLayout<INavigationViewContract.View
     @Override
     protected int provideUniqueIdentifier() {
         return 640344;
+    }
+
+    @Override
+    public void showError(Error error) {
     }
 
     @Override
@@ -172,6 +175,8 @@ public class NavigationView extends MVPCFrameLayout<INavigationViewContract.View
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
         mRecyclerView.setHasFixedSize(true);
+
+        mRecyclerView.setAdapter(mAdapter);
 
         addView(mRecyclerView);
     }

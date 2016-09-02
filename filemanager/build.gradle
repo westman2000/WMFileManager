@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.jfrog.bintray'
 apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jakewharton.hugo'
 
 apply from: 'variables.gradle'
 
@@ -36,9 +37,11 @@ buildscript {
     dependencies {
         repositories {
             jcenter()
+            mavenCentral()
         }
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.1'
-        classpath "com.github.dcendents:android-maven-gradle-plugin:1.5"
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
+        classpath 'com.jakewharton.hugo:hugo-plugin:1.2.1'
     }
 }
 

@@ -1,5 +1,7 @@
 package corp.wmsoft.android.lib.filemanager.ui.widgets;
 
+import android.os.Environment;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,11 +11,14 @@ import corp.wmsoft.android.lib.filemanager.models.FileSystemObject;
 import corp.wmsoft.android.lib.filemanager.models.ParentDirectory;
 import corp.wmsoft.android.lib.filemanager.ui.widgets.nav.NavigationMode;
 import corp.wmsoft.android.lib.mvpc.presenter.MVPCPresenter;
+import hugo.weaving.DebugLog;
+import rx.Subscriber;
 import rx.functions.Action1;
 
 /**
  * <br/>Created by WestMan2000 on 8/31/16 at 3:49 PM.<br/>
  */
+@DebugLog
 public class NavigationViewPresenter extends MVPCPresenter<INavigationViewContract.View> implements INavigationViewContract.Presenter {
 
     /**
@@ -34,8 +39,6 @@ public class NavigationViewPresenter extends MVPCPresenter<INavigationViewContra
 
         //Initialize variables
         this.mFiles = new ArrayList<>();
-
-        mCurrentMode = NavigationMode.DETAILS;
     }
 
     @Override
@@ -43,9 +46,9 @@ public class NavigationViewPresenter extends MVPCPresenter<INavigationViewContra
         super.attachView(mvpView);
 
         // Retrieve the default configuration
-        changeViewMode(mCurrentMode);
+        changeViewMode(NavigationMode.DETAILS);
 
-        changeCurrentDir(mCurrentDir);
+        changeCurrentDir(Environment.getExternalStorageDirectory().getAbsolutePath());
     }
 
     @Override
@@ -66,14 +69,25 @@ public class NavigationViewPresenter extends MVPCPresenter<INavigationViewContra
         this.mCurrentDir = newDir;
 
         getView().showLoading();
-        executeUseCase(mGetFSOList, new GetFSOList.RequestValues(mCurrentDir), new Action1<List<FileSystemObject>>() {
+        executeUseCase(mGetFSOList, new GetFSOList.RequestValues(mCurrentDir), new Subscriber<List<FileSystemObject>>() {
             @Override
-            public void call(List<FileSystemObject> fileSystemObjects) {
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(List<FileSystemObject> fileSystemObjects) {
                 getView().setData(fileSystemObjects);
                 getView().showContent();
                 getView().hideLoading();
             }
         });
+
     }
 
     /**

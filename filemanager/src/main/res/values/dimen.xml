@@ -6,6 +6,11 @@
     <!-- The secondary text size -->
     <dimen name="secondary_text_size">12sp</dimen>
 
+    <!-- The navigation grid width -->
+    <dimen name="navigation_grid_width">85dp</dimen>
+    <!-- The navigation grid height -->
+    <dimen name="navigation_grid_height">85dp</dimen>
+
     <!-- The default row height -->
     <dimen name="default_row_height">56dp</dimen>
 
@@ -15,5 +20,8 @@
     <dimen name="extra_margin">8dp</dimen>
     <!-- The default margin -->
     <dimen name="default_margin">5dp</dimen>
+
+    <dimen name="easy_mode_type_icon_wh">40dp</dimen>
+    <dimen name="easy_mode_type_icon_margin_lr">16dp</dimen>
 
 </resources>
