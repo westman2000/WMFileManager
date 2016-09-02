@@ -21,11 +21,9 @@ import com.tbruyelle.rxpermissions.RxPermissions;
 import corp.wmsoft.android.lib.filemanager.ui.widgets.nav.FileManagerView;
 import corp.wmsoft.android.lib.filemanager.ui.widgets.nav.IFileManagerEvent;
 import corp.wmsoft.android.lib.filemanager.ui.widgets.nav.IOnFileManagerEventListener;
-import hugo.weaving.DebugLog;
 import rx.functions.Action1;
 
 
-@DebugLog
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, IOnFileManagerEventListener {
 
     /**/

@@ -1,7 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.jfrog.bintray'
 apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: 'com.jakewharton.hugo'
 
 apply from: 'variables.gradle'
 
@@ -41,7 +40,6 @@ buildscript {
         }
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.1'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
-        classpath 'com.jakewharton.hugo:hugo-plugin:1.2.1'
     }
 }
 
@@ -93,8 +91,8 @@ bintray {
         }
 
         licenses = ['Apache-2.0']
-        vcsUrl = 'https://github.com/westman2000/MVPCAndroid.git' // your GitHub repo
-        websiteUrl = 'https://github.com/westman2000/MVPCAndroid' // your website or whatever has documentation
+        vcsUrl = 'https://github.com/westman2000/WMFileManager.git' // your GitHub repo
+        websiteUrl = 'https://github.com/westman2000/WMFileManager' // your website or whatever has documentation
     }
     configurations = ['archives']
 }

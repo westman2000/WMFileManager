@@ -12,13 +12,11 @@ import corp.wmsoft.android.lib.filemanager.models.Directory;
 import corp.wmsoft.android.lib.filemanager.models.FileSystemObject;
 import corp.wmsoft.android.lib.filemanager.models.ParentDirectory;
 import corp.wmsoft.android.lib.mvpc.presenter.MVPCPresenter;
-import hugo.weaving.DebugLog;
 import rx.Subscriber;
 
 /**
  * <br/>Created by WestMan2000 on 8/31/16 at 3:49 PM.<br/>
  */
-@DebugLog
 @SuppressLint("LongLogTag")
 public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewContract.View> implements IFileManagerViewContract.Presenter {
 

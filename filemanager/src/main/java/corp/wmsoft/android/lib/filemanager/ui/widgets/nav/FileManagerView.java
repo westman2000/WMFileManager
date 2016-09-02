@@ -19,13 +19,11 @@ import corp.wmsoft.android.lib.filemanager.util.DividerItemDecoration;
 import corp.wmsoft.android.lib.filemanager.models.FileSystemObject;
 import corp.wmsoft.android.lib.mvpc.predefined.MVPCFrameLayout;
 import corp.wmsoft.android.lib.mvpc.presenter.factory.IMVPCPresenterFactory;
-import hugo.weaving.DebugLog;
 
 
 /**
  * <br/>Created by WestMan2000 on 8/31/16 at 2:42 PM.<br/>
  */
-@DebugLog
 public class FileManagerView extends MVPCFrameLayout<IFileManagerViewContract.View, IFileManagerViewContract.Presenter>
         implements IFileManagerViewContract.View, View.OnClickListener {
 
