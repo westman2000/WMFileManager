@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">FileManager</string>
+
+    <!-- The parent directory of the current directory in navigation view -->
+    <string name="parent_dir">Parent folder</string>
+    <!-- External storage descripton -->
+    <string name="external_storage">External storage</string>
+    <!-- Usb storage descripton -->
+    <string name="usb_storage">USB storage</string>
+
+    <!-- Human readable sizes -->
+    <string name="size_bytes">B</string>
+    <string name="size_kilobytes">kB</string>
+    <string name="size_megabytes">MB</string>
+    <string name="size_gigabytes">GB</string>
+
+</resources>

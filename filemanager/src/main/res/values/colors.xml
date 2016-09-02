@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- A black color with some transparency -->
+    <color name="black_transparent">#99000000</color>
+
+</resources>

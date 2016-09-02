@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">FileManager</string>
+
+    <!-- The parent directory of the current directory in navigation view -->
+    <string name="parent_dir">Домашня папка</string>
+    <!-- External storage descripton -->
+    <string name="external_storage">Зовнішній накопичувач</string>
+    <!-- Usb storage descripton -->
+    <string name="usb_storage">USB накопичувач</string>
+
+    <!-- Human readable sizes -->
+    <string name="size_bytes">б</string>
+    <string name="size_kilobytes">кБ</string>
+    <string name="size_megabytes">МБ</string>
+    <string name="size_gigabytes">ГБ</string>
+
+</resources>

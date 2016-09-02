@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- The primary text size -->
+    <dimen name="primary_text_size">14sp</dimen>
+    <!-- The secondary text size -->
+    <dimen name="secondary_text_size">12sp</dimen>
+
+    <!-- The default row height -->
+    <dimen name="default_row_height">56dp</dimen>
+
+    <!-- A small margin -->
+    <dimen name="small_margin">2dp</dimen>
+    <!-- An extra margin -->
+    <dimen name="extra_margin">8dp</dimen>
+    <!-- The default margin -->
+    <dimen name="default_margin">5dp</dimen>
+
+</resources>

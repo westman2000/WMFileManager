@@ -1,0 +1,3 @@
+include ':app', ':filemanager'
+include ':mvpcandroid'
+project(':mvpcandroid').projectDir = new File(settingsDir, '../MVPCAndroid/mvpcandroid')

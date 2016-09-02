@@ -1,0 +1,35 @@
+apply plugin: 'com.android.application'
+
+apply from: '../filemanager/variables.gradle'
+
+android {
+    compileSdkVersion setup.compileSdk
+    buildToolsVersion setup.buildTools
+
+    defaultConfig {
+        applicationId "corp.wmsoft.android.examples.filemanager"
+        minSdkVersion setup.minSdk
+        targetSdkVersion setup.targetSdk
+        versionCode setup.verCode
+        versionName setup.verName
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile project(':mvpcandroid')
+    compile project(path: ':filemanager')
+
+    // android widgets
+    compile "com.android.support:design:${versions.supportLib}"
+
+    // A memory leak detection library
+    debugCompile "com.squareup.leakcanary:leakcanary-android:${versions.leakcanaryLib}"
+    releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:${versions.leakcanaryLib}"
+    testCompile "com.squareup.leakcanary:leakcanary-android-no-op:${versions.leakcanaryLib}"
+}
