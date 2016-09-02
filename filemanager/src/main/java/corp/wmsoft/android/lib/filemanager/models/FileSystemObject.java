@@ -6,6 +6,7 @@ import java.util.Date;
 
 import corp.wmsoft.android.lib.filemanager.R;
 import corp.wmsoft.android.lib.filemanager.util.FileHelper;
+import corp.wmsoft.android.lib.mvpc.viewmodel.IMVPCViewModel;
 
 
 /**
@@ -16,7 +17,7 @@ import corp.wmsoft.android.lib.filemanager.util.FileHelper;
  * @see Directory
  *
  */
-public abstract class FileSystemObject implements Comparable<FileSystemObject> {
+public abstract class FileSystemObject implements IMVPCViewModel, Comparable<FileSystemObject> {
 
     //Resource identifier for default icon
     private static final int RESOURCE_ICON_DEFAULT = R.drawable.ic_fso_default_24dp;

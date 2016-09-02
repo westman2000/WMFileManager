@@ -24,11 +24,21 @@ public interface IFileManagerViewContract {
 
         void showAsGrid();
 
+        void setNavigationModeInternal(@IFileManagerNavigationMode int mode);
+
+        // public functions
+
         void setNavigationMode(@IFileManagerNavigationMode int mode);
+
+        @IFileManagerNavigationMode int getNavigationMode();
 
     }
 
     interface Presenter extends IMVPCPresenter<View> {
+
+        void changeViewMode(final @IFileManagerNavigationMode int newMode);
+
+        @IFileManagerNavigationMode int getCurrentMode();
 
         void onExternalStoragePermissionsGranted();
 

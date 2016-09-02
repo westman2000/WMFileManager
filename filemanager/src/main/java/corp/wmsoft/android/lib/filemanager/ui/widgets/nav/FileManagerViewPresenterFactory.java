@@ -17,7 +17,8 @@ public class FileManagerViewPresenterFactory implements IMVPCPresenterFactory<IF
     @Override
     public IFileManagerViewContract.Presenter create() {
         return new FileManagerViewPresenter(
-                Injection.provideGetFSOList()
+                Injection.provideGetFSOList(),
+                Injection.provideGetMountPoints()
         );
     }
 }

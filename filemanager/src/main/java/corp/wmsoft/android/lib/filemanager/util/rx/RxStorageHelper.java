@@ -56,6 +56,7 @@ public class RxStorageHelper {
                             List<StorageVolume> storageVolumes = storageManager.getStorageVolumes();
                             for (StorageVolume storageVolume : storageVolumes) {
                                 subscriber.onNext(storageVolume);
+                                sStorageVolumes.add(storageVolume);
                             }
                         } else {
                             //Use reflect to get this value (if possible)
@@ -64,6 +65,7 @@ public class RxStorageHelper {
                                 StorageVolume[] storageVolumes = (StorageVolume[]) method.invoke(storageManager);
                                 for (StorageVolume storageVolume : storageVolumes) {
                                     subscriber.onNext(storageVolume);
+                                    sStorageVolumes.add(storageVolume);
                                 }
                             } catch (Exception e) {
                                 //Ignore. Android SDK StorageManager class doesn't have this method
@@ -71,7 +73,7 @@ public class RxStorageHelper {
                                 try {
                                     File externalStorage = Environment.getExternalStorageDirectory();
                                     String path = externalStorage.getCanonicalPath();
-                                    String description = null;
+                                    String description;
                                     //noinspection IndexOfReplaceableByContains
                                     if (path.toLowerCase(Locale.ROOT).indexOf("usb") != -1) {
                                         description = appContext.getString(R.string.usb_storage);
@@ -91,6 +93,7 @@ public class RxStorageHelper {
                                                             long.class);    // long maxFileSize
                                     StorageVolume sv = constructor.newInstance(path, description, false, false, 0, false, 0);
                                     subscriber.onNext(sv);
+                                    sStorageVolumes.add(sv);
                                 } catch (Exception ex2) {
                                     subscriber.onError(new Error("Can't get StorageVolumes from device"));
                                 }
@@ -201,7 +204,7 @@ public class RxStorageHelper {
             try {
                 final Context appContext = context.getApplicationContext();
                 final StorageManager storageManager = (StorageManager) appContext.getSystemService(Context.STORAGE_SERVICE);
-                Method methodGetVolumeState = storageManager.getClass().getMethod("getVolumeState", new Class[]{String.class});
+                Method methodGetVolumeState = storageManager.getClass().getMethod("getVolumeState", String.class);
                 return (String)methodGetVolumeState.invoke(storageManager, getStorageVolumePath(storageVolume));
             } catch (Exception e) {
                 e.printStackTrace();
@@ -210,4 +213,26 @@ public class RxStorageHelper {
         return Environment.MEDIA_UNMOUNTED;
     }
 
+    /**
+     * Method that returns if the path is a storage volume
+     *
+     * @param path The path
+     * @return boolean If the path is a storage volume
+     */
+    public static boolean isStorageVolume(String path) {
+
+        if (sStorageVolumes == null)
+            return true;
+
+        for (StorageVolume sv : sStorageVolumes) {
+            String p = new File(path).getAbsolutePath();
+            String volPath = getStorageVolumePath(sv);
+            if (volPath == null) return true;
+            String v = new File(volPath).getAbsolutePath();
+            if (p.compareTo(v) == 0) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

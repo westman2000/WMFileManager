@@ -34,6 +34,8 @@ public class FileManagerView extends MVPCFrameLayout<IFileManagerViewContract.Vi
     /**/
     private RecyclerView mRecyclerView;
     /**/
+    private DividerItemDecoration mDividerItemDecoration;
+    /**/
     private ProgressBar mProgressBar;
     /**/
     private FileSystemObjectAdapter mAdapter;
@@ -70,23 +72,35 @@ public class FileManagerView extends MVPCFrameLayout<IFileManagerViewContract.Vi
         init();
     }
 
+    /**
+     * @hide
+     */
     @Override
     protected IMVPCPresenterFactory<IFileManagerViewContract.View, IFileManagerViewContract.Presenter> providePresenterFactory() {
         Log.d(TAG, "FileManagerView.providePresenterFactory()");
         return new FileManagerViewPresenterFactory();
     }
 
+    /**
+     * @hide
+     */
     @Override
     protected int provideUniqueIdentifier() {
         Log.d(TAG, "FileManagerView.provideUniqueIdentifier()");
         return 640344;
     }
 
+    /**
+     * @hide
+     */
     @Override
     public void showError(Error error) {
         Log.d(TAG, "FileManagerView.showError()");
     }
 
+    /**
+     * @hide
+     */
     @Override
     public void sendEvent(@IFileManagerEvent int event) {
         Log.d(TAG, "FileManagerView.sendEvent("+event+")");
@@ -105,29 +119,56 @@ public class FileManagerView extends MVPCFrameLayout<IFileManagerViewContract.Vi
         Log.d(TAG, "FileManagerView.onExternalStoragePermissionsNotGranted()");
     }
 
+    /**
+     * @hide
+     */
     @Override
     public void showAsList() {
         Log.d(TAG, "FileManagerView.showAsList()");
         // use a linear layout manager for simple and details mode
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL_LIST);
-        mRecyclerView.addItemDecoration(itemDecoration);
+        mRecyclerView.addItemDecoration(mDividerItemDecoration);
     }
 
+    /**
+     * @hide
+     */
     @Override
     public void showAsGrid() {
         Log.d(TAG, "FileManagerView.showAsGrid()");
         mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), getResources().getInteger(R.integer.default_grid_columns)));
-        mRecyclerView.addItemDecoration(null);
+        mRecyclerView.removeItemDecoration(mDividerItemDecoration);
     }
 
+    /**
+     * @hide
+     */
     @Override
-    public void setNavigationMode(@IFileManagerNavigationMode int mode) {
-        Log.d(TAG, "FileManagerView.setNavigationMode("+mode+")");
+    public void setNavigationModeInternal(@IFileManagerNavigationMode int mode) {
+        Log.d(TAG, "FileManagerView.setNavigationModeInternal("+mode+")");
         mAdapter.setNavigationMode(mode);
     }
 
+    /**
+     * @public
+     */
+    @Override
+    public void setNavigationMode(@IFileManagerNavigationMode int mode) {
+        Log.d(TAG, "FileManagerView.setNavigationMode("+mode+")");
+        getPresenter().changeViewMode(mode);
+    }
+
+    /**
+     * @public
+     */
+    @Override
+    public int getNavigationMode() {
+        return getPresenter().getCurrentMode();
+    }
+
+    /**
+     * @hide
+     */
     @Override
     public void showLoading() {
         Log.d(TAG, "FileManagerView.showLoading()");
@@ -135,6 +176,9 @@ public class FileManagerView extends MVPCFrameLayout<IFileManagerViewContract.Vi
         mProgressBar.setVisibility(View.VISIBLE);
     }
 
+    /**
+     * @hide
+     */
     @Override
     public void hideLoading() {
         Log.d(TAG, "FileManagerView.hideLoading()");
@@ -142,22 +186,34 @@ public class FileManagerView extends MVPCFrameLayout<IFileManagerViewContract.Vi
         mProgressBar.setVisibility(View.GONE);
     }
 
+    /**
+     * @hide
+     */
     @Override
     public void setData(List<FileSystemObject> data) {
         Log.d(TAG, "FileManagerView.setData("+data+")");
         mAdapter.clearAndAddAll(data);
     }
 
+    /**
+     * @hide
+     */
     @Override
     public void showContent() {
         Log.d(TAG, "FileManagerView.showContent()");
     }
 
+    /**
+     * @hide
+     */
     @Override
     public void showNoDataView() {
         Log.d(TAG, "FileManagerView.showNoDataView()");
     }
 
+    /**
+     * @hide
+     */
     @Override
     public void onClick(View view) {
         Log.d(TAG, "FileManagerView.onClick("+view+")");
@@ -170,6 +226,8 @@ public class FileManagerView extends MVPCFrameLayout<IFileManagerViewContract.Vi
      * Method that sets the listener for events
      *
      * @param onFileManagerEventListener The listener reference
+     *
+     * @hide
      */
     public void setOnFileManagerEventListener(IOnFileManagerEventListener onFileManagerEventListener) {
         this.mOnFileManagerEventListener = onFileManagerEventListener;
@@ -179,6 +237,8 @@ public class FileManagerView extends MVPCFrameLayout<IFileManagerViewContract.Vi
      * Method that sets the listener for picked items
      *
      * @param onFilePickedListener The listener reference
+     *
+     * @hide
      */
     public void setOnFilePickedListener(IOnFilePickedListener onFilePickedListener) {
         this.mOnFilePickedListener = onFilePickedListener;
@@ -188,6 +248,8 @@ public class FileManagerView extends MVPCFrameLayout<IFileManagerViewContract.Vi
      * Method that sets the listener for directory changes
      *
      * @param onDirectoryChangedListener The listener reference
+     *
+     * @hide
      */
     public void setOnDirectoryChangedListener(IOnDirectoryChangedListener onDirectoryChangedListener) {
         this.mOnDirectoryChangedListener = onDirectoryChangedListener;
@@ -200,8 +262,6 @@ public class FileManagerView extends MVPCFrameLayout<IFileManagerViewContract.Vi
     private void init() {
         Log.d(TAG, "FileManagerView.init()");
 
-
-
         mAdapter = new FileSystemObjectAdapter();
         mAdapter.setViewOnClickListener(this);
 
@@ -209,6 +269,8 @@ public class FileManagerView extends MVPCFrameLayout<IFileManagerViewContract.Vi
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
         mRecyclerView.setHasFixedSize(true);
+
+        mDividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL_LIST);
 
         mRecyclerView.setAdapter(mAdapter);
 

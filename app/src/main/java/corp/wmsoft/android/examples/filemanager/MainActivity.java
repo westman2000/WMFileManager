@@ -2,10 +2,13 @@ package corp.wmsoft.android.examples.filemanager;
 
 import android.Manifest;
 import android.annotation.TargetApi;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -16,16 +19,16 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.tbruyelle.rxpermissions.RxPermissions;
-
 import corp.wmsoft.android.lib.filemanager.ui.widgets.nav.FileManagerView;
 import corp.wmsoft.android.lib.filemanager.ui.widgets.nav.IFileManagerEvent;
+import corp.wmsoft.android.lib.filemanager.ui.widgets.nav.IFileManagerNavigationMode;
 import corp.wmsoft.android.lib.filemanager.ui.widgets.nav.IOnFileManagerEventListener;
-import rx.functions.Action1;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, IOnFileManagerEventListener {
 
+    /**/
+    private static final int PERMISSIONS_REQUEST = 123;
     /**/
     private FileManagerView mNavigationView;
 
@@ -86,7 +89,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_icons) {
+            mNavigationView.setNavigationMode(IFileManagerNavigationMode.ICONS);
+            return true;
+        } else if (id == R.id.action_simple) {
+            mNavigationView.setNavigationMode(IFileManagerNavigationMode.SIMPLE);
+            return true;
+        } else if (id == R.id.action_details) {
+            mNavigationView.setNavigationMode(IFileManagerNavigationMode.DETAILS);
             return true;
         }
 
@@ -118,31 +128,89 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
+
+    @SuppressWarnings("NullableProblems")
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == PERMISSIONS_REQUEST) {
+            // We have requested multiple permissions for storage, so all of them need to be checked.
+            if (verifyPermissions(grantResults)) {
+                mNavigationView.onExternalStoragePermissionsGranted();
+            } else {
+                mNavigationView.onExternalStoragePermissionsNotGranted();
+            }
+        } else {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
+
     @Override
     public void onFileManagerEvent(@IFileManagerEvent int event) {
         switch (event) {
             case IFileManagerEvent.NEED_EXTERNAL_STORAGE_PERMISSION:
-                askExtrnalStoragePermission();
+                askExternalStoragePermission();
                 break;
         }
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    private void askExtrnalStoragePermission() {
-        RxPermissions.getInstance(this)
-                .request(Manifest.permission.READ_EXTERNAL_STORAGE,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                .subscribe(new Action1<Boolean>() {
-                    @Override
-                    public void call(Boolean granted) {
-                        if (granted) {
-                            // All requested permissions are granted
-                            mNavigationView.onExternalStoragePermissionsGranted();
-                        } else {
-                            // At least one permission is denied
-                            mNavigationView.onExternalStoragePermissionsNotGranted();
-                        }
-                    }
-                });
+    private void askExternalStoragePermission() {
+        // Here, thisActivity is the current activity
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE) ||
+                    ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                // Show an expanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+
+                // Display a SnackBar with an explanation and a button to trigger the request.
+                Snackbar.make(findViewById(R.id.fab), "To browse files, need access to file system", Snackbar.LENGTH_INDEFINITE)
+                        .setAction(android.R.string.ok, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                ActivityCompat.requestPermissions(MainActivity.this,
+                                        new String[]{
+                                                Manifest.permission.READ_EXTERNAL_STORAGE,
+                                                Manifest.permission.WRITE_EXTERNAL_STORAGE
+                                        },
+                                        PERMISSIONS_REQUEST);
+                            }
+                        })
+                        .show();
+
+            } else {
+                // No explanation needed, we can request the permission.
+                ActivityCompat.requestPermissions(this,
+                        new String[]{
+                                Manifest.permission.READ_EXTERNAL_STORAGE,
+                                Manifest.permission.WRITE_EXTERNAL_STORAGE
+                        },
+                        PERMISSIONS_REQUEST);
+            }
+        } else {
+            mNavigationView.onExternalStoragePermissionsGranted();
+        }
+    }
+
+    /**
+     * Check that all given permissions have been granted by verifying that each entry in the
+     * given array is of the value {@link PackageManager#PERMISSION_GRANTED}.
+     */
+    private boolean verifyPermissions(int[] grantResults) {
+        // At least one result must be checked.
+        if(grantResults.length < 1){
+            return false;
+        }
+
+        // Verify that each required permission has been granted, otherwise return false.
+        for (int result : grantResults) {
+            if (result != PackageManager.PERMISSION_GRANTED) {
+                return false;
+            }
+        }
+        return true;
     }
 }

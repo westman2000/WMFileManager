@@ -1,6 +1,8 @@
 package corp.wmsoft.android.lib.filemanager.di;
 
+import corp.wmsoft.android.lib.filemanager.WMFileManager;
 import corp.wmsoft.android.lib.filemanager.interactors.GetFSOList;
+import corp.wmsoft.android.lib.filemanager.interactors.GetMountPoints;
 import corp.wmsoft.android.lib.mvpc.util.IMVPCSchedulerProvider;
 import corp.wmsoft.android.lib.mvpc.util.MVPCSchedulerProvider;
 
@@ -21,6 +23,10 @@ public class Injection {
 
     public static GetFSOList provideGetFSOList() {
         return new GetFSOList(provideMVPCSchedulerProvider());
+    }
+
+    public static GetMountPoints provideGetMountPoints() {
+        return new GetMountPoints(provideMVPCSchedulerProvider(), WMFileManager.getApplicationContext());
     }
 
 }

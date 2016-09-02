@@ -1,9 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/action_icons"
         android:orderInCategory="100"
-        android:title="@string/action_settings"
+        android:title="Show as icons"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_simple"
+        android:orderInCategory="101"
+        android:title="Show simple"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_details"
+        android:orderInCategory="102"
+        android:title="Show details"
+        app:showAsAction="never" />
+
 </menu>

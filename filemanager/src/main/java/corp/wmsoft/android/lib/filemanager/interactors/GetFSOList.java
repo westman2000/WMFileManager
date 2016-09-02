@@ -8,6 +8,7 @@ import java.util.concurrent.TimeUnit;
 import corp.wmsoft.android.lib.filemanager.models.FileSystemObject;
 import corp.wmsoft.android.lib.filemanager.models.ParentDirectory;
 import corp.wmsoft.android.lib.filemanager.util.FileHelper;
+import corp.wmsoft.android.lib.filemanager.util.rx.RxStorageHelper;
 import corp.wmsoft.android.lib.mvpc.interactor.MVPCUseCase;
 import corp.wmsoft.android.lib.mvpc.util.IMVPCSchedulerProvider;
 import rx.Observable;
@@ -57,10 +58,13 @@ public class GetFSOList extends MVPCUseCase<GetFSOList.RequestValues, List<FileS
                     }
 
                     //Now if not is the root directory
-                    if (requestValues.getSrc() != null &&
-                            requestValues.getSrc().compareTo(FileHelper.ROOT_DIRECTORY) != 0 ) {
+                    if (!RxStorageHelper.isStorageVolume(requestValues.getSrc())) {
                         fsoList.add(0, new ParentDirectory(new File(requestValues.getSrc()).getParent()));
                     }
+
+                    // TODO - Apply user preferences
+
+                    // TODO - add sort here!
 
                     subscriber.onNext(fsoList);
                     subscriber.onCompleted();

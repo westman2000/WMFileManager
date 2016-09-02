@@ -6,6 +6,8 @@ import android.content.Context;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 
+import corp.wmsoft.android.lib.filemanager.WMFileManager;
+
 
 /**
  * Created by westman on 8/6/16.
@@ -19,6 +21,9 @@ public class MainApplication extends Application {
 
     @Override public void onCreate() {
         super.onCreate();
+
+        WMFileManager.init(this);
+
         refWatcher = LeakCanary.install(this);
     }
 

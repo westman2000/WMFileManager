@@ -2,9 +2,6 @@ package corp.wmsoft.android.lib.filemanager.util;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.net.Uri;
-import android.support.annotation.NonNull;
-import android.webkit.MimeTypeMap;
 
 import java.io.File;
 import java.text.DateFormat;
@@ -67,14 +64,6 @@ public class FileHelper {
 
     }
 
-    public static boolean isFileMimeTypeEquals(@NonNull File file, @NonNull String mimeType) {
-
-        Uri selectedUri = Uri.fromFile(file);
-        String fileExtension = MimeTypeMap.getFileExtensionFromUrl(selectedUri.toString());
-
-        return mimeType.equals(MimeTypeMap.getSingleton().getMimeTypeFromExtension(fileExtension));
-    }
-
     /**
      * Method that returns a more human readable of the size
      * of a file system object.
@@ -119,21 +108,6 @@ public class FileHelper {
     }
 
     /**
-     * Method that returns the canonical/absolute path of the path.<br/>
-     * This method performs path resolution
-     *
-     * @param path The path to convert
-     * @return String The canonical/absolute path
-     */
-    public static String getAbsPath(String path) {
-        try {
-            return new File(path).getCanonicalPath();
-        } catch (Exception e) {
-            return new File(path).getAbsolutePath();
-        }
-    }
-
-    /**
      * Method that returns if the file system object if the root directory.
      *
      * @param fso The file system object to check
@@ -152,6 +126,7 @@ public class FileHelper {
     public static boolean isParentRootDirectory(FileSystemObject fso) {
         return fso.getParent() == null || fso.getParent().compareTo(FileHelper.ROOT_DIRECTORY) == 0;
     }
+
     /**
      * Method that formats a filetime date with the specific system settings
      *
