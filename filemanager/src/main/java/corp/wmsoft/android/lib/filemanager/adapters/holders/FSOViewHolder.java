@@ -4,7 +4,6 @@ import android.support.annotation.CallSuper;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import corp.wmsoft.android.lib.filemanager.R;
@@ -45,12 +44,6 @@ public class FSOViewHolder extends RecyclerView.ViewHolder {
     public void bind(FileSystemObject fso) {
 
         mIvIcon.setImageResource(fso.getResourceIconId());
-
-//        // if in icon mode
-//        if (mIvIcon.getParent() instanceof RelativeLayout) {
-//            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mIvIcon.getLayoutParams();
-//            params.
-//        }
 
         mTvName.setText(fso.getName());
 

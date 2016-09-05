@@ -19,9 +19,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import corp.wmsoft.android.lib.filemanager.ui.widgets.nav.FileManagerView;
-import corp.wmsoft.android.lib.filemanager.ui.widgets.nav.IFileManagerEvent;
-import corp.wmsoft.android.lib.filemanager.ui.widgets.nav.IFileManagerNavigationMode;
+import corp.wmsoft.android.lib.filemanager.FileManagerView;
+import corp.wmsoft.android.lib.filemanager.IFileManagerEvent;
+import corp.wmsoft.android.lib.filemanager.IFileManagerNavigationMode;
 import corp.wmsoft.android.lib.filemanager.ui.widgets.nav.IOnFileManagerEventListener;
 
 

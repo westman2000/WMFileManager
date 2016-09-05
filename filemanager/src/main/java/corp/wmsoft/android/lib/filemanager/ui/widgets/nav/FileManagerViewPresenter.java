@@ -7,6 +7,8 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
+import corp.wmsoft.android.lib.filemanager.IFileManagerEvent;
+import corp.wmsoft.android.lib.filemanager.IFileManagerNavigationMode;
 import corp.wmsoft.android.lib.filemanager.interactors.GetFSOList;
 import corp.wmsoft.android.lib.filemanager.interactors.GetMountPoints;
 import corp.wmsoft.android.lib.filemanager.models.Directory;
@@ -49,10 +51,6 @@ public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewCont
 
         //Initialize variables
         this.mFiles = new ArrayList<>();
-
-        mCurrentMode = IFileManagerNavigationMode.DETAILS;
-
-
     }
 
     @Override
@@ -71,7 +69,9 @@ public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewCont
     @Override
     public void onExternalStoragePermissionsGranted() {
         Log.d(TAG, "FileManagerViewPresenter.onExternalStoragePermissionsGranted()");
-        // Retrieve the default configuration
+        //noinspection WrongConstant
+        if (mCurrentMode == 0)
+            changeViewMode(IFileManagerNavigationMode.DETAILS); // Set the default configuration if this is first launch
         changeViewMode(mCurrentMode);
 
         if (mCurrentDir == null) {
@@ -104,10 +104,14 @@ public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewCont
     public void changeViewMode(final @IFileManagerNavigationMode int newMode) {
         Log.d(TAG, "FileManagerViewPresenter.changeViewMode("+newMode+")");
 
+        if (mCurrentMode == newMode) return;
+
         if (newMode == IFileManagerNavigationMode.ICONS) {
             getView().showAsGrid();
         } else {
-            getView().showAsList();
+            //noinspection WrongConstant
+            if (mCurrentMode == IFileManagerNavigationMode.ICONS || mCurrentMode == 0)
+                getView().showAsList();
         }
 
         this.mCurrentMode = newMode;

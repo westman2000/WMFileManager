@@ -2,6 +2,8 @@ package corp.wmsoft.android.lib.filemanager.ui.widgets.nav;
 
 import java.util.List;
 
+import corp.wmsoft.android.lib.filemanager.IFileManagerEvent;
+import corp.wmsoft.android.lib.filemanager.IFileManagerNavigationMode;
 import corp.wmsoft.android.lib.filemanager.models.FileSystemObject;
 import corp.wmsoft.android.lib.mvpc.presenter.IMVPCPresenter;
 import corp.wmsoft.android.lib.mvpc.view.IMVPCDelayedDataView;
