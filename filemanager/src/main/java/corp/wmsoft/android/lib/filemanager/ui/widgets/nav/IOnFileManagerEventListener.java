@@ -1,5 +1,7 @@
 package corp.wmsoft.android.lib.filemanager.ui.widgets.nav;
 
+import corp.wmsoft.android.lib.filemanager.IFileManagerEvent;
+
 /**
  * <br/>Created by WestMan2000 on 9/2/16 at 10:40 AM.<br/>
  */

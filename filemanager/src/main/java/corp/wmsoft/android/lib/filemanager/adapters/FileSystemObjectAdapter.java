@@ -11,7 +11,7 @@ import java.util.List;
 import corp.wmsoft.android.lib.filemanager.R;
 import corp.wmsoft.android.lib.filemanager.adapters.holders.FSOViewHolder;
 import corp.wmsoft.android.lib.filemanager.models.FileSystemObject;
-import corp.wmsoft.android.lib.filemanager.ui.widgets.nav.IFileManagerNavigationMode;
+import corp.wmsoft.android.lib.filemanager.IFileManagerNavigationMode;
 
 /**
  * <br/>Created by WestMan2000 on 9/1/16 at 12:09 PM.<br/>

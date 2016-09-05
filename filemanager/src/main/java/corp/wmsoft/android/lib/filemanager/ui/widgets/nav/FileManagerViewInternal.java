@@ -13,6 +13,8 @@ import android.widget.ProgressBar;
 
 import java.util.List;
 
+import corp.wmsoft.android.lib.filemanager.IFileManagerEvent;
+import corp.wmsoft.android.lib.filemanager.IFileManagerNavigationMode;
 import corp.wmsoft.android.lib.filemanager.R;
 import corp.wmsoft.android.lib.filemanager.adapters.FileSystemObjectAdapter;
 import corp.wmsoft.android.lib.filemanager.util.DividerItemDecoration;
@@ -23,8 +25,13 @@ import corp.wmsoft.android.lib.mvpc.presenter.factory.IMVPCPresenterFactory;
 
 /**
  * <br/>Created by WestMan2000 on 8/31/16 at 2:42 PM.<br/>
+ *
+ * @hide
  */
-public class FileManagerView extends MVPCFrameLayout<IFileManagerViewContract.View, IFileManagerViewContract.Presenter>
+// TODO - add History
+// TODO - after history - add back action
+// TODO - save navigation mode to preferences and restore on restart
+public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewContract.View, IFileManagerViewContract.Presenter>
         implements IFileManagerViewContract.View, View.OnClickListener {
 
     /**/
@@ -48,25 +55,25 @@ public class FileManagerView extends MVPCFrameLayout<IFileManagerViewContract.Vi
 
 
 
-    public FileManagerView(Context context) {
+    public FileManagerViewInternal(Context context) {
         super(context);
         Log.d(TAG, "FileManagerView.FileManagerView("+context+")");
         init();
     }
 
-    public FileManagerView(Context context, AttributeSet attrs) {
+    public FileManagerViewInternal(Context context, AttributeSet attrs) {
         super(context, attrs);
         Log.d(TAG, "FileManagerView.FileManagerView("+context+", "+attrs+")");
         init();
     }
 
-    public FileManagerView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public FileManagerViewInternal(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         Log.d(TAG, "FileManagerView.FileManagerView("+context+", "+attrs+", "+defStyleAttr+")");
         init();
     }
 
-    public FileManagerView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public FileManagerViewInternal(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         Log.d(TAG, "FileManagerView.FileManagerView("+context+", "+attrs+", "+defStyleAttr+", "+defStyleRes+")");
         init();

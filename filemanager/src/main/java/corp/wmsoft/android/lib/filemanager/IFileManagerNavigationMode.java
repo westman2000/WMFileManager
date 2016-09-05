@@ -1,4 +1,4 @@
-package corp.wmsoft.android.lib.filemanager.ui.widgets.nav;
+package corp.wmsoft.android.lib.filemanager;
 
 import android.support.annotation.IntDef;
 import android.support.v7.widget.GridLayoutManager;
@@ -10,7 +10,11 @@ import java.lang.annotation.RetentionPolicy;
 /**
  * <br/>Created by WestMan2000 on 9/1/16 at 11:31 AM.<br/>
  */
-@IntDef({IFileManagerNavigationMode.ICONS, IFileManagerNavigationMode.SIMPLE, IFileManagerNavigationMode.DETAILS})
+@IntDef({
+        IFileManagerNavigationMode.ICONS,
+        IFileManagerNavigationMode.SIMPLE,
+        IFileManagerNavigationMode.DETAILS
+})
 @Retention(RetentionPolicy.SOURCE)
 public @interface IFileManagerNavigationMode {
 
@@ -23,7 +27,7 @@ public @interface IFileManagerNavigationMode {
      */
     int SIMPLE = 20;
     /**
-     * That mode shows a detail item view (icon + name + last modification + permissions + size)
+     * That mode shows a detail item view (icon + name + last modification + size)
      * with a {@link LinearLayoutManager}.
      */
     int DETAILS = 30;
