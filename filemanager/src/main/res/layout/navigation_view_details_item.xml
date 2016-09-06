@@ -14,14 +14,12 @@
         android:layout_gravity="center_vertical"
         android:scaleType="centerCrop"
         android:contentDescription="@null"
-        android:background="#F00"
         android:src="@drawable/ic_fso_default_24dp" />
 
       <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="#0F0"
             android:layout_marginEnd="@dimen/extra_margin"
             android:layout_marginRight="@dimen/extra_margin">
 

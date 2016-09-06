@@ -1,12 +1,15 @@
 package corp.wmsoft.android.lib.filemanager.util;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 
 import java.io.File;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import corp.wmsoft.android.lib.filemanager.IFileManagerFileTimeFormat;
 import corp.wmsoft.android.lib.filemanager.R;
 import corp.wmsoft.android.lib.filemanager.models.Directory;
 import corp.wmsoft.android.lib.filemanager.models.FileSystemObject;
@@ -31,9 +34,13 @@ public class FileHelper {
     public static final String PARENT_DIRECTORY = "..";
 
     /**
-     *
+     * @hide
      */
+    public static boolean sReloadDateTimeFormats = true;
+    private static String sDateTimeFormatOrder = null;
+    private static @IFileManagerFileTimeFormat int sFileTimeFormat;
     private static DateFormat sDateFormat = null;
+    private static DateFormat sTimeFormat = null;
 
 
     /**
@@ -134,9 +141,36 @@ public class FileHelper {
      * @param filetime The filetime date
      * @return String The filetime date formatted
      */
+    @SuppressLint("SimpleDateFormat")
     public static String formatFileTime(Context ctx, Date filetime) {
-        sDateFormat = android.text.format.DateFormat.getDateFormat(ctx);
-        return sDateFormat.format(filetime);
+        if (sReloadDateTimeFormats) {
+
+            sFileTimeFormat = PreferencesHelper.getFileManagerFileTimeFormat();
+
+            if (sFileTimeFormat == IFileManagerFileTimeFormat.SYSTEM) {
+                sDateTimeFormatOrder = ctx.getString(R.string.datetime_format_order);
+                sDateFormat = android.text.format.DateFormat.getDateFormat(ctx);
+                sTimeFormat = android.text.format.DateFormat.getTimeFormat(ctx);
+            } else if (sFileTimeFormat == IFileManagerFileTimeFormat.LOCALE) {
+                sDateFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
+            } else if (sFileTimeFormat == IFileManagerFileTimeFormat.DDMMYYYY_HHMMSS) {
+                sDateFormat = new SimpleDateFormat(ctx.getString(R.string.filetime_format_mode_ddMMyyyy_HHmmss));
+            } else if (sFileTimeFormat == IFileManagerFileTimeFormat.MMDDYYYY_HHMMSS) {
+                sDateFormat = new SimpleDateFormat(ctx.getString(R.string.filetime_format_mode_MMddyyyy_HHmmss));
+            } else if (sFileTimeFormat == IFileManagerFileTimeFormat.YYYYMMDD_HHMMSS) {
+                sDateFormat = new SimpleDateFormat(ctx.getString(R.string.filetime_format_mode_yyyyMMdd_HHmmss));
+            }
+            sReloadDateTimeFormats = false;
+        }
+
+        // Apply the user settings
+        if (sFileTimeFormat == IFileManagerFileTimeFormat.SYSTEM) {
+            String date = sDateFormat.format(filetime);
+            String time = sTimeFormat.format(filetime);
+            return String.format(sDateTimeFormatOrder, date, time);
+        } else {
+            return sDateFormat.format(filetime);
+        }
     }
 
 }

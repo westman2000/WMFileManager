@@ -15,6 +15,7 @@ import corp.wmsoft.android.lib.filemanager.models.Directory;
 import corp.wmsoft.android.lib.filemanager.models.FileSystemObject;
 import corp.wmsoft.android.lib.filemanager.models.MountPoint;
 import corp.wmsoft.android.lib.filemanager.models.ParentDirectory;
+import corp.wmsoft.android.lib.filemanager.util.PreferencesHelper;
 import corp.wmsoft.android.lib.mvpc.presenter.MVPCPresenter;
 import rx.Subscriber;
 
@@ -71,7 +72,7 @@ public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewCont
         Log.d(TAG, "FileManagerViewPresenter.onExternalStoragePermissionsGranted()");
         //noinspection WrongConstant
         if (mCurrentMode == 0)
-            changeViewMode(IFileManagerNavigationMode.DETAILS); // Set the default configuration if this is first launch
+            changeViewMode(PreferencesHelper.getFileManagerNavigationMode()); // Set the default configuration if this is first launch
         changeViewMode(mCurrentMode);
 
         if (mCurrentDir == null) {
@@ -117,6 +118,7 @@ public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewCont
         this.mCurrentMode = newMode;
 
         getView().setNavigationModeInternal(mCurrentMode);
+        PreferencesHelper.setFileManagerNavigationMode(mCurrentMode);
     }
 
     /**

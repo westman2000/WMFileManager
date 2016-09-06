@@ -2,6 +2,9 @@
 <resources>
     <string name="app_name">FileManager</string>
 
+    <!-- Date/time format order (%1$s: date; %2$s: time) -->
+    <string name="datetime_format_order">%1$s %2$s</string>
+
     <!-- The parent directory of the current directory in navigation view -->
     <string name="parent_dir">Вверх</string>
     <!-- External storage descripton -->
@@ -14,4 +17,5 @@
     <string name="size_kilobytes">Кб</string>
     <string name="size_megabytes">Мб</string>
     <string name="size_gigabytes">Гб</string>
+
 </resources>

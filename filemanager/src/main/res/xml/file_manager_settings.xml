@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <Preference
+        android:key="@string/pref_key_filetime_format"
+        android:defaultValue="500"/>
+
+    <Preference
+        android:key="@string/pref_key_navigation_mode"
+        android:defaultValue="10"/>
+
+</PreferenceScreen>

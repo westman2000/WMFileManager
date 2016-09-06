@@ -14,7 +14,6 @@
         android:layout_gravity="center_vertical"
         android:scaleType="centerCrop"
         android:contentDescription="@null"
-        android:background="#F00"
         android:src="@drawable/ic_fso_default_24dp"/>
 
     <TextView
@@ -29,7 +28,6 @@
         android:gravity="start|center_vertical"
         android:singleLine="true"
         android:ellipsize="middle"
-        android:background="#0F0"
         android:textAppearance="@style/primary_text_appearance"/>
 
 </LinearLayout>

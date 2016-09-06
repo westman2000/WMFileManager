@@ -30,7 +30,6 @@ import corp.wmsoft.android.lib.mvpc.presenter.factory.IMVPCPresenterFactory;
  */
 // TODO - add History
 // TODO - after history - add back action
-// TODO - save navigation mode to preferences and restore on restart
 public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewContract.View, IFileManagerViewContract.Presenter>
         implements IFileManagerViewContract.View, View.OnClickListener {
 

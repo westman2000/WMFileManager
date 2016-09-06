@@ -5,6 +5,9 @@ import android.content.Context;
 
 import java.lang.ref.WeakReference;
 
+import corp.wmsoft.android.lib.filemanager.util.PreferencesHelper;
+
+
 /**
  * <br/>Created by WestMan2000 on 9/2/16 at 1:50 PM.<br/>
  */
@@ -16,6 +19,8 @@ public class WMFileManager {
 
     public static void init(Application application) {
         mWeakApplicationContext = new WeakReference<>(application.getApplicationContext());
+
+        PreferencesHelper.loadDefaults(application);
     }
 
     public static Context getApplicationContext() {
