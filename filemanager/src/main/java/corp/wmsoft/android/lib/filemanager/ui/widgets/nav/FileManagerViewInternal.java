@@ -155,21 +155,9 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
         mAdapter.setNavigationMode(mode);
     }
 
-    /**
-     * @public
-     */
     @Override
-    public void setNavigationMode(@IFileManagerNavigationMode int mode) {
-        Log.d(TAG, "FileManagerView.setNavigationMode("+mode+")");
-        getPresenter().changeViewMode(mode);
-    }
-
-    /**
-     * @public
-     */
-    @Override
-    public int getNavigationMode() {
-        return getPresenter().getCurrentMode();
+    public void timeFormatChanged() {
+        mAdapter.notifyItemRangeChanged(0, mAdapter.getItemCount(), "time_format_changed");
     }
 
     /**
@@ -226,6 +214,20 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
         int position = mRecyclerView.getChildAdapterPosition(view);
         FileSystemObject fso = mAdapter.getItem(position);
         getPresenter().onFSOPicked(fso);
+    }
+
+    /**
+     * @public
+     */
+    public void setNavigationMode(@IFileManagerNavigationMode int mode) {
+        getPresenter().changeViewMode(mode);
+    }
+
+    /**
+     * @public
+     */
+    public int getNavigationMode() {
+        return getPresenter().getCurrentMode();
     }
 
     /**

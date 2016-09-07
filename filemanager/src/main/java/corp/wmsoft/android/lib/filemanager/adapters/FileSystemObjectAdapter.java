@@ -1,6 +1,7 @@
 package corp.wmsoft.android.lib.filemanager.adapters;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,9 @@ import corp.wmsoft.android.lib.filemanager.IFileManagerNavigationMode;
  * <br/>Created by WestMan2000 on 9/1/16 at 12:09 PM.<br/>
  */
 public class FileSystemObjectAdapter extends RecyclerView.Adapter<FSOViewHolder> {
+
+    /**/
+    private final static String TAG = "FileManager";
 
     /**/
     private List<FileSystemObject> mFileSystemObjects;
@@ -61,7 +65,14 @@ public class FileSystemObjectAdapter extends RecyclerView.Adapter<FSOViewHolder>
 
     @Override
     public void onBindViewHolder(FSOViewHolder holder, int position) {
+        Log.d(TAG, "FileSystemObjectAdapter.onBindViewHolder()");
         holder.bind(getItem(position));
+    }
+
+    @Override
+    public void onBindViewHolder(FSOViewHolder holder, int position, List<Object> payloads) {
+        Log.d(TAG, "FileSystemObjectAdapter.onBindViewHolder("+payloads+")");
+        super.onBindViewHolder(holder, position, payloads);
     }
 
     @IFileManagerNavigationMode

@@ -19,6 +19,7 @@ import corp.wmsoft.android.lib.filemanager.util.PreferencesHelper;
 import corp.wmsoft.android.lib.mvpc.presenter.MVPCPresenter;
 import rx.Subscriber;
 
+
 /**
  * <br/>Created by WestMan2000 on 8/31/16 at 3:49 PM.<br/>
  */
@@ -63,6 +64,7 @@ public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewCont
     }
 
     @IFileManagerNavigationMode
+    @Override
     public int getCurrentMode() {
         return mCurrentMode;
     }

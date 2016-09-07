@@ -28,11 +28,7 @@ public interface IFileManagerViewContract {
 
         void setNavigationModeInternal(@IFileManagerNavigationMode int mode);
 
-        // public functions
-
-        void setNavigationMode(@IFileManagerNavigationMode int mode);
-
-        @IFileManagerNavigationMode int getNavigationMode();
+        void timeFormatChanged();
 
     }
 

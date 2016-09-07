@@ -1,6 +1,5 @@
 package corp.wmsoft.android.lib.filemanager.adapters.holders;
 
-import android.support.annotation.CallSuper;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -40,7 +39,6 @@ public class FSOViewHolder extends RecyclerView.ViewHolder {
         mTvSize     = (TextView)itemView.findViewById(RESOURCE_ITEM_SIZE);
     }
 
-    @CallSuper
     public void bind(FileSystemObject fso) {
 
         mIvIcon.setImageResource(fso.getResourceIconId());
