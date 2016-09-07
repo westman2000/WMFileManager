@@ -4,10 +4,10 @@
 
     <Preference
         android:key="@string/pref_key_filetime_format"
-        android:defaultValue="500"/>
+        android:defaultValue="400"/>
 
     <Preference
         android:key="@string/pref_key_navigation_mode"
-        android:defaultValue="10"/>
+        android:defaultValue="30"/>
 
 </PreferenceScreen>

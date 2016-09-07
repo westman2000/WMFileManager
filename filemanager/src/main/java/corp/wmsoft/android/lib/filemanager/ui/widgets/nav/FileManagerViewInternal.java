@@ -5,7 +5,6 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +13,7 @@ import android.widget.ProgressBar;
 import java.util.List;
 
 import corp.wmsoft.android.lib.filemanager.IFileManagerEvent;
+import corp.wmsoft.android.lib.filemanager.IFileManagerFileTimeFormat;
 import corp.wmsoft.android.lib.filemanager.IFileManagerNavigationMode;
 import corp.wmsoft.android.lib.filemanager.R;
 import corp.wmsoft.android.lib.filemanager.adapters.FileSystemObjectAdapter;
@@ -56,25 +56,21 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
 
     public FileManagerViewInternal(Context context) {
         super(context);
-        Log.d(TAG, "FileManagerView.FileManagerView("+context+")");
         init();
     }
 
     public FileManagerViewInternal(Context context, AttributeSet attrs) {
         super(context, attrs);
-        Log.d(TAG, "FileManagerView.FileManagerView("+context+", "+attrs+")");
         init();
     }
 
     public FileManagerViewInternal(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        Log.d(TAG, "FileManagerView.FileManagerView("+context+", "+attrs+", "+defStyleAttr+")");
         init();
     }
 
     public FileManagerViewInternal(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-        Log.d(TAG, "FileManagerView.FileManagerView("+context+", "+attrs+", "+defStyleAttr+", "+defStyleRes+")");
         init();
     }
 
@@ -83,7 +79,6 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
      */
     @Override
     protected IMVPCPresenterFactory<IFileManagerViewContract.View, IFileManagerViewContract.Presenter> providePresenterFactory() {
-        Log.d(TAG, "FileManagerView.providePresenterFactory()");
         return new FileManagerViewPresenterFactory();
     }
 
@@ -92,7 +87,6 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
      */
     @Override
     protected int provideUniqueIdentifier() {
-        Log.d(TAG, "FileManagerView.provideUniqueIdentifier()");
         return 640344;
     }
 
@@ -101,7 +95,6 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
      */
     @Override
     public void showError(Error error) {
-        Log.d(TAG, "FileManagerView.showError()");
     }
 
     /**
@@ -109,20 +102,17 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
      */
     @Override
     public void sendEvent(@IFileManagerEvent int event) {
-        Log.d(TAG, "FileManagerView.sendEvent("+event+")");
         if (mOnFileManagerEventListener != null)
             mOnFileManagerEventListener.onFileManagerEvent(event);
     }
 
     @Override
     public void onExternalStoragePermissionsGranted() {
-        Log.d(TAG, "FileManagerView.onExternalStoragePermissionsGranted()");
         getPresenter().onExternalStoragePermissionsGranted();
     }
 
     @Override
     public void onExternalStoragePermissionsNotGranted() {
-        Log.d(TAG, "FileManagerView.onExternalStoragePermissionsNotGranted()");
     }
 
     /**
@@ -130,7 +120,6 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
      */
     @Override
     public void showAsList() {
-        Log.d(TAG, "FileManagerView.showAsList()");
         // use a linear layout manager for simple and details mode
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.addItemDecoration(mDividerItemDecoration);
@@ -141,7 +130,6 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
      */
     @Override
     public void showAsGrid() {
-        Log.d(TAG, "FileManagerView.showAsGrid()");
         mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), getResources().getInteger(R.integer.default_grid_columns)));
         mRecyclerView.removeItemDecoration(mDividerItemDecoration);
     }
@@ -151,13 +139,12 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
      */
     @Override
     public void setNavigationModeInternal(@IFileManagerNavigationMode int mode) {
-        Log.d(TAG, "FileManagerView.setNavigationModeInternal("+mode+")");
         mAdapter.setNavigationMode(mode);
     }
 
     @Override
     public void timeFormatChanged() {
-        mAdapter.notifyItemRangeChanged(0, mAdapter.getItemCount(), "time_format_changed");
+        mAdapter.notifyDataSetChanged();
     }
 
     /**
@@ -165,7 +152,6 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
      */
     @Override
     public void showLoading() {
-        Log.d(TAG, "FileManagerView.showLoading()");
         mRecyclerView.setVisibility(View.GONE);
         mProgressBar.setVisibility(View.VISIBLE);
     }
@@ -175,7 +161,6 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
      */
     @Override
     public void hideLoading() {
-        Log.d(TAG, "FileManagerView.hideLoading()");
         mRecyclerView.setVisibility(View.VISIBLE);
         mProgressBar.setVisibility(View.GONE);
     }
@@ -185,7 +170,6 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
      */
     @Override
     public void setData(List<FileSystemObject> data) {
-        Log.d(TAG, "FileManagerView.setData("+data+")");
         mAdapter.clearAndAddAll(data);
     }
 
@@ -194,7 +178,6 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
      */
     @Override
     public void showContent() {
-        Log.d(TAG, "FileManagerView.showContent()");
     }
 
     /**
@@ -202,7 +185,6 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
      */
     @Override
     public void showNoDataView() {
-        Log.d(TAG, "FileManagerView.showNoDataView()");
     }
 
     /**
@@ -210,10 +192,16 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
      */
     @Override
     public void onClick(View view) {
-        Log.d(TAG, "FileManagerView.onClick("+view+")");
         int position = mRecyclerView.getChildAdapterPosition(view);
         FileSystemObject fso = mAdapter.getItem(position);
         getPresenter().onFSOPicked(fso);
+    }
+
+    /**
+     * @public
+     */
+    public void setTimeFormat(@IFileManagerFileTimeFormat int format) {
+        getPresenter().onSetTimeFormat(format);
     }
 
     /**
@@ -268,7 +256,6 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
      * information and create an appropriate layout for the view.
      */
     private void init() {
-        Log.d(TAG, "FileManagerView.init()");
 
         mAdapter = new FileSystemObjectAdapter();
         mAdapter.setViewOnClickListener(this);

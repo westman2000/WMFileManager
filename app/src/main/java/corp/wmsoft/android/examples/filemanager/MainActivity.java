@@ -21,6 +21,7 @@ import android.view.MenuItem;
 
 import corp.wmsoft.android.lib.filemanager.FileManagerView;
 import corp.wmsoft.android.lib.filemanager.IFileManagerEvent;
+import corp.wmsoft.android.lib.filemanager.IFileManagerFileTimeFormat;
 import corp.wmsoft.android.lib.filemanager.IFileManagerNavigationMode;
 import corp.wmsoft.android.lib.filemanager.ui.widgets.nav.IOnFileManagerEventListener;
 
@@ -98,7 +99,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.action_details) {
             mNavigationView.setNavigationMode(IFileManagerNavigationMode.DETAILS);
             return true;
+        } else if (id == R.id.action_system) {
+            mNavigationView.setTimeFormat(IFileManagerFileTimeFormat.SYSTEM);
+            return true;
+        } else if (id == R.id.action_locale) {
+            mNavigationView.setTimeFormat(IFileManagerFileTimeFormat.LOCALE);
+            return true;
+        } else if (id == R.id.action_ddmmyyyy) {
+            mNavigationView.setTimeFormat(IFileManagerFileTimeFormat.DDMMYYYY_HHMMSS);
+            return true;
+        } else if (id == R.id.action_mmddyyyy) {
+            mNavigationView.setTimeFormat(IFileManagerFileTimeFormat.MMDDYYYY_HHMMSS);
+            return true;
+        } else if (id == R.id.action_yyyymmdd) {
+            mNavigationView.setTimeFormat(IFileManagerFileTimeFormat.YYYYMMDD_HHMMSS);
+            return true;
         }
+
 
         return super.onOptionsItemSelected(item);
     }

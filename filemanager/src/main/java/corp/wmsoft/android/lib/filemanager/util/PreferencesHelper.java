@@ -47,7 +47,8 @@ public class PreferencesHelper {
     public static int getFileManagerNavigationMode() {
         String key = WMFileManager.getApplicationContext().getString(R.string.pref_key_navigation_mode);
         //noinspection WrongConstant
-        return getSharedPreferences().getInt(key, IFileManagerNavigationMode.ICONS);
+        @IFileManagerNavigationMode int mode = getSharedPreferences().getInt(key, IFileManagerNavigationMode.DETAILS);
+        return mode;
     }
 
     public static void setFileManagerNavigationMode(@IFileManagerNavigationMode int mode) {
@@ -64,7 +65,8 @@ public class PreferencesHelper {
     public static int getFileManagerFileTimeFormat() {
         String key = WMFileManager.getApplicationContext().getString(R.string.pref_key_filetime_format);
         //noinspection WrongConstant
-        return getSharedPreferences().getInt(key, IFileManagerFileTimeFormat.YYYYMMDD_HHMMSS);
+        @IFileManagerFileTimeFormat int format = getSharedPreferences().getInt(key, IFileManagerFileTimeFormat.MMDDYYYY_HHMMSS);
+        return format;
     }
 
     public static void setFileManagerFileTimeFormat(@IFileManagerFileTimeFormat int format) {

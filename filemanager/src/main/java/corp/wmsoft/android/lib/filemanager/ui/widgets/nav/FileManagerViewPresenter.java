@@ -2,12 +2,12 @@ package corp.wmsoft.android.lib.filemanager.ui.widgets.nav;
 
 import android.annotation.SuppressLint;
 import android.os.Environment;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import corp.wmsoft.android.lib.filemanager.IFileManagerEvent;
+import corp.wmsoft.android.lib.filemanager.IFileManagerFileTimeFormat;
 import corp.wmsoft.android.lib.filemanager.IFileManagerNavigationMode;
 import corp.wmsoft.android.lib.filemanager.interactors.GetFSOList;
 import corp.wmsoft.android.lib.filemanager.interactors.GetMountPoints;
@@ -15,6 +15,7 @@ import corp.wmsoft.android.lib.filemanager.models.Directory;
 import corp.wmsoft.android.lib.filemanager.models.FileSystemObject;
 import corp.wmsoft.android.lib.filemanager.models.MountPoint;
 import corp.wmsoft.android.lib.filemanager.models.ParentDirectory;
+import corp.wmsoft.android.lib.filemanager.util.FileHelper;
 import corp.wmsoft.android.lib.filemanager.util.PreferencesHelper;
 import corp.wmsoft.android.lib.mvpc.presenter.MVPCPresenter;
 import rx.Subscriber;
@@ -46,7 +47,6 @@ public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewCont
     public FileManagerViewPresenter(
             GetFSOList getFSOList,
             GetMountPoints getMountPoints) {
-        Log.d(TAG, "FileManagerViewPresenter.FileManagerViewPresenter()");
 
         this.mGetFSOList     = getFSOList;
         this.mGetMountPoints = getMountPoints;
@@ -57,7 +57,6 @@ public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewCont
 
     @Override
     public void attachView(IFileManagerViewContract.View mvpView) {
-        Log.d(TAG, "FileManagerViewPresenter.attachView()");
         super.attachView(mvpView);
         getView().showLoading();
         getView().sendEvent(IFileManagerEvent.NEED_EXTERNAL_STORAGE_PERMISSION);
@@ -71,11 +70,11 @@ public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewCont
 
     @Override
     public void onExternalStoragePermissionsGranted() {
-        Log.d(TAG, "FileManagerViewPresenter.onExternalStoragePermissionsGranted()");
         //noinspection WrongConstant
         if (mCurrentMode == 0)
-            changeViewMode(PreferencesHelper.getFileManagerNavigationMode()); // Set the default configuration if this is first launch
-        changeViewMode(mCurrentMode);
+            setViewMode(PreferencesHelper.getFileManagerNavigationMode()); // Set the default configuration if this is first launch
+        else
+            setViewMode(mCurrentMode);
 
         if (mCurrentDir == null) {
             loadMountPoints();
@@ -90,12 +89,23 @@ public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewCont
 
     @Override
     public void onFSOPicked(FileSystemObject fso) {
-        Log.d(TAG, "FileManagerViewPresenter.onFSOPicked("+fso+")");
         if (fso instanceof ParentDirectory) {
             changeCurrentDir(fso.getParent());
         } else if (fso instanceof Directory) {
             changeCurrentDir(fso.getFullPath());
         }
+    }
+
+    @Override
+    public void onSetTimeFormat(@IFileManagerFileTimeFormat int format) {
+
+        if (mCurrentMode == IFileManagerNavigationMode.ICONS ||
+            mCurrentMode == IFileManagerNavigationMode.SIMPLE)
+            return;
+
+        PreferencesHelper.setFileManagerFileTimeFormat(format);
+        FileHelper.sReloadDateTimeFormats = true;
+        getView().timeFormatChanged();
     }
 
     /**
@@ -105,7 +115,6 @@ public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewCont
      */
     @Override
     public void changeViewMode(final @IFileManagerNavigationMode int newMode) {
-        Log.d(TAG, "FileManagerViewPresenter.changeViewMode("+newMode+")");
 
         if (mCurrentMode == newMode) return;
 
@@ -123,13 +132,25 @@ public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewCont
         PreferencesHelper.setFileManagerNavigationMode(mCurrentMode);
     }
 
+    private void setViewMode(final @IFileManagerNavigationMode int newMode) {
+
+        if (newMode == IFileManagerNavigationMode.ICONS) {
+            getView().showAsGrid();
+        } else {
+            getView().showAsList();
+        }
+
+        this.mCurrentMode = newMode;
+
+        getView().setNavigationModeInternal(mCurrentMode);
+    }
+
     /**
      * Method that changes the current directory of the view.
      *
      * @param newDir The new directory location
      */
     private void changeCurrentDir(final String newDir) {
-        Log.d(TAG, "FileManagerViewPresenter.changeCurrentDir("+newDir+")");
         this.mCurrentDir = newDir;
 
         getView().showLoading();
@@ -153,7 +174,6 @@ public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewCont
     }
 
     private void loadMountPoints() {
-        Log.d(TAG, "FileManagerViewPresenter.loadMountPoints()");
 
         executeUseCase(mGetMountPoints, new GetMountPoints.RequestValues(true), new Subscriber<List<MountPoint>>() {
             @Override
@@ -180,7 +200,6 @@ public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewCont
     }
 
     private void showFileList() {
-        Log.d(TAG, "FileManagerViewPresenter.showFileList()");
 
         getView().setData(mFiles);
 

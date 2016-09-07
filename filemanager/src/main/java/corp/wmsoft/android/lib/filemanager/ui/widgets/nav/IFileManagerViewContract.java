@@ -3,6 +3,7 @@ package corp.wmsoft.android.lib.filemanager.ui.widgets.nav;
 import java.util.List;
 
 import corp.wmsoft.android.lib.filemanager.IFileManagerEvent;
+import corp.wmsoft.android.lib.filemanager.IFileManagerFileTimeFormat;
 import corp.wmsoft.android.lib.filemanager.IFileManagerNavigationMode;
 import corp.wmsoft.android.lib.filemanager.models.FileSystemObject;
 import corp.wmsoft.android.lib.mvpc.presenter.IMVPCPresenter;
@@ -29,7 +30,6 @@ public interface IFileManagerViewContract {
         void setNavigationModeInternal(@IFileManagerNavigationMode int mode);
 
         void timeFormatChanged();
-
     }
 
     interface Presenter extends IMVPCPresenter<View> {
@@ -41,6 +41,8 @@ public interface IFileManagerViewContract {
         void onExternalStoragePermissionsGranted();
 
         void onFSOPicked(FileSystemObject fso);
+
+        void onSetTimeFormat(@IFileManagerFileTimeFormat int format);
 
     }
 }

@@ -20,4 +20,37 @@
         android:title="Show details"
         app:showAsAction="never" />
 
+
+    <item
+        android:id="@+id/action_system"
+        android:orderInCategory="103"
+        android:title="SYSTEM"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_locale"
+        android:orderInCategory="104"
+        android:title="LOCALE"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_ddmmyyyy"
+        android:orderInCategory="105"
+        android:title="DDMMYYYY_HHMMSS"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_mmddyyyy"
+        android:orderInCategory="106"
+        android:title="MMDDYYYY_HHMMSS"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_yyyymmdd"
+        android:orderInCategory="107"
+        android:title="YYYYMMDD_HHMMSS"
+        app:showAsAction="never" />
+
+
+
 </menu>
