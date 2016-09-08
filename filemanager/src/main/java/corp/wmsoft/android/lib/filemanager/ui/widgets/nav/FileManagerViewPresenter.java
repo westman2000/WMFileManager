@@ -68,6 +68,12 @@ public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewCont
         return mCurrentMode;
     }
 
+    @IFileManagerFileTimeFormat
+    @Override
+    public int getCurrentFileTimeFormat() {
+        return PreferencesHelper.getFileManagerFileTimeFormat();
+    }
+
     @Override
     public void onExternalStoragePermissionsGranted() {
         //noinspection WrongConstant
@@ -99,11 +105,12 @@ public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewCont
     @Override
     public void onSetTimeFormat(@IFileManagerFileTimeFormat int format) {
 
+        PreferencesHelper.setFileManagerFileTimeFormat(format);
+
         if (mCurrentMode == IFileManagerNavigationMode.ICONS ||
             mCurrentMode == IFileManagerNavigationMode.SIMPLE)
             return;
 
-        PreferencesHelper.setFileManagerFileTimeFormat(format);
         FileHelper.sReloadDateTimeFormats = true;
         getView().timeFormatChanged();
     }
@@ -152,25 +159,7 @@ public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewCont
      */
     private void changeCurrentDir(final String newDir) {
         this.mCurrentDir = newDir;
-
-        getView().showLoading();
-        executeUseCase(mGetFSOList, new GetFSOList.RequestValues(mCurrentDir), new Subscriber<List<FileSystemObject>>() {
-            @Override
-            public void onCompleted() {
-                showFileList();
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                getView().showError(new Error(e));
-            }
-
-            @Override
-            public void onNext(List<FileSystemObject> fileSystemObjects) {
-                mFiles = new ArrayList<>(fileSystemObjects);
-            }
-        });
-
+        loadFSOList();
     }
 
     private void loadMountPoints() {
@@ -178,7 +167,7 @@ public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewCont
         executeUseCase(mGetMountPoints, new GetMountPoints.RequestValues(true), new Subscriber<List<MountPoint>>() {
             @Override
             public void onCompleted() {
-                changeCurrentDir(mCurrentDir);
+                loadFSOList();
             }
 
             @Override
@@ -195,6 +184,26 @@ public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewCont
                 }
 
                 mCurrentDir = mountPoints.get(0).getPath();
+            }
+        });
+    }
+
+    private void loadFSOList() {
+        getView().showLoading();
+        executeUseCase(mGetFSOList, new GetFSOList.RequestValues(mCurrentDir), new Subscriber<List<FileSystemObject>>() {
+            @Override
+            public void onCompleted() {
+                showFileList();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                getView().showError(new Error(e));
+            }
+
+            @Override
+            public void onNext(List<FileSystemObject> fileSystemObjects) {
+                mFiles = new ArrayList<>(fileSystemObjects);
             }
         });
     }

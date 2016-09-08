@@ -38,6 +38,8 @@ public interface IFileManagerViewContract {
 
         @IFileManagerNavigationMode int getCurrentMode();
 
+        @IFileManagerFileTimeFormat int getCurrentFileTimeFormat();
+
         void onExternalStoragePermissionsGranted();
 
         void onFSOPicked(FileSystemObject fso);

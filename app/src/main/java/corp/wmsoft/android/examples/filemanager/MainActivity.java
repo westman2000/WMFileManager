@@ -79,6 +79,30 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+
+        if (mNavigationView.getNavigationMode() == IFileManagerNavigationMode.ICONS)
+            menu.findItem(R.id.action_icons).setChecked(true);
+        else if (mNavigationView.getNavigationMode() == IFileManagerNavigationMode.SIMPLE)
+            menu.findItem(R.id.action_simple).setChecked(true);
+        else if (mNavigationView.getNavigationMode() == IFileManagerNavigationMode.DETAILS)
+            menu.findItem(R.id.action_details).setChecked(true);
+
+        // TODO - странная хуйня, гетер при первом запуске не срабатывает
+
+        if (mNavigationView.getFileTimeFormat() == IFileManagerFileTimeFormat.SYSTEM)
+            menu.findItem(R.id.action_system).setChecked(true);
+        else if (mNavigationView.getFileTimeFormat() == IFileManagerFileTimeFormat.LOCALE)
+            menu.findItem(R.id.action_locale).setChecked(true);
+        else if (mNavigationView.getFileTimeFormat() == IFileManagerFileTimeFormat.DDMMYYYY_HHMMSS)
+            menu.findItem(R.id.action_ddmmyyyy).setChecked(true);
+        else if (mNavigationView.getFileTimeFormat() == IFileManagerFileTimeFormat.MMDDYYYY_HHMMSS)
+            menu.findItem(R.id.action_mmddyyyy).setChecked(true);
+        else if (mNavigationView.getFileTimeFormat() == IFileManagerFileTimeFormat.YYYYMMDD_HHMMSS)
+            menu.findItem(R.id.action_yyyymmdd).setChecked(true);
+
+        MenuItem showHidden = menu.findItem(R.id.action_is_show_hidden);
+        MenuItem showDirsFirst = menu.findItem(R.id.action_dirs_first);
+
         return true;
     }
 
@@ -92,27 +116,35 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_icons) {
             mNavigationView.setNavigationMode(IFileManagerNavigationMode.ICONS);
+//            item.setChecked(true);
             return true;
         } else if (id == R.id.action_simple) {
             mNavigationView.setNavigationMode(IFileManagerNavigationMode.SIMPLE);
+//            item.setChecked(true);
             return true;
         } else if (id == R.id.action_details) {
             mNavigationView.setNavigationMode(IFileManagerNavigationMode.DETAILS);
+//            item.setChecked(true);
             return true;
         } else if (id == R.id.action_system) {
             mNavigationView.setTimeFormat(IFileManagerFileTimeFormat.SYSTEM);
+//            item.setChecked(true);
             return true;
         } else if (id == R.id.action_locale) {
             mNavigationView.setTimeFormat(IFileManagerFileTimeFormat.LOCALE);
+//            item.setChecked(true);
             return true;
         } else if (id == R.id.action_ddmmyyyy) {
             mNavigationView.setTimeFormat(IFileManagerFileTimeFormat.DDMMYYYY_HHMMSS);
+//            item.setChecked(true);
             return true;
         } else if (id == R.id.action_mmddyyyy) {
             mNavigationView.setTimeFormat(IFileManagerFileTimeFormat.MMDDYYYY_HHMMSS);
+//            item.setChecked(true);
             return true;
         } else if (id == R.id.action_yyyymmdd) {
             mNavigationView.setTimeFormat(IFileManagerFileTimeFormat.YYYYMMDD_HHMMSS);
+//            item.setChecked(true);
             return true;
         }
 

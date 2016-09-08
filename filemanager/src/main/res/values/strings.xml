@@ -26,5 +26,9 @@
     <!-- Strings related to Settings -->
     <string name="pref_key_filetime_format" translatable="false">pref_key_filetime_format</string>
     <string name="pref_key_navigation_mode" translatable="false">pref_key_navigation_mode</string>
+    <string name="pref_key_show_dirs_first" translatable="false">pref_key_show_dirs_first</string>
+    <string name="pref_key_show_hidden" translatable="false">pref_key_show_hidden</string>
+    <string name="pref_key_sort_mode" translatable="false">pref_key_sort_mode</string>
+    <string name="pref_key_case_sensitive" translatable="false">pref_key_case_sensitive</string>
 
 </resources>

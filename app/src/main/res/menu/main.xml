@@ -2,54 +2,84 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <item android:title="Navigation Mode">
+        <menu>
+            <group
+                android:id="@+id/navigation_mode"
+                android:checkableBehavior="single">
+                <item
+                    android:id="@+id/action_icons"
+                    android:orderInCategory="100"
+                    android:title="Show as icons"
+                    app:showAsAction="never" />
+
+                <item
+                    android:id="@+id/action_simple"
+                    android:orderInCategory="101"
+                    android:title="Show simple"
+                    app:showAsAction="never" />
+
+                <item
+                    android:id="@+id/action_details"
+                    android:orderInCategory="102"
+                    android:title="Show details"
+                    app:showAsAction="never" />
+            </group>
+        </menu>
+    </item>
+
+    <item android:title="File Time Format">
+        <menu>
+            <group
+                android:id="@+id/file_time_format"
+                android:checkableBehavior="single">
+                <item
+                    android:id="@+id/action_system"
+                    android:orderInCategory="103"
+                    android:title="SYSTEM"
+                    app:showAsAction="never" />
+
+                <item
+                    android:id="@+id/action_locale"
+                    android:orderInCategory="104"
+                    android:title="LOCALE"
+                    app:showAsAction="never" />
+
+                <item
+                    android:id="@+id/action_ddmmyyyy"
+                    android:orderInCategory="105"
+                    android:title="DDMMYYYY_HHMMSS"
+                    app:showAsAction="never" />
+
+                <item
+                    android:id="@+id/action_mmddyyyy"
+                    android:orderInCategory="106"
+                    android:title="MMDDYYYY_HHMMSS"
+                    app:showAsAction="never" />
+
+                <item
+                    android:id="@+id/action_yyyymmdd"
+                    android:orderInCategory="107"
+                    android:title="YYYYMMDD_HHMMSS"
+                    app:showAsAction="never" />
+            </group>
+        </menu>
+    </item>
+
     <item
-        android:id="@+id/action_icons"
-        android:orderInCategory="100"
-        android:title="Show as icons"
+        android:id="@+id/action_is_show_hidden"
+        android:orderInCategory="108"
+        android:title="Show hidden"
+        android:checkable="true"
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/action_simple"
-        android:orderInCategory="101"
-        android:title="Show simple"
+        android:id="@+id/action_dirs_first"
+        android:orderInCategory="109"
+        android:title="Show dirs first"
+        android:checkable="true"
         app:showAsAction="never" />
 
-    <item
-        android:id="@+id/action_details"
-        android:orderInCategory="102"
-        android:title="Show details"
-        app:showAsAction="never" />
-
-
-    <item
-        android:id="@+id/action_system"
-        android:orderInCategory="103"
-        android:title="SYSTEM"
-        app:showAsAction="never" />
-
-    <item
-        android:id="@+id/action_locale"
-        android:orderInCategory="104"
-        android:title="LOCALE"
-        app:showAsAction="never" />
-
-    <item
-        android:id="@+id/action_ddmmyyyy"
-        android:orderInCategory="105"
-        android:title="DDMMYYYY_HHMMSS"
-        app:showAsAction="never" />
-
-    <item
-        android:id="@+id/action_mmddyyyy"
-        android:orderInCategory="106"
-        android:title="MMDDYYYY_HHMMSS"
-        app:showAsAction="never" />
-
-    <item
-        android:id="@+id/action_yyyymmdd"
-        android:orderInCategory="107"
-        android:title="YYYYMMDD_HHMMSS"
-        app:showAsAction="never" />
 
 
 

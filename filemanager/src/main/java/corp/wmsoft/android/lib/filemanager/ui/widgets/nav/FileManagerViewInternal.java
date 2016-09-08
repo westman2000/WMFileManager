@@ -207,6 +207,14 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
     /**
      * @public
      */
+    @IFileManagerFileTimeFormat
+    public int getFileTimeFormat() {
+        return getPresenter().getCurrentFileTimeFormat();
+    }
+
+    /**
+     * @public
+     */
     public void setNavigationMode(@IFileManagerNavigationMode int mode) {
         getPresenter().changeViewMode(mode);
     }
@@ -214,6 +222,7 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
     /**
      * @public
      */
+    @IFileManagerNavigationMode
     public int getNavigationMode() {
         return getPresenter().getCurrentMode();
     }

@@ -2,17 +2,24 @@ package corp.wmsoft.android.lib.filemanager.util;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 
 import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 import corp.wmsoft.android.lib.filemanager.IFileManagerFileTimeFormat;
+import corp.wmsoft.android.lib.filemanager.IFileManagerSortMode;
 import corp.wmsoft.android.lib.filemanager.R;
 import corp.wmsoft.android.lib.filemanager.models.Directory;
 import corp.wmsoft.android.lib.filemanager.models.FileSystemObject;
+import corp.wmsoft.android.lib.filemanager.models.ParentDirectory;
 import corp.wmsoft.android.lib.filemanager.models.RegularFile;
 
 
@@ -173,4 +180,134 @@ public class FileHelper {
         }
     }
 
+    /**
+     * Method that applies the configuration modes to the listed files
+     * (sort mode, hidden files, ...).
+     *
+     * @param files The listed files
+     * @return List<FileSystemObject> The applied mode listed files
+     */
+    public static List<FileSystemObject> applyUserPreferences(List<FileSystemObject> files) {
+
+        //Retrieve user preferences
+        final boolean showDirsFirst = PreferencesHelper.isShowDirsFirst();
+        final boolean showHidden = PreferencesHelper.isShowHidden();
+        final @IFileManagerSortMode int sortMode = PreferencesHelper.getFileManagerSortMode();
+
+        //Remove all unnecessary files (no required by the user)
+        int cc = files.size();
+        for (int i = cc - 1; i >= 0; i--) {
+            FileSystemObject file = files.get(i);
+
+            //Hidden files
+            if (!showHidden) {
+                if (file.isHidden()) {
+                    files.remove(i);
+                }
+            }
+            // TODO -  Restrictions (only apply to files)
+        }
+
+        //Apply sort mode
+        Collections.sort(files, new Comparator<FileSystemObject>() {
+            @Override
+            public int compare(FileSystemObject lhs, FileSystemObject rhs) {
+                //Parent directory always goes first
+                boolean isLhsParentDirectory = lhs instanceof ParentDirectory;
+                boolean isRhsParentDirectory = rhs instanceof ParentDirectory;
+                if (isLhsParentDirectory || isRhsParentDirectory) {
+                    if (isLhsParentDirectory && isRhsParentDirectory) {
+                        return 0;
+                    }
+                    return (isLhsParentDirectory) ? -1 : 1;
+                }
+
+                //Need to sort directory first?
+                if (showDirsFirst) {
+                    boolean isLhsDirectory = lhs instanceof Directory;
+                    boolean isRhsDirectory = rhs instanceof Directory;
+                    if (isLhsDirectory || isRhsDirectory) {
+                        if (isLhsDirectory && isRhsDirectory) {
+                            //Apply sort mode
+                            return FileHelper.doCompare(lhs, rhs, sortMode);
+                        }
+                        return (isLhsDirectory) ? -1 : 1;
+                    }
+                }
+
+                //Apply sort mode
+                return FileHelper.doCompare(lhs, rhs, sortMode);
+            }
+
+        });
+
+        //Return the files
+        return files;
+    }
+
+    /**
+     * Method that do a comparison between 2 file system objects.
+     *
+     * @param fso1 The first file system objects
+     * @param fso2 The second file system objects
+     * @param mode The sort mode
+     * @return int a negative integer if {@code fso1} is less than {@code fso2};
+     *         a positive integer if {@code fso1} is greater than {@code fso2};
+     *         0 if {@code fso1} has the same order as {@code fso2}.
+     */
+    public static int doCompare(
+            final FileSystemObject fso1,
+            final FileSystemObject fso2,
+            final @IFileManagerSortMode int mode) {
+
+        // Retrieve the user preference for case sensitive sort
+        boolean caseSensitive = PreferencesHelper.isCaseSensitiveSort();
+
+        //Name (ascending)
+        if (mode == IFileManagerSortMode.NAME_ASC) {
+            if (!caseSensitive) {
+                return fso1.getName().compareToIgnoreCase(fso2.getName());
+            }
+            return fso1.getName().compareTo(fso2.getName());
+        }
+        //Name (descending)
+        if (mode == IFileManagerSortMode.NAME_DESC) {
+            if (!caseSensitive) {
+                return fso1.getName().compareToIgnoreCase(fso2.getName()) * -1;
+            }
+            return fso1.getName().compareTo(fso2.getName()) * -1;
+        }
+
+        //Date (ascending)
+        if (mode == IFileManagerSortMode.DATE_ASC) {
+            return fso1.getLastModifiedTime().compareTo(fso2.getLastModifiedTime());
+        }
+        //Date (descending)
+        if (mode == IFileManagerSortMode.DATE_DESC) {
+            return fso1.getLastModifiedTime().compareTo(fso2.getLastModifiedTime()) * -1;
+        }
+
+        //Size (ascending)
+        if (mode == IFileManagerSortMode.SIZE_ASC) {
+            return Long.valueOf(fso1.getSize()).compareTo(fso2.getSize());
+        }
+        //Size (descending)
+        if (mode == IFileManagerSortMode.SIZE_DESC) {
+            return Long.valueOf(fso1.getSize()).compareTo(fso2.getSize()) * -1;
+        }
+
+//        //Type (ascending)
+//        if (mode == IFileManagerSortMode.TYPE_ASC) {
+//            // Shouldn't need context here, mimetypes should be loaded
+//            return MimeTypeHelper.compareFSO(null, fso1, fso2);
+//        }
+//        //Type (descending)
+//        if (mode == IFileManagerSortMode.TYPE_DESC) {
+//            // Shouldn't need context here, mimetypes should be loaded
+//            return MimeTypeHelper.compareFSO(null, fso1, fso2) * -1;
+//        }
+
+        //Comparison between files directly
+        return fso1.compareTo(fso2);
+    }
 }

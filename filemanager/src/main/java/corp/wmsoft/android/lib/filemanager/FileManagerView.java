@@ -65,6 +65,14 @@ public class FileManagerView extends FrameLayout {
     /**
      *
      */
+    @IFileManagerFileTimeFormat
+    public int getFileTimeFormat() {
+        return mFileManagerViewInternal.getFileTimeFormat();
+    }
+
+    /**
+     *
+     */
     public void setNavigationMode(@IFileManagerNavigationMode int mode) {
         mFileManagerViewInternal.setNavigationMode(mode);
     }
@@ -72,6 +80,7 @@ public class FileManagerView extends FrameLayout {
     /**
      *
      */
+    @IFileManagerNavigationMode
     public int getNavigationMode() {
         return mFileManagerViewInternal.getNavigationMode();
     }

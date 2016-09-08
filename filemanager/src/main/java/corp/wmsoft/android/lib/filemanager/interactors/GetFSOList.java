@@ -51,22 +51,15 @@ public class GetFSOList extends MVPCUseCase<GetFSOList.RequestValues, List<FileS
                         }
                     }
 
-                    try {
-                        TimeUnit.SECONDS.sleep(3);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-
                     //Now if not is the root directory
                     if (!RxStorageHelper.isStorageVolume(requestValues.getSrc())) {
                         fsoList.add(0, new ParentDirectory(new File(requestValues.getSrc()).getParent()));
                     }
 
-                    // TODO - Apply user preferences
+                    //Apply user preferences
+                    List<FileSystemObject> sortedFiles = FileHelper.applyUserPreferences(fsoList);
 
-                    // TODO - add sort here!
-
-                    subscriber.onNext(fsoList);
+                    subscriber.onNext(sortedFiles);
                     subscriber.onCompleted();
                 }
             }

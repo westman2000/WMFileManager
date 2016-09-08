@@ -6,8 +6,10 @@ import android.preference.PreferenceManager;
 
 import corp.wmsoft.android.lib.filemanager.IFileManagerFileTimeFormat;
 import corp.wmsoft.android.lib.filemanager.IFileManagerNavigationMode;
+import corp.wmsoft.android.lib.filemanager.IFileManagerSortMode;
 import corp.wmsoft.android.lib.filemanager.R;
 import corp.wmsoft.android.lib.filemanager.WMFileManager;
+
 
 /**
  * <br/>Created by WestMan2000 on 9/6/16 at 3:49 PM.<br/>
@@ -75,6 +77,69 @@ public class PreferencesHelper {
         SharedPreferences.Editor editor = getSharedPreferences().edit();
         //Save
         editor.putInt(key, format);
+        //Commit settings
+        editor.apply();
+    }
+
+    public static boolean isShowDirsFirst() {
+        String key = WMFileManager.getApplicationContext().getString(R.string.pref_key_show_dirs_first);
+        return getSharedPreferences().getBoolean(key, true);
+    }
+
+    public static void setShowDirsFirst(boolean isShowDirsFirst) {
+        String key = WMFileManager.getApplicationContext().getString(R.string.pref_key_show_dirs_first);
+        //Get the preferences editor
+        SharedPreferences.Editor editor = getSharedPreferences().edit();
+        //Save
+        editor.putBoolean(key, isShowDirsFirst);
+        //Commit settings
+        editor.apply();
+    }
+
+    public static boolean isShowHidden() {
+        String key = WMFileManager.getApplicationContext().getString(R.string.pref_key_show_hidden);
+        return getSharedPreferences().getBoolean(key, false);
+    }
+
+    public static void setShowHidden(boolean isShowHidden) {
+        String key = WMFileManager.getApplicationContext().getString(R.string.pref_key_show_hidden);
+        //Get the preferences editor
+        SharedPreferences.Editor editor = getSharedPreferences().edit();
+        //Save
+        editor.putBoolean(key, isShowHidden);
+        //Commit settings
+        editor.apply();
+    }
+
+    @IFileManagerSortMode
+    public static int getFileManagerSortMode() {
+        String key = WMFileManager.getApplicationContext().getString(R.string.pref_key_sort_mode);
+        //noinspection WrongConstant
+        @IFileManagerSortMode int sortMode = getSharedPreferences().getInt(key, IFileManagerSortMode.NAME_ASC);
+        return sortMode;
+    }
+
+    public static void setFileManagerSortMode(@IFileManagerSortMode int sortMode) {
+        String key = WMFileManager.getApplicationContext().getString(R.string.pref_key_sort_mode);
+        //Get the preferences editor
+        SharedPreferences.Editor editor = getSharedPreferences().edit();
+        //Save
+        editor.putInt(key, sortMode);
+        //Commit settings
+        editor.apply();
+    }
+
+    public static boolean isCaseSensitiveSort() {
+        String key = WMFileManager.getApplicationContext().getString(R.string.pref_key_case_sensitive);
+        return getSharedPreferences().getBoolean(key, false);
+    }
+
+    public static void setCaseSensitiveSort(boolean isCaseSensitiveSort) {
+        String key = WMFileManager.getApplicationContext().getString(R.string.pref_key_case_sensitive);
+        //Get the preferences editor
+        SharedPreferences.Editor editor = getSharedPreferences().edit();
+        //Save
+        editor.putBoolean(key, isCaseSensitiveSort);
         //Commit settings
         editor.apply();
     }

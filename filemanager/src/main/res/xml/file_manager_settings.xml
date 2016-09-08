@@ -10,4 +10,20 @@
         android:key="@string/pref_key_navigation_mode"
         android:defaultValue="30"/>
 
+    <Preference
+        android:key="@string/pref_key_show_dirs_first"
+        android:defaultValue="true"/>
+
+    <Preference
+        android:key="@string/pref_key_show_hidden"
+        android:defaultValue="false"/>
+
+    <Preference
+        android:key="@string/pref_key_sort_mode"
+        android:defaultValue="1000"/>
+
+    <Preference
+        android:key="@string/pref_key_case_sensitive"
+        android:defaultValue="false"/>
+
 </PreferenceScreen>
