@@ -228,11 +228,39 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
     }
 
     /**
+     * @public
+     */
+    public boolean isShowHidden() {
+        return getPresenter().isShowHidden();
+    }
+
+    /**
+     * @public
+     */
+    public void setShowHidden(boolean isVisible) {
+        getPresenter().setShowHidden(isVisible);
+    }
+
+    /**
+     * @public
+     */
+    public boolean isShowDirsFirst() {
+        return getPresenter().isShowDirsFirst();
+    }
+
+    /**
+     * @public
+     */
+    public void setShowDirsFirst(boolean isDirsFirst) {
+        getPresenter().setShowDirsFirst(isDirsFirst);
+    }
+
+    /**
      * Method that sets the listener for events
      *
      * @param onFileManagerEventListener The listener reference
      *
-     * @hide
+     * @public
      */
     public void setOnFileManagerEventListener(IOnFileManagerEventListener onFileManagerEventListener) {
         this.mOnFileManagerEventListener = onFileManagerEventListener;
@@ -243,7 +271,7 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
      *
      * @param onFilePickedListener The listener reference
      *
-     * @hide
+     * @public
      */
     public void setOnFilePickedListener(IOnFilePickedListener onFilePickedListener) {
         this.mOnFilePickedListener = onFilePickedListener;
@@ -254,7 +282,7 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
      *
      * @param onDirectoryChangedListener The listener reference
      *
-     * @hide
+     * @public
      */
     public void setOnDirectoryChangedListener(IOnDirectoryChangedListener onDirectoryChangedListener) {
         this.mOnDirectoryChangedListener = onDirectoryChangedListener;

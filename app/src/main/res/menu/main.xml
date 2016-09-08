@@ -70,6 +70,7 @@
         android:id="@+id/action_is_show_hidden"
         android:orderInCategory="108"
         android:title="Show hidden"
+        android:checked="false"
         android:checkable="true"
         app:showAsAction="never" />
 

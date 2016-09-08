@@ -115,6 +115,28 @@ public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewCont
         getView().timeFormatChanged();
     }
 
+    @Override
+    public boolean isShowHidden() {
+        return PreferencesHelper.isShowHidden();
+    }
+
+    @Override
+    public void setShowHidden(boolean isVisible) {
+        PreferencesHelper.setShowHidden(isVisible);
+        loadFSOList();
+    }
+
+    @Override
+    public boolean isShowDirsFirst() {
+        return PreferencesHelper.isShowDirsFirst();
+    }
+
+    @Override
+    public void setShowDirsFirst(boolean isDirsFirst) {
+        PreferencesHelper.setShowDirsFirst(isDirsFirst);
+        loadFSOList();
+    }
+
     /**
      * Method that change the view mode.
      *

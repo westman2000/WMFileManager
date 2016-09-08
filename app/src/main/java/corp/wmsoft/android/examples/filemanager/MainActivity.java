@@ -5,10 +5,12 @@ import android.annotation.TargetApi;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -79,7 +81,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
 
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
         if (mNavigationView.getNavigationMode() == IFileManagerNavigationMode.ICONS)
             menu.findItem(R.id.action_icons).setChecked(true);
         else if (mNavigationView.getNavigationMode() == IFileManagerNavigationMode.SIMPLE)
@@ -100,8 +106,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         else if (mNavigationView.getFileTimeFormat() == IFileManagerFileTimeFormat.YYYYMMDD_HHMMSS)
             menu.findItem(R.id.action_yyyymmdd).setChecked(true);
 
-        MenuItem showHidden = menu.findItem(R.id.action_is_show_hidden);
-        MenuItem showDirsFirst = menu.findItem(R.id.action_dirs_first);
+        menu.findItem(R.id.action_is_show_hidden).setChecked(mNavigationView.isShowHidden());
+
+        menu.findItem(R.id.action_dirs_first).setChecked(mNavigationView.isShowDirsFirst());
 
         return true;
     }
@@ -113,48 +120,46 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_icons) {
             mNavigationView.setNavigationMode(IFileManagerNavigationMode.ICONS);
-//            item.setChecked(true);
             return true;
         } else if (id == R.id.action_simple) {
             mNavigationView.setNavigationMode(IFileManagerNavigationMode.SIMPLE);
-//            item.setChecked(true);
             return true;
         } else if (id == R.id.action_details) {
             mNavigationView.setNavigationMode(IFileManagerNavigationMode.DETAILS);
-//            item.setChecked(true);
             return true;
         } else if (id == R.id.action_system) {
             mNavigationView.setTimeFormat(IFileManagerFileTimeFormat.SYSTEM);
-//            item.setChecked(true);
             return true;
         } else if (id == R.id.action_locale) {
             mNavigationView.setTimeFormat(IFileManagerFileTimeFormat.LOCALE);
-//            item.setChecked(true);
             return true;
         } else if (id == R.id.action_ddmmyyyy) {
             mNavigationView.setTimeFormat(IFileManagerFileTimeFormat.DDMMYYYY_HHMMSS);
-//            item.setChecked(true);
             return true;
         } else if (id == R.id.action_mmddyyyy) {
             mNavigationView.setTimeFormat(IFileManagerFileTimeFormat.MMDDYYYY_HHMMSS);
-//            item.setChecked(true);
             return true;
         } else if (id == R.id.action_yyyymmdd) {
             mNavigationView.setTimeFormat(IFileManagerFileTimeFormat.YYYYMMDD_HHMMSS);
-//            item.setChecked(true);
+            return true;
+        } else if (id == R.id.action_is_show_hidden) {
+            item.setChecked(!item.isChecked());
+            mNavigationView.setShowHidden(item.isChecked());
+            return true;
+        } else if (id == R.id.action_dirs_first) {
+            item.setChecked(!item.isChecked());
+            mNavigationView.setShowDirsFirst(item.isChecked());
             return true;
         }
-
 
         return super.onOptionsItemSelected(item);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
@@ -176,7 +181,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
 
     @SuppressWarnings("NullableProblems")
     @Override

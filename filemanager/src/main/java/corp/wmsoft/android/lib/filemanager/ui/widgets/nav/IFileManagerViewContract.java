@@ -46,5 +46,13 @@ public interface IFileManagerViewContract {
 
         void onSetTimeFormat(@IFileManagerFileTimeFormat int format);
 
+        boolean isShowHidden();
+
+        void setShowHidden(boolean isVisible);
+
+        boolean isShowDirsFirst();
+
+        void setShowDirsFirst(boolean isDirsFirst);
+
     }
 }

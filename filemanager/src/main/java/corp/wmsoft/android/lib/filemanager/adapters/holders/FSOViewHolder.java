@@ -14,6 +14,7 @@ import corp.wmsoft.android.lib.filemanager.util.FileHelper;
 /**
  * <br/>Created by WestMan2000 on 9/1/16 at 12:27 PM.<br/>
  */
+// TODO - создать что то типа com.cyanogenmod.filemanager.ui.IconHolder
 public class FSOViewHolder extends RecyclerView.ViewHolder {
 
     //The resource of the item icon
@@ -42,6 +43,8 @@ public class FSOViewHolder extends RecyclerView.ViewHolder {
     public void bind(FileSystemObject fso) {
 
         mIvIcon.setImageResource(fso.getResourceIconId());
+
+        mIvIcon.setAlpha(fso.isHidden() ? 0.3f : 1.0f);
 
         mTvName.setText(fso.getName());
 

@@ -85,6 +85,34 @@ public class FileManagerView extends FrameLayout {
         return mFileManagerViewInternal.getNavigationMode();
     }
 
+    /**
+     *
+     */
+    public boolean isShowHidden() {
+        return mFileManagerViewInternal.isShowHidden();
+    }
+
+    /**
+     *
+     */
+    public boolean isShowDirsFirst() {
+        return mFileManagerViewInternal.isShowDirsFirst();
+    }
+
+    /**
+     *
+     */
+    public void setShowDirsFirst(boolean isDirsFirst) {
+        mFileManagerViewInternal.setShowDirsFirst(isDirsFirst);
+    }
+
+    /**
+     *
+     */
+    public void setShowHidden(boolean isVisible) {
+        mFileManagerViewInternal.setShowHidden(isVisible);
+    }
+
     private void init(Context context) {
         this.mFileManagerViewInternal = new FileManagerViewInternal(context);
 
