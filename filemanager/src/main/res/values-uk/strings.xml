@@ -18,4 +18,50 @@
     <string name="size_megabytes">МБ</string>
     <string name="size_gigabytes">ГБ</string>
 
+    <!-- ActionBar Buttons - Sort Mode -->
+    <string name="actionbar_button_sort_mode_cd">Режим сортування</string>
+    <!-- ActionBar Buttons - Layout Mode -->
+    <string name="actionbar_button_layout_mode_cd">Режим відображення</string>
+    <!-- ActionBar Buttons - Other View Options -->
+    <string name="actionbar_button_other_view_options_cd">Інші налаштування відображення</string>
+
+    <!-- Navigation View - Sort - Sort by name (ascending) -->
+    <string name="sort_by_name_asc">За ім’ям \u25B2</string>
+    <!-- Navigation View - Sort - Sort by name (descending) -->
+    <string name="sort_by_name_desc">За ім’ям \u25BC</string>
+    <!-- Navigation View - Sort - Sort by date (ascending) -->
+    <string name="sort_by_date_asc">За датою \u25B2</string>
+    <!-- Navigation View - Sort - Sort by date (descending) -->
+    <string name="sort_by_date_desc">За датою \u25BC</string>
+    <!-- Navigation View - Sort - Sort by size (ascending) -->
+    <string name="sort_by_size_asc">За розміром \u25B2</string>
+    <!-- Navigation View - Sort - Sort by size (descending) -->
+    <string name="sort_by_size_desc">За розміром \u25B2</string>
+    <!-- Navigation View - Sort - Sort by type (ascending) -->
+    <string name="sort_by_type_asc">За типом \u25B2</string>
+    <!-- Navigation View - Sort - Sort by type (descending) -->
+    <string name="sort_by_type_desc">За типом \u25B2</string>
+
+    <!-- Navigation View - Layout - Icons -->
+    <string name="layout_icons">Іконки</string>
+    <!-- Navigation View - Layout - Simple -->
+    <string name="layout_simple">Список</string>
+    <!-- Navigation View - Layout - Details -->
+    <string name="layout_details">Детально</string>
+
+    <!-- Navigation View - View - Show folders first -->
+    <string name="cm_filemanager_show_dirs_first">Відображати папки першими</string>
+    <!-- Navigation View - View - Show hidden files option -->
+    <string name="cm_filemanager_show_hidden">Відображати приховані файли</string>
+
+    <!--  Filetime formats -->
+    <string name="filetime_format_mode_system">Системний</string>
+    <string name="filetime_format_mode_locale">Регіональний</string>
+    <string name="filetime_format_mode_ddMMyyyy_HHmmss">дд/мм/рррр гг:хх:ss</string>
+    <string name="filetime_format_mode_MMddyyyy_HHmmss">мм/дд/рррр гг:хх:сс</string>
+    <string name="filetime_format_mode_yyyyMMdd_HHmmss">рррр-мм-дд гг:хх:сс</string>
+
+    <!-- Preferences - General - Filetime format mode title -->
+    <string name="pref_filetime_format_mode">Формат дати\часу</string>
+
 </resources>

@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:title="Navigation Mode">
+    <item android:title="@string/actionbar_button_layout_mode_cd">
         <menu>
             <group
                 android:id="@+id/navigation_mode"
@@ -10,25 +10,25 @@
                 <item
                     android:id="@+id/action_icons"
                     android:orderInCategory="100"
-                    android:title="Show as icons"
+                    android:title="@string/layout_icons"
                     app:showAsAction="never" />
 
                 <item
                     android:id="@+id/action_simple"
                     android:orderInCategory="101"
-                    android:title="Show simple"
+                    android:title="@string/layout_simple"
                     app:showAsAction="never" />
 
                 <item
                     android:id="@+id/action_details"
                     android:orderInCategory="102"
-                    android:title="Show details"
+                    android:title="@string/layout_details"
                     app:showAsAction="never" />
             </group>
         </menu>
     </item>
 
-    <item android:title="File Time Format">
+    <item android:title="@string/pref_filetime_format_mode">
         <menu>
             <group
                 android:id="@+id/file_time_format"
@@ -36,52 +36,119 @@
                 <item
                     android:id="@+id/action_system"
                     android:orderInCategory="103"
-                    android:title="SYSTEM"
+                    android:title="@string/filetime_format_mode_system"
                     app:showAsAction="never" />
 
                 <item
                     android:id="@+id/action_locale"
                     android:orderInCategory="104"
-                    android:title="LOCALE"
+                    android:title="@string/filetime_format_mode_locale"
                     app:showAsAction="never" />
 
                 <item
                     android:id="@+id/action_ddmmyyyy"
                     android:orderInCategory="105"
-                    android:title="DDMMYYYY_HHMMSS"
+                    android:title="@string/filetime_format_mode_ddMMyyyy_HHmmss"
                     app:showAsAction="never" />
 
                 <item
                     android:id="@+id/action_mmddyyyy"
                     android:orderInCategory="106"
-                    android:title="MMDDYYYY_HHMMSS"
+                    android:title="@string/filetime_format_mode_MMddyyyy_HHmmss"
                     app:showAsAction="never" />
 
                 <item
                     android:id="@+id/action_yyyymmdd"
                     android:orderInCategory="107"
-                    android:title="YYYYMMDD_HHMMSS"
+                    android:title="@string/filetime_format_mode_yyyyMMdd_HHmmss"
                     app:showAsAction="never" />
             </group>
         </menu>
     </item>
 
-    <item
-        android:id="@+id/action_is_show_hidden"
-        android:orderInCategory="108"
-        android:title="Show hidden"
-        android:checked="false"
-        android:checkable="true"
-        app:showAsAction="never" />
+    <item android:title="@string/actionbar_button_sort_mode_cd">
+        <menu>
+            <group
+                android:id="@+id/sort_mode"
+                android:checkableBehavior="single">
 
-    <item
-        android:id="@+id/action_dirs_first"
-        android:orderInCategory="109"
-        android:title="Show dirs first"
-        android:checkable="true"
-        app:showAsAction="never" />
+                <item
+                    android:id="@+id/action_sort_by_name_asc"
+                    android:orderInCategory="200"
+                    android:title="@string/sort_by_name_asc"
+                    app:showAsAction="never" />
 
+                <item
+                    android:id="@+id/action_sort_by_name_desc"
+                    android:orderInCategory="201"
+                    android:title="@string/sort_by_name_desc"
+                    app:showAsAction="never" />
 
+                <item
+                    android:id="@+id/action_sort_by_date_asc"
+                    android:orderInCategory="202"
+                    android:title="@string/sort_by_date_asc"
+                    app:showAsAction="never" />
 
+                <item
+                    android:id="@+id/action_sort_by_date_desc"
+                    android:orderInCategory="203"
+                    android:title="@string/sort_by_date_desc"
+                    app:showAsAction="never" />
+
+                <item
+                    android:id="@+id/action_sort_by_size_asc"
+                    android:orderInCategory="204"
+                    android:title="@string/sort_by_size_asc"
+                    app:showAsAction="never" />
+
+                <item
+                    android:id="@+id/action_sort_by_size_desc"
+                    android:orderInCategory="205"
+                    android:title="@string/sort_by_size_desc"
+                    app:showAsAction="never" />
+
+                <item
+                    android:id="@+id/action_sort_by_type_asc"
+                    android:orderInCategory="206"
+                    android:title="@string/sort_by_type_asc"
+                    android:enabled="false"
+                    app:showAsAction="never" />
+
+                <item
+                    android:id="@+id/action_sort_by_type_desc"
+                    android:orderInCategory="207"
+                    android:title="@string/sort_by_type_desc"
+                    android:enabled="false"
+                    app:showAsAction="never" />
+
+            </group>
+        </menu>
+    </item>
+
+    <item android:title="@string/actionbar_button_other_view_options_cd">
+        <menu>
+            <group
+                android:id="@+id/other_view_options"
+                android:checkableBehavior="all">
+
+                <item
+                    android:id="@+id/action_is_show_hidden"
+                    android:orderInCategory="108"
+                    android:title="@string/cm_filemanager_show_hidden"
+                    android:checked="false"
+                    android:checkable="true"
+                    app:showAsAction="never" />
+
+                <item
+                    android:id="@+id/action_dirs_first"
+                    android:orderInCategory="109"
+                    android:title="@string/cm_filemanager_show_dirs_first"
+                    android:checkable="true"
+                    app:showAsAction="never" />
+
+            </group>
+        </menu>
+    </item>
 
 </menu>

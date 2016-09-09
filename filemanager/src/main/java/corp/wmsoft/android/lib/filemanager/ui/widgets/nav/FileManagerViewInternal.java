@@ -15,6 +15,7 @@ import java.util.List;
 import corp.wmsoft.android.lib.filemanager.IFileManagerEvent;
 import corp.wmsoft.android.lib.filemanager.IFileManagerFileTimeFormat;
 import corp.wmsoft.android.lib.filemanager.IFileManagerNavigationMode;
+import corp.wmsoft.android.lib.filemanager.IFileManagerSortMode;
 import corp.wmsoft.android.lib.filemanager.R;
 import corp.wmsoft.android.lib.filemanager.adapters.FileSystemObjectAdapter;
 import corp.wmsoft.android.lib.filemanager.util.DividerItemDecoration;
@@ -253,6 +254,21 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
      */
     public void setShowDirsFirst(boolean isDirsFirst) {
         getPresenter().setShowDirsFirst(isDirsFirst);
+    }
+
+    /**
+     * @public
+     */
+    public void setSortMode(@IFileManagerSortMode int mode) {
+        getPresenter().setSortMode(mode);
+    }
+
+    /**
+     * @public
+     */
+    @IFileManagerSortMode
+    public int getSortMode() {
+        return getPresenter().getSortMode();
     }
 
     /**

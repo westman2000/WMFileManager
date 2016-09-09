@@ -113,6 +113,21 @@ public class FileManagerView extends FrameLayout {
         mFileManagerViewInternal.setShowHidden(isVisible);
     }
 
+    /**
+     *
+     */
+    public void setSortMode(@IFileManagerSortMode int mode) {
+        mFileManagerViewInternal.setSortMode(mode);
+    }
+
+    /**
+     *
+     */
+    @IFileManagerSortMode
+    public int getSortMode() {
+        return mFileManagerViewInternal.getSortMode();
+    }
+
     private void init(Context context) {
         this.mFileManagerViewInternal = new FileManagerViewInternal(context);
 

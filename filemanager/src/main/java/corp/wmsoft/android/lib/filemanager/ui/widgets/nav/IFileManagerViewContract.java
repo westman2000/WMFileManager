@@ -5,6 +5,7 @@ import java.util.List;
 import corp.wmsoft.android.lib.filemanager.IFileManagerEvent;
 import corp.wmsoft.android.lib.filemanager.IFileManagerFileTimeFormat;
 import corp.wmsoft.android.lib.filemanager.IFileManagerNavigationMode;
+import corp.wmsoft.android.lib.filemanager.IFileManagerSortMode;
 import corp.wmsoft.android.lib.filemanager.models.FileSystemObject;
 import corp.wmsoft.android.lib.mvpc.presenter.IMVPCPresenter;
 import corp.wmsoft.android.lib.mvpc.view.IMVPCDelayedDataView;
@@ -53,6 +54,10 @@ public interface IFileManagerViewContract {
         boolean isShowDirsFirst();
 
         void setShowDirsFirst(boolean isDirsFirst);
+
+        void setSortMode(@IFileManagerSortMode int mode);
+
+        @IFileManagerSortMode int getSortMode();
 
     }
 }

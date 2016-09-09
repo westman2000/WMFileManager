@@ -18,4 +18,50 @@
     <string name="size_megabytes">Мб</string>
     <string name="size_gigabytes">Гб</string>
 
+    <!-- ActionBar Buttons - Sort Mode -->
+    <string name="actionbar_button_sort_mode_cd">Режим сортировки</string>
+    <!-- ActionBar Buttons - Layout Mode -->
+    <string name="actionbar_button_layout_mode_cd">Вид объектов</string>
+    <!-- ActionBar Buttons - Other View Options -->
+    <string name="actionbar_button_other_view_options_cd">Настройки отображения</string>
+
+    <!-- Navigation View - Sort - Sort by name (ascending) -->
+    <string name="sort_by_name_asc">По имени \u25B2</string>
+    <!-- Navigation View - Sort - Sort by name (descending) -->
+    <string name="sort_by_name_desc">По имени \u25BC</string>
+    <!-- Navigation View - Sort - Sort by date (ascending) -->
+    <string name="sort_by_date_asc">По дате \u25B2</string>
+    <!-- Navigation View - Sort - Sort by date (descending) -->
+    <string name="sort_by_date_desc">По дате \u25BC</string>
+    <!-- Navigation View - Sort - Sort by size (ascending) -->
+    <string name="sort_by_size_asc">По размеру \u25B2</string>
+    <!-- Navigation View - Sort - Sort by size (descending) -->
+    <string name="sort_by_size_desc">По размеру \u25BC</string>
+    <!-- Navigation View - Sort - Sort by type (ascending) -->
+    <string name="sort_by_type_asc">По типу \u25B2</string>
+    <!-- Navigation View - Sort - Sort by type (descending) -->
+    <string name="sort_by_type_desc">По типу \u25BC</string>
+
+    <!-- Navigation View - Layout - Icons -->
+    <string name="layout_icons">Значки</string>
+    <!-- Navigation View - Layout - Simple -->
+    <string name="layout_simple">Список</string>
+    <!-- Navigation View - Layout - Details -->
+    <string name="layout_details">Подробный список</string>
+
+    <!-- Navigation View - View - Show folders first -->
+    <string name="cm_filemanager_show_dirs_first">Папки первыми</string>
+    <!-- Navigation View - View - Show hidden files option -->
+    <string name="cm_filemanager_show_hidden">Скрытые файлы</string>
+
+    <!--  Filetime formats -->
+    <string name="filetime_format_mode_system">Системный</string>
+    <string name="filetime_format_mode_locale">Региональный</string>
+    <string name="filetime_format_mode_ddMMyyyy_HHmmss">дд/мм/гггг чч:мм:сс</string>
+    <string name="filetime_format_mode_MMddyyyy_HHmmss">мм/дд/гггг чч:мм:сс</string>
+    <string name="filetime_format_mode_yyyyMMdd_HHmmss">гггг-мм-дд чч:мм:сс</string>
+
+    <!-- Preferences - General - Filetime format mode title -->
+    <string name="pref_filetime_format_mode">Формат даты/времени</string>
+
 </resources>

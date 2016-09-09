@@ -2,7 +2,6 @@ package corp.wmsoft.android.lib.filemanager.util;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.res.Resources;
 
 import java.io.File;
@@ -12,7 +11,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import corp.wmsoft.android.lib.filemanager.IFileManagerFileTimeFormat;
 import corp.wmsoft.android.lib.filemanager.IFileManagerSortMode;
@@ -161,11 +159,11 @@ public class FileHelper {
             } else if (sFileTimeFormat == IFileManagerFileTimeFormat.LOCALE) {
                 sDateFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
             } else if (sFileTimeFormat == IFileManagerFileTimeFormat.DDMMYYYY_HHMMSS) {
-                sDateFormat = new SimpleDateFormat(ctx.getString(R.string.filetime_format_mode_ddMMyyyy_HHmmss));
+                sDateFormat = new SimpleDateFormat(ctx.getString(R.string.filetime_format_mode_ddMMyyyy_HHmmss_internal));
             } else if (sFileTimeFormat == IFileManagerFileTimeFormat.MMDDYYYY_HHMMSS) {
-                sDateFormat = new SimpleDateFormat(ctx.getString(R.string.filetime_format_mode_MMddyyyy_HHmmss));
+                sDateFormat = new SimpleDateFormat(ctx.getString(R.string.filetime_format_mode_MMddyyyy_HHmmss_internal));
             } else if (sFileTimeFormat == IFileManagerFileTimeFormat.YYYYMMDD_HHMMSS) {
-                sDateFormat = new SimpleDateFormat(ctx.getString(R.string.filetime_format_mode_yyyyMMdd_HHmmss));
+                sDateFormat = new SimpleDateFormat(ctx.getString(R.string.filetime_format_mode_yyyyMMdd_HHmmss_internal));
             }
             sReloadDateTimeFormats = false;
         }

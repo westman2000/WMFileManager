@@ -18,10 +18,56 @@
     <string name="size_megabytes">MB</string>
     <string name="size_gigabytes">GB</string>
 
+    <!-- ActionBar Buttons - Sort Mode -->
+    <string name="actionbar_button_sort_mode_cd">Sort mode</string>
+    <!-- ActionBar Buttons - Layout Mode -->
+    <string name="actionbar_button_layout_mode_cd">Layout mode</string>
+    <!-- ActionBar Buttons - Other View Options -->
+    <string name="actionbar_button_other_view_options_cd">Other view options</string>
+
+    <!-- Navigation View - Sort - Sort by name (ascending) -->
+    <string name="sort_by_name_asc">By name \u25B2</string>
+    <!-- Navigation View - Sort - Sort by name (descending) -->
+    <string name="sort_by_name_desc">By name \u25BC</string>
+    <!-- Navigation View - Sort - Sort by date (ascending) -->
+    <string name="sort_by_date_asc">By date \u25B2</string>
+    <!-- Navigation View - Sort - Sort by date (descending) -->
+    <string name="sort_by_date_desc">By date \u25BC</string>
+    <!-- Navigation View - Sort - Sort by size (ascending) -->
+    <string name="sort_by_size_asc">By size \u25B2</string>
+    <!-- Navigation View - Sort - Sort by size (descending) -->
+    <string name="sort_by_size_desc">By size \u25BC</string>
+    <!-- Navigation View - Sort - Sort by type (ascending) -->
+    <string name="sort_by_type_asc">By type \u25B2</string>
+    <!-- Navigation View - Sort - Sort by type (descending) -->
+    <string name="sort_by_type_desc">By type \u25BC</string>
+
+    <!-- Navigation View - Layout - Icons -->
+    <string name="layout_icons">Icons</string>
+    <!-- Navigation View - Layout - Simple -->
+    <string name="layout_simple">Simple</string>
+    <!-- Navigation View - Layout - Details -->
+    <string name="layout_details">Details</string>
+
+    <!-- Navigation View - View - Show folders first -->
+    <string name="cm_filemanager_show_dirs_first">Show folders first</string>
+    <!-- Navigation View - View - Show hidden files option -->
+    <string name="cm_filemanager_show_hidden">Show hidden files</string>
+
     <!--  Filetime formats -->
-    <string name="filetime_format_mode_ddMMyyyy_HHmmss" translatable="false">dd/MM/yyyy HH:mm:ss</string>
-    <string name="filetime_format_mode_MMddyyyy_HHmmss" translatable="false">MM/dd/yyyy HH:mm:ss</string>
-    <string name="filetime_format_mode_yyyyMMdd_HHmmss" translatable="false">yyyy-MM-dd HH:mm:ss</string>
+    <string name="filetime_format_mode_system">System-defined</string>
+    <string name="filetime_format_mode_locale">Locale-defined</string>
+    <string name="filetime_format_mode_ddMMyyyy_HHmmss">dd/mm/yyyy hh:mm:ss</string>
+    <string name="filetime_format_mode_MMddyyyy_HHmmss">mm/dd/yyyy hh:mm:ss</string>
+    <string name="filetime_format_mode_yyyyMMdd_HHmmss">yyyy-mm-dd hh:mm:ss</string>
+
+    <!-- Preferences - General - Filetime format mode title -->
+    <string name="pref_filetime_format_mode">Date/time format</string>
+
+    <!--  Filetime formats -->
+    <string name="filetime_format_mode_ddMMyyyy_HHmmss_internal" translatable="false">dd/MM/yyyy HH:mm:ss</string>
+    <string name="filetime_format_mode_MMddyyyy_HHmmss_internal" translatable="false">MM/dd/yyyy HH:mm:ss</string>
+    <string name="filetime_format_mode_yyyyMMdd_HHmmss_internal" translatable="false">yyyy-MM-dd HH:mm:ss</string>
 
     <!-- Strings related to Settings -->
     <string name="pref_key_filetime_format" translatable="false">pref_key_filetime_format</string>

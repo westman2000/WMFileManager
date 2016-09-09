@@ -25,6 +25,7 @@ import corp.wmsoft.android.lib.filemanager.FileManagerView;
 import corp.wmsoft.android.lib.filemanager.IFileManagerEvent;
 import corp.wmsoft.android.lib.filemanager.IFileManagerFileTimeFormat;
 import corp.wmsoft.android.lib.filemanager.IFileManagerNavigationMode;
+import corp.wmsoft.android.lib.filemanager.IFileManagerSortMode;
 import corp.wmsoft.android.lib.filemanager.ui.widgets.nav.IOnFileManagerEventListener;
 
 
@@ -93,8 +94,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         else if (mNavigationView.getNavigationMode() == IFileManagerNavigationMode.DETAILS)
             menu.findItem(R.id.action_details).setChecked(true);
 
-        // TODO - странная хуйня, гетер при первом запуске не срабатывает
-
         if (mNavigationView.getFileTimeFormat() == IFileManagerFileTimeFormat.SYSTEM)
             menu.findItem(R.id.action_system).setChecked(true);
         else if (mNavigationView.getFileTimeFormat() == IFileManagerFileTimeFormat.LOCALE)
@@ -107,8 +106,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             menu.findItem(R.id.action_yyyymmdd).setChecked(true);
 
         menu.findItem(R.id.action_is_show_hidden).setChecked(mNavigationView.isShowHidden());
-
         menu.findItem(R.id.action_dirs_first).setChecked(mNavigationView.isShowDirsFirst());
+
+        if (mNavigationView.getSortMode() == IFileManagerSortMode.NAME_ASC)
+            menu.findItem(R.id.action_sort_by_name_asc).setChecked(true);
+        else if (mNavigationView.getSortMode() == IFileManagerSortMode.NAME_DESC)
+            menu.findItem(R.id.action_sort_by_name_desc).setChecked(true);
+        else if (mNavigationView.getSortMode() == IFileManagerSortMode.DATE_ASC)
+            menu.findItem(R.id.action_sort_by_date_asc).setChecked(true);
+        else if (mNavigationView.getSortMode() == IFileManagerSortMode.DATE_DESC)
+            menu.findItem(R.id.action_sort_by_date_desc).setChecked(true);
+        else if (mNavigationView.getSortMode() == IFileManagerSortMode.SIZE_ASC)
+            menu.findItem(R.id.action_sort_by_size_asc).setChecked(true);
+        else if (mNavigationView.getSortMode() == IFileManagerSortMode.SIZE_DESC)
+            menu.findItem(R.id.action_sort_by_size_desc).setChecked(true);
+        else if (mNavigationView.getSortMode() == IFileManagerSortMode.TYPE_ASC)
+            menu.findItem(R.id.action_sort_by_type_asc).setChecked(true);
+        else if (mNavigationView.getSortMode() == IFileManagerSortMode.TYPE_DESC)
+            menu.findItem(R.id.action_sort_by_type_desc).setChecked(true);
 
         return true;
     }
@@ -152,7 +167,32 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             item.setChecked(!item.isChecked());
             mNavigationView.setShowDirsFirst(item.isChecked());
             return true;
+        } else if (id == R.id.action_sort_by_name_asc) {
+            mNavigationView.setSortMode(IFileManagerSortMode.NAME_ASC);
+            return true;
+        } else if (id == R.id.action_sort_by_name_desc) {
+            mNavigationView.setSortMode(IFileManagerSortMode.NAME_DESC);
+            return true;
+        } else if (id == R.id.action_sort_by_date_asc) {
+            mNavigationView.setSortMode(IFileManagerSortMode.DATE_ASC);
+            return true;
+        } else if (id == R.id.action_sort_by_date_desc) {
+            mNavigationView.setSortMode(IFileManagerSortMode.DATE_DESC);
+            return true;
+        } else if (id == R.id.action_sort_by_size_asc) {
+            mNavigationView.setSortMode(IFileManagerSortMode.SIZE_ASC);
+            return true;
+        } else if (id == R.id.action_sort_by_size_desc) {
+            mNavigationView.setSortMode(IFileManagerSortMode.SIZE_DESC);
+            return true;
+        } else if (id == R.id.action_sort_by_type_asc) {
+            mNavigationView.setSortMode(IFileManagerSortMode.TYPE_ASC);
+            return true;
+        } else if (id == R.id.action_sort_by_type_desc) {
+            mNavigationView.setSortMode(IFileManagerSortMode.TYPE_DESC);
+            return true;
         }
+
 
         return super.onOptionsItemSelected(item);
     }

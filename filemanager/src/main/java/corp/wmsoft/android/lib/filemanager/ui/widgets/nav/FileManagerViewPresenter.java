@@ -9,6 +9,7 @@ import java.util.List;
 import corp.wmsoft.android.lib.filemanager.IFileManagerEvent;
 import corp.wmsoft.android.lib.filemanager.IFileManagerFileTimeFormat;
 import corp.wmsoft.android.lib.filemanager.IFileManagerNavigationMode;
+import corp.wmsoft.android.lib.filemanager.IFileManagerSortMode;
 import corp.wmsoft.android.lib.filemanager.interactors.GetFSOList;
 import corp.wmsoft.android.lib.filemanager.interactors.GetMountPoints;
 import corp.wmsoft.android.lib.filemanager.models.Directory;
@@ -135,6 +136,17 @@ public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewCont
     public void setShowDirsFirst(boolean isDirsFirst) {
         PreferencesHelper.setShowDirsFirst(isDirsFirst);
         loadFSOList();
+    }
+
+    @Override
+    public void setSortMode(@IFileManagerSortMode int mode) {
+        PreferencesHelper.setFileManagerSortMode(mode);
+        loadFSOList();
+    }
+
+    @Override
+    public int getSortMode() {
+        return PreferencesHelper.getFileManagerSortMode();
     }
 
     /**
