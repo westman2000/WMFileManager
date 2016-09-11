@@ -10,6 +10,7 @@ buildscript {
                  verCode   : 1]
 
         versions = [supportLib : "24.2.0",
+                    mvpcandroid : "0.1.0",
                     leakcanaryLib : "1.4-beta2"]
 
     }

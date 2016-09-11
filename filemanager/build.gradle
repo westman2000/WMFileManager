@@ -4,6 +4,7 @@ apply plugin: 'com.github.dcendents.android-maven'
 
 apply from: 'variables.gradle'
 
+
 group = 'corp.wmsoft.android.lib' // Change this to match your package name
 version = setup.verName // Change this to match your version number
 
@@ -44,11 +45,12 @@ buildscript {
 }
 
 dependencies {
-    compile project(':mvpcandroid')
-
     // android framework
     compile "com.android.support:appcompat-v7:${versions.supportLib}"
     compile "com.android.support:recyclerview-v7:${versions.supportLib}"
+
+    // mvp-clean-rx
+    compile "corp.wmsoft.android.lib:mvpcandroid:${versions.mvpcandroid}"
 }
 
 // BinTray staff

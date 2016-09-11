@@ -23,9 +23,8 @@ android {
 
 dependencies {
 
-    compile project(':mvpcandroid')
-
-    compile project(path: ':filemanager')
+    // FileManagerView
+    compile project(':filemanager')
 
     // android widgets
     compile "com.android.support:design:${versions.supportLib}"
@@ -34,4 +33,5 @@ dependencies {
     debugCompile "com.squareup.leakcanary:leakcanary-android:${versions.leakcanaryLib}"
     releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:${versions.leakcanaryLib}"
     testCompile "com.squareup.leakcanary:leakcanary-android-no-op:${versions.leakcanaryLib}"
+
 }
