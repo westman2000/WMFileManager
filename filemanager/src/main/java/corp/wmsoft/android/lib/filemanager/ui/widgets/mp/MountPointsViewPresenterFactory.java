@@ -1,5 +1,6 @@
 package corp.wmsoft.android.lib.filemanager.ui.widgets.mp;
 
+import corp.wmsoft.android.lib.filemanager.di.Injection;
 import corp.wmsoft.android.lib.mvpc.presenter.factory.IMVPCPresenterFactory;
 
 /**
@@ -14,6 +15,7 @@ public class MountPointsViewPresenterFactory implements IMVPCPresenterFactory<IM
     @Override
     public IMountPointsViewContract.Presenter create() {
         return new MountPointsViewPresenter(
+                Injection.provideGetMountPoints()
         );
     }
 }

@@ -198,6 +198,10 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
         getPresenter().onFSOPicked(fso);
     }
 
+    public IFileManagerViewContract.Presenter getLink() {
+        return getPresenter();
+    }
+
     /**
      * @public
      */

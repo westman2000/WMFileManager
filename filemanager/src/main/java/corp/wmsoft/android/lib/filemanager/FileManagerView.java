@@ -5,6 +5,7 @@ import android.util.AttributeSet;
 import android.widget.FrameLayout;
 
 import corp.wmsoft.android.lib.filemanager.ui.widgets.nav.FileManagerViewInternal;
+import corp.wmsoft.android.lib.filemanager.ui.widgets.nav.IFileManagerViewContract;
 import corp.wmsoft.android.lib.filemanager.ui.widgets.nav.IOnFileManagerEventListener;
 
 
@@ -30,6 +31,10 @@ public class FileManagerView extends FrameLayout {
     public FileManagerView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context);
+    }
+
+    public IFileManagerViewContract.Presenter getLink() {
+        return mFileManagerViewInternal.getLink();
     }
 
     /**

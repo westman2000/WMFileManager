@@ -28,12 +28,14 @@ import corp.wmsoft.android.lib.filemanager.IFileManagerSortMode;
 import corp.wmsoft.android.lib.filemanager.ui.widgets.nav.IOnFileManagerEventListener;
 
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, IOnFileManagerEventListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     /**/
-    private static final int PERMISSIONS_REQUEST = 123;
+    private static final int FM_PERMISSIONS_REQUEST = 123;
+    private static final int MP_PERMISSIONS_REQUEST = 456;
     /**/
-    private FileManagerView mNavigationView;
+    private FileManagerView mFileManagerView;
+    private CustomNavigationView mCustomNavigationView;
 
 
     @Override
@@ -44,8 +46,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        mNavigationView = (FileManagerView) findViewById(R.id.navigation_view);
-        mNavigationView.setOnFileManagerEventListener(this);
+        mCustomNavigationView = (CustomNavigationView) findViewById(R.id.nav_view);
+        mCustomNavigationView.setNavigationItemSelectedListener(this);
+        mCustomNavigationView.setOnFileManagerEventListener(new IOnFileManagerEventListener() {
+            @Override
+            public void onFileManagerEvent(@IFileManagerEvent int event) {
+                if (event == IFileManagerEvent.NEED_EXTERNAL_STORAGE_PERMISSION) {
+                    mpAskExternalStoragePermission();
+                }
+            }
+        });
+
+        mFileManagerView = (FileManagerView) findViewById(R.id.file_manager_view);
+        mFileManagerView.setOnFileManagerEventListener(new IOnFileManagerEventListener() {
+            @Override
+            public void onFileManagerEvent(@IFileManagerEvent int event) {
+                if (event == IFileManagerEvent.NEED_EXTERNAL_STORAGE_PERMISSION) {
+                    fmAskExternalStoragePermission();
+                }
+            }
+        });
+
+        mCustomNavigationView.linkToFileManagerView(mFileManagerView.getLink());
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -60,10 +82,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
 
     }
 
@@ -86,42 +104,42 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        if (mNavigationView.getNavigationMode() == IFileManagerNavigationMode.ICONS)
+        if (mFileManagerView.getNavigationMode() == IFileManagerNavigationMode.ICONS)
             menu.findItem(R.id.action_icons).setChecked(true);
-        else if (mNavigationView.getNavigationMode() == IFileManagerNavigationMode.SIMPLE)
+        else if (mFileManagerView.getNavigationMode() == IFileManagerNavigationMode.SIMPLE)
             menu.findItem(R.id.action_simple).setChecked(true);
-        else if (mNavigationView.getNavigationMode() == IFileManagerNavigationMode.DETAILS)
+        else if (mFileManagerView.getNavigationMode() == IFileManagerNavigationMode.DETAILS)
             menu.findItem(R.id.action_details).setChecked(true);
 
-        if (mNavigationView.getFileTimeFormat() == IFileManagerFileTimeFormat.SYSTEM)
+        if (mFileManagerView.getFileTimeFormat() == IFileManagerFileTimeFormat.SYSTEM)
             menu.findItem(R.id.action_system).setChecked(true);
-        else if (mNavigationView.getFileTimeFormat() == IFileManagerFileTimeFormat.LOCALE)
+        else if (mFileManagerView.getFileTimeFormat() == IFileManagerFileTimeFormat.LOCALE)
             menu.findItem(R.id.action_locale).setChecked(true);
-        else if (mNavigationView.getFileTimeFormat() == IFileManagerFileTimeFormat.DDMMYYYY_HHMMSS)
+        else if (mFileManagerView.getFileTimeFormat() == IFileManagerFileTimeFormat.DDMMYYYY_HHMMSS)
             menu.findItem(R.id.action_ddmmyyyy).setChecked(true);
-        else if (mNavigationView.getFileTimeFormat() == IFileManagerFileTimeFormat.MMDDYYYY_HHMMSS)
+        else if (mFileManagerView.getFileTimeFormat() == IFileManagerFileTimeFormat.MMDDYYYY_HHMMSS)
             menu.findItem(R.id.action_mmddyyyy).setChecked(true);
-        else if (mNavigationView.getFileTimeFormat() == IFileManagerFileTimeFormat.YYYYMMDD_HHMMSS)
+        else if (mFileManagerView.getFileTimeFormat() == IFileManagerFileTimeFormat.YYYYMMDD_HHMMSS)
             menu.findItem(R.id.action_yyyymmdd).setChecked(true);
 
-        menu.findItem(R.id.action_is_show_hidden).setChecked(mNavigationView.isShowHidden());
-        menu.findItem(R.id.action_dirs_first).setChecked(mNavigationView.isShowDirsFirst());
+        menu.findItem(R.id.action_is_show_hidden).setChecked(mFileManagerView.isShowHidden());
+        menu.findItem(R.id.action_dirs_first).setChecked(mFileManagerView.isShowDirsFirst());
 
-        if (mNavigationView.getSortMode() == IFileManagerSortMode.NAME_ASC)
+        if (mFileManagerView.getSortMode() == IFileManagerSortMode.NAME_ASC)
             menu.findItem(R.id.action_sort_by_name_asc).setChecked(true);
-        else if (mNavigationView.getSortMode() == IFileManagerSortMode.NAME_DESC)
+        else if (mFileManagerView.getSortMode() == IFileManagerSortMode.NAME_DESC)
             menu.findItem(R.id.action_sort_by_name_desc).setChecked(true);
-        else if (mNavigationView.getSortMode() == IFileManagerSortMode.DATE_ASC)
+        else if (mFileManagerView.getSortMode() == IFileManagerSortMode.DATE_ASC)
             menu.findItem(R.id.action_sort_by_date_asc).setChecked(true);
-        else if (mNavigationView.getSortMode() == IFileManagerSortMode.DATE_DESC)
+        else if (mFileManagerView.getSortMode() == IFileManagerSortMode.DATE_DESC)
             menu.findItem(R.id.action_sort_by_date_desc).setChecked(true);
-        else if (mNavigationView.getSortMode() == IFileManagerSortMode.SIZE_ASC)
+        else if (mFileManagerView.getSortMode() == IFileManagerSortMode.SIZE_ASC)
             menu.findItem(R.id.action_sort_by_size_asc).setChecked(true);
-        else if (mNavigationView.getSortMode() == IFileManagerSortMode.SIZE_DESC)
+        else if (mFileManagerView.getSortMode() == IFileManagerSortMode.SIZE_DESC)
             menu.findItem(R.id.action_sort_by_size_desc).setChecked(true);
-        else if (mNavigationView.getSortMode() == IFileManagerSortMode.TYPE_ASC)
+        else if (mFileManagerView.getSortMode() == IFileManagerSortMode.TYPE_ASC)
             menu.findItem(R.id.action_sort_by_type_asc).setChecked(true);
-        else if (mNavigationView.getSortMode() == IFileManagerSortMode.TYPE_DESC)
+        else if (mFileManagerView.getSortMode() == IFileManagerSortMode.TYPE_DESC)
             menu.findItem(R.id.action_sort_by_type_desc).setChecked(true);
 
         return true;
@@ -135,60 +153,60 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         if (id == R.id.action_icons) {
-            mNavigationView.setNavigationMode(IFileManagerNavigationMode.ICONS);
+            mFileManagerView.setNavigationMode(IFileManagerNavigationMode.ICONS);
             return true;
         } else if (id == R.id.action_simple) {
-            mNavigationView.setNavigationMode(IFileManagerNavigationMode.SIMPLE);
+            mFileManagerView.setNavigationMode(IFileManagerNavigationMode.SIMPLE);
             return true;
         } else if (id == R.id.action_details) {
-            mNavigationView.setNavigationMode(IFileManagerNavigationMode.DETAILS);
+            mFileManagerView.setNavigationMode(IFileManagerNavigationMode.DETAILS);
             return true;
         } else if (id == R.id.action_system) {
-            mNavigationView.setTimeFormat(IFileManagerFileTimeFormat.SYSTEM);
+            mFileManagerView.setTimeFormat(IFileManagerFileTimeFormat.SYSTEM);
             return true;
         } else if (id == R.id.action_locale) {
-            mNavigationView.setTimeFormat(IFileManagerFileTimeFormat.LOCALE);
+            mFileManagerView.setTimeFormat(IFileManagerFileTimeFormat.LOCALE);
             return true;
         } else if (id == R.id.action_ddmmyyyy) {
-            mNavigationView.setTimeFormat(IFileManagerFileTimeFormat.DDMMYYYY_HHMMSS);
+            mFileManagerView.setTimeFormat(IFileManagerFileTimeFormat.DDMMYYYY_HHMMSS);
             return true;
         } else if (id == R.id.action_mmddyyyy) {
-            mNavigationView.setTimeFormat(IFileManagerFileTimeFormat.MMDDYYYY_HHMMSS);
+            mFileManagerView.setTimeFormat(IFileManagerFileTimeFormat.MMDDYYYY_HHMMSS);
             return true;
         } else if (id == R.id.action_yyyymmdd) {
-            mNavigationView.setTimeFormat(IFileManagerFileTimeFormat.YYYYMMDD_HHMMSS);
+            mFileManagerView.setTimeFormat(IFileManagerFileTimeFormat.YYYYMMDD_HHMMSS);
             return true;
         } else if (id == R.id.action_is_show_hidden) {
             item.setChecked(!item.isChecked());
-            mNavigationView.setShowHidden(item.isChecked());
+            mFileManagerView.setShowHidden(item.isChecked());
             return true;
         } else if (id == R.id.action_dirs_first) {
             item.setChecked(!item.isChecked());
-            mNavigationView.setShowDirsFirst(item.isChecked());
+            mFileManagerView.setShowDirsFirst(item.isChecked());
             return true;
         } else if (id == R.id.action_sort_by_name_asc) {
-            mNavigationView.setSortMode(IFileManagerSortMode.NAME_ASC);
+            mFileManagerView.setSortMode(IFileManagerSortMode.NAME_ASC);
             return true;
         } else if (id == R.id.action_sort_by_name_desc) {
-            mNavigationView.setSortMode(IFileManagerSortMode.NAME_DESC);
+            mFileManagerView.setSortMode(IFileManagerSortMode.NAME_DESC);
             return true;
         } else if (id == R.id.action_sort_by_date_asc) {
-            mNavigationView.setSortMode(IFileManagerSortMode.DATE_ASC);
+            mFileManagerView.setSortMode(IFileManagerSortMode.DATE_ASC);
             return true;
         } else if (id == R.id.action_sort_by_date_desc) {
-            mNavigationView.setSortMode(IFileManagerSortMode.DATE_DESC);
+            mFileManagerView.setSortMode(IFileManagerSortMode.DATE_DESC);
             return true;
         } else if (id == R.id.action_sort_by_size_asc) {
-            mNavigationView.setSortMode(IFileManagerSortMode.SIZE_ASC);
+            mFileManagerView.setSortMode(IFileManagerSortMode.SIZE_ASC);
             return true;
         } else if (id == R.id.action_sort_by_size_desc) {
-            mNavigationView.setSortMode(IFileManagerSortMode.SIZE_DESC);
+            mFileManagerView.setSortMode(IFileManagerSortMode.SIZE_DESC);
             return true;
         } else if (id == R.id.action_sort_by_type_asc) {
-            mNavigationView.setSortMode(IFileManagerSortMode.TYPE_ASC);
+            mFileManagerView.setSortMode(IFileManagerSortMode.TYPE_ASC);
             return true;
         } else if (id == R.id.action_sort_by_type_desc) {
-            mNavigationView.setSortMode(IFileManagerSortMode.TYPE_DESC);
+            mFileManagerView.setSortMode(IFileManagerSortMode.TYPE_DESC);
             return true;
         }
 
@@ -196,25 +214,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }
+        mCustomNavigationView.onMountPointSelect(id);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -224,29 +229,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @SuppressWarnings("NullableProblems")
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        if (requestCode == PERMISSIONS_REQUEST) {
+        if (requestCode == FM_PERMISSIONS_REQUEST) {
             // We have requested multiple permissions for storage, so all of them need to be checked.
             if (verifyPermissions(grantResults)) {
-                mNavigationView.onExternalStoragePermissionsGranted();
+                mFileManagerView.onExternalStoragePermissionsGranted();
             } else {
-                mNavigationView.onExternalStoragePermissionsNotGranted();
+                mFileManagerView.onExternalStoragePermissionsNotGranted();
+            }
+        } else if (requestCode == MP_PERMISSIONS_REQUEST) {
+            // We have requested multiple permissions for storage, so all of them need to be checked.
+            if (verifyPermissions(grantResults)) {
+                mCustomNavigationView.onExternalStoragePermissionsGranted();
+            } else {
+                mCustomNavigationView.onExternalStoragePermissionsNotGranted();
             }
         } else {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
 
-    @Override
-    public void onFileManagerEvent(@IFileManagerEvent int event) {
-        switch (event) {
-            case IFileManagerEvent.NEED_EXTERNAL_STORAGE_PERMISSION:
-                askExternalStoragePermission();
-                break;
-        }
-    }
-
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    private void askExternalStoragePermission() {
+    private void fmAskExternalStoragePermission() {
         // Here, thisActivity is the current activity
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED &&
                 ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
@@ -268,7 +271,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                                 Manifest.permission.READ_EXTERNAL_STORAGE,
                                                 Manifest.permission.WRITE_EXTERNAL_STORAGE
                                         },
-                                        PERMISSIONS_REQUEST);
+                                        FM_PERMISSIONS_REQUEST);
                             }
                         })
                         .show();
@@ -280,10 +283,51 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 Manifest.permission.READ_EXTERNAL_STORAGE,
                                 Manifest.permission.WRITE_EXTERNAL_STORAGE
                         },
-                        PERMISSIONS_REQUEST);
+                        FM_PERMISSIONS_REQUEST);
             }
         } else {
-            mNavigationView.onExternalStoragePermissionsGranted();
+            mFileManagerView.onExternalStoragePermissionsGranted();
+        }
+    }
+
+    private void mpAskExternalStoragePermission() {
+        // Here, thisActivity is the current activity
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE) ||
+                    ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                // Show an expanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+
+                // Display a SnackBar with an explanation and a button to trigger the request.
+                Snackbar.make(findViewById(R.id.fab), "To browse files, need access to file system", Snackbar.LENGTH_INDEFINITE)
+                        .setAction(android.R.string.ok, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                ActivityCompat.requestPermissions(MainActivity.this,
+                                        new String[]{
+                                                Manifest.permission.READ_EXTERNAL_STORAGE,
+                                                Manifest.permission.WRITE_EXTERNAL_STORAGE
+                                        },
+                                        MP_PERMISSIONS_REQUEST);
+                            }
+                        })
+                        .show();
+
+            } else {
+                // No explanation needed, we can request the permission.
+                ActivityCompat.requestPermissions(this,
+                        new String[]{
+                                Manifest.permission.READ_EXTERNAL_STORAGE,
+                                Manifest.permission.WRITE_EXTERNAL_STORAGE
+                        },
+                        MP_PERMISSIONS_REQUEST);
+            }
+        } else {
+            mCustomNavigationView.onExternalStoragePermissionsGranted();
         }
     }
 

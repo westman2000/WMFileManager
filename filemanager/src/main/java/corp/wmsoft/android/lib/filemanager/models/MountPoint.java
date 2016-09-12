@@ -2,6 +2,7 @@ package corp.wmsoft.android.lib.filemanager.models;
 
 import java.io.File;
 import java.util.Locale;
+import java.util.Random;
 
 import corp.wmsoft.android.lib.filemanager.R;
 import corp.wmsoft.android.lib.mvpc.viewmodel.IMVPCViewModel;
@@ -16,6 +17,8 @@ public class MountPoint implements IMVPCViewModel {
     private static final int RESOURCE_ICON_INTERNAL = R.drawable.ic_storage_24dp;
     private static final int RESOURCE_ICON_USB      = R.drawable.ic_usb_24dp;
 
+    /**/
+    private int     mId;
     /**/
     private String  mPath;
     /**/
@@ -35,6 +38,8 @@ public class MountPoint implements IMVPCViewModel {
 
 
     public MountPoint(String path, String description, boolean isRemovable, boolean isPrimary, String state) {
+        Random random = new Random();
+        this.mId          = random.nextInt();
         this.mPath        = path;
         this.mDescription = description;
         this.isRemovable  = isRemovable;
@@ -43,6 +48,10 @@ public class MountPoint implements IMVPCViewModel {
 
         setupVariables();
         setupIconResId();
+    }
+
+    public int getId() {
+        return mId;
     }
 
     public String getPath() {
@@ -61,7 +70,7 @@ public class MountPoint implements IMVPCViewModel {
         return isPrimary;
     }
 
-    public String getmState() {
+    public String getState() {
         return mState;
     }
 
@@ -112,4 +121,18 @@ public class MountPoint implements IMVPCViewModel {
 
     }
 
+    @Override
+    public String toString() {
+        return "MountPoint{" +
+                "mId=" + mId +
+                ", mPath='" + mPath + '\'' +
+                ", mDescription='" + mDescription + '\'' +
+                ", mIconResId=" + mIconResId +
+                ", isRemovable=" + isRemovable +
+                ", isPrimary=" + isPrimary +
+                ", mState='" + mState + '\'' +
+                ", isReadable=" + isReadable +
+                ", isWritable=" + isWritable +
+                '}';
+    }
 }

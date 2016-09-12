@@ -84,6 +84,7 @@ public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewCont
             setViewMode(mCurrentMode);
 
         if (mCurrentDir == null) {
+            // get mount point manually or ask for it from MountPointsView if it set
             loadMountPoints();
         } else {
             if (mFiles == null)
@@ -216,7 +217,7 @@ public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewCont
                     mCurrentDir = Environment.getExternalStorageDirectory().getAbsolutePath();
                     return;
                 }
-
+                // get first available mount point
                 mCurrentDir = mountPoints.get(0).getPath();
             }
         });

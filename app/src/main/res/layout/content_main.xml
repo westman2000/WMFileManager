@@ -13,7 +13,7 @@
     tools:showIn="@layout/app_bar_main">
 
     <corp.wmsoft.android.lib.filemanager.FileManagerView
-        android:id="@+id/navigation_view"
+        android:id="@+id/file_manager_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
