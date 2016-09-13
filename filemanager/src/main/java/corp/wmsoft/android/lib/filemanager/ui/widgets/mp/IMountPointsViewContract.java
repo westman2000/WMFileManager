@@ -4,7 +4,6 @@ import java.util.List;
 
 import corp.wmsoft.android.lib.filemanager.IFileManagerEvent;
 import corp.wmsoft.android.lib.filemanager.models.MountPoint;
-import corp.wmsoft.android.lib.filemanager.ui.widgets.nav.IFileManagerViewContract;
 import corp.wmsoft.android.lib.mvpc.presenter.IMVPCPresenter;
 import corp.wmsoft.android.lib.mvpc.view.IMVPCDelayedDataView;
 
@@ -22,9 +21,7 @@ public interface IMountPointsViewContract {
 
         void onExternalStoragePermissionsNotGranted();
 
-        void selectMountPoint(int mountPointId);
-
-        void linkToFileManagerView(IFileManagerViewContract.Presenter presenter);
+        void selectMountPoint(MountPoint mountPoint);
 
     }
 
@@ -34,6 +31,5 @@ public interface IMountPointsViewContract {
 
         void onSelectMountPoint(int mountPointId);
 
-        void onLinkToFileManagerView(IFileManagerViewContract.Presenter presenter);
     }
 }

@@ -51,6 +51,15 @@ public class FileHelper {
     /**
      * Method that creates a {@link FileSystemObject} from a {@link File}
      *
+     * @param path The path
+     * @return FileSystemObject The file system object reference
+     */
+    public static FileSystemObject createFileSystemObject(String path) {
+        return createFileSystemObject(new File(path));
+    }
+    /**
+     * Method that creates a {@link FileSystemObject} from a {@link File}
+     *
      * @param file The file or folder reference
      * @return FileSystemObject The file system object reference
      */

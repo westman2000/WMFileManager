@@ -36,7 +36,16 @@ public class CustomNavigationView extends NavigationView implements IMVPCDelegat
 
     /**/
     private IOnFileManagerEventListener mOnFileManagerEventListener;
+    /**/
+    private OnMountPointSelected mOnMountPointSelected;
 
+
+
+    public interface OnMountPointSelected {
+
+        void onMountPointSelected(MountPoint mountPoint);
+
+    }
 
 
 
@@ -98,18 +107,16 @@ public class CustomNavigationView extends NavigationView implements IMVPCDelegat
     }
 
     @Override
-    public void selectMountPoint(int mountPointId) {
+    public void selectMountPoint(MountPoint mountPoint) {
 
-        Log.d(TAG, "selectMountPoint("+mountPointId+")");
+        Log.d(TAG, "selectMountPoint("+mountPoint+")");
 
-        MenuItem menuItem = getMenu().findItem(mountPointId);
-        if (menuItem != null)
+        MenuItem menuItem = getMenu().findItem(mountPoint.getId());
+        if (menuItem != null) {
             menuItem.setChecked(true);
-    }
-
-    @Override
-    public void linkToFileManagerView(IFileManagerViewContract.Presenter presenter) {
-        getPresenter().onLinkToFileManagerView(presenter);
+            if (mOnMountPointSelected != null)
+                mOnMountPointSelected.onMountPointSelected(mountPoint);
+        }
     }
 
     @Override
@@ -128,7 +135,7 @@ public class CustomNavigationView extends NavigationView implements IMVPCDelegat
         Log.d(TAG, "setData("+data+")");
 
         for (MountPoint mountPoint : data) {
-            MenuItem menuItem = getMenu().add(R.id.mount_points, mountPoint.getId(), Menu.NONE, mountPoint.getDescription());
+            MenuItem menuItem = getMenu().add(R.id.mount_points, mountPoint.getId(), Menu.NONE, mountPoint.getDescription()+"("+mountPoint.isPrimary()+")");
             menuItem.setIcon(mountPoint.getIconResId());
         }
 
@@ -148,6 +155,10 @@ public class CustomNavigationView extends NavigationView implements IMVPCDelegat
     @Override
     public void showError(Error error) {
         Log.d(TAG, "showError()");
+    }
+
+    public void setOnMountPointSelected(OnMountPointSelected onMountPointSelectedListener) {
+        mOnMountPointSelected = onMountPointSelectedListener;
     }
 
     public void onMountPointSelect(int itemId) {

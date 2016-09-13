@@ -11,7 +11,6 @@ import corp.wmsoft.android.lib.filemanager.IFileManagerEvent;
 import corp.wmsoft.android.lib.filemanager.interactors.GetMountPoints;
 import corp.wmsoft.android.lib.filemanager.models.FileSystemObject;
 import corp.wmsoft.android.lib.filemanager.models.MountPoint;
-import corp.wmsoft.android.lib.filemanager.ui.widgets.nav.IFileManagerViewContract;
 import corp.wmsoft.android.lib.filemanager.util.FileHelper;
 import corp.wmsoft.android.lib.mvpc.presenter.MVPCPresenter;
 import rx.Subscriber;
@@ -34,9 +33,6 @@ public class MountPointsViewPresenter extends MVPCPresenter<IMountPointsViewCont
     private List<MountPoint> mMountPoints;
     /**/
     private int mSelectedMountPointId = 0;
-    /**/
-    private IFileManagerViewContract.Presenter mFMPresenter;
-
 
 
     public MountPointsViewPresenter(
@@ -69,11 +65,6 @@ public class MountPointsViewPresenter extends MVPCPresenter<IMountPointsViewCont
     public void onSelectMountPoint(int mountPointId) {
         mSelectedMountPointId = mountPointId;
         selectMountPoint();
-    }
-
-    @Override
-    public void onLinkToFileManagerView(IFileManagerViewContract.Presenter presenter) {
-        mFMPresenter = presenter;
     }
 
     private void loadMountPoints() {
@@ -111,22 +102,15 @@ public class MountPointsViewPresenter extends MVPCPresenter<IMountPointsViewCont
             }
         }
 
+        selectMountPoint();
     }
 
     private void selectMountPoint() {
-        getView().selectMountPoint(mSelectedMountPointId);
-        // if file manager view linked - then - send select event to it
-        if (mFMPresenter != null) {
-            FileSystemObject fso = null;
-            for (MountPoint mp : mMountPoints) {
-                if (mp.getId() == mSelectedMountPointId) {
-                    fso = FileHelper.createFileSystemObject(new File(mp.getPath()));
-                    break;
-                }
+        for (MountPoint mp : mMountPoints) {
+            if (mp.getId() == mSelectedMountPointId) {
+                getView().selectMountPoint(mp);
+                return;
             }
-
-            if (fso != null)
-                mFMPresenter.onFSOPicked(fso);
         }
     }
 }

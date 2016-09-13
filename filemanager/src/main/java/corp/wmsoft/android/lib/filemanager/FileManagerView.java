@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
 
+import corp.wmsoft.android.lib.filemanager.models.FileSystemObject;
 import corp.wmsoft.android.lib.filemanager.ui.widgets.nav.FileManagerViewInternal;
 import corp.wmsoft.android.lib.filemanager.ui.widgets.nav.IFileManagerViewContract;
 import corp.wmsoft.android.lib.filemanager.ui.widgets.nav.IOnFileManagerEventListener;
@@ -33,8 +34,8 @@ public class FileManagerView extends FrameLayout {
         init(context);
     }
 
-    public IFileManagerViewContract.Presenter getLink() {
-        return mFileManagerViewInternal.getLink();
+    public void open(FileSystemObject fso) {
+        this.mFileManagerViewInternal.open(fso);
     }
 
     /**

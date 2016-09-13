@@ -25,7 +25,9 @@ import corp.wmsoft.android.lib.filemanager.IFileManagerEvent;
 import corp.wmsoft.android.lib.filemanager.IFileManagerFileTimeFormat;
 import corp.wmsoft.android.lib.filemanager.IFileManagerNavigationMode;
 import corp.wmsoft.android.lib.filemanager.IFileManagerSortMode;
+import corp.wmsoft.android.lib.filemanager.models.MountPoint;
 import corp.wmsoft.android.lib.filemanager.ui.widgets.nav.IOnFileManagerEventListener;
+import corp.wmsoft.android.lib.filemanager.util.FileHelper;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -56,6 +58,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             }
         });
+        mCustomNavigationView.setOnMountPointSelected(new CustomNavigationView.OnMountPointSelected() {
+            @Override
+            public void onMountPointSelected(MountPoint mountPoint) {
+                mFileManagerView.open(FileHelper.createFileSystemObject(mountPoint.getPath()));
+            }
+        });
 
         mFileManagerView = (FileManagerView) findViewById(R.id.file_manager_view);
         mFileManagerView.setOnFileManagerEventListener(new IOnFileManagerEventListener() {
@@ -66,8 +74,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             }
         });
-
-        mCustomNavigationView.linkToFileManagerView(mFileManagerView.getLink());
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
