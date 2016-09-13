@@ -1,6 +1,7 @@
 package corp.wmsoft.android.lib.filemanager.interactors;
 
 import android.content.Context;
+import android.os.Environment;
 import android.os.storage.StorageVolume;
 import android.support.annotation.NonNull;
 
@@ -37,6 +38,12 @@ public class GetMountPoints extends MVPCUseCase<GetMountPoints.RequestValues, Li
                     @Override
                     public Observable<MountPoint> call(StorageVolume storageVolume) {
                         return Mapper.map(storageVolume);
+                    }
+                })
+                .filter(new Func1<MountPoint, Boolean>() {
+                    @Override
+                    public Boolean call(MountPoint mountPoint) {
+                        return mountPoint.getState().equals(Environment.MEDIA_MOUNTED);
                     }
                 })
                 .toList();

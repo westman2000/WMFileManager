@@ -2,6 +2,8 @@ package corp.wmsoft.android.lib.filemanager.ui.widgets.nav;
 
 import android.annotation.SuppressLint;
 import android.os.Environment;
+import android.os.FileObserver;
+import android.os.Handler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,12 +39,21 @@ public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewCont
     private final GetFSOList mGetFSOList;
     private final GetMountPoints mGetMountPoints;
     /**/
+    private static final int FILE_OBSERVER_MASK = FileObserver.CREATE
+            | FileObserver.DELETE | FileObserver.DELETE_SELF
+            | FileObserver.MOVED_FROM | FileObserver.MOVED_TO
+            | FileObserver.MODIFY | FileObserver.MOVE_SELF;
+    /**/
+    private FileObserver mFileObserver;
+    /**/
     private List<FileSystemObject> mFiles;
     /**/
     @IFileManagerNavigationMode
     private int mCurrentMode;
     /**/
     private String mCurrentDir;
+    /* we need Handler because FileObserver send events in worker thread */
+    private Handler mHandler;
 
 
     public FileManagerViewPresenter(
@@ -54,6 +65,8 @@ public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewCont
 
         //Initialize variables
         this.mFiles = new ArrayList<>();
+
+        mHandler = new Handler();
     }
 
     @Override
@@ -61,6 +74,13 @@ public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewCont
         super.attachView(mvpView);
         getView().showLoading();
         getView().sendEvent(IFileManagerEvent.NEED_EXTERNAL_STORAGE_PERMISSION);
+    }
+
+    @Override
+    public void onDestroyed() {
+        super.onDestroyed();
+        releaseFileObserver();
+
     }
 
     @IFileManagerNavigationMode
@@ -247,6 +267,22 @@ public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewCont
 
         getView().setData(mFiles);
 
+        releaseFileObserver();
+        mFileObserver = new FileObserver(mCurrentDir, FILE_OBSERVER_MASK) {
+            @Override
+            public void onEvent(int event, String path) {
+                int newEvent = event & FileObserver.ALL_EVENTS;
+                if (path != null && newEvent > 0)
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            loadFSOList();
+                        }
+                    });
+            }
+        };
+        mFileObserver.startWatching();
+
         // TODO - Add to history?
         // TODO - Change the breadcrumb
         // TODO - The current directory is now the "newDir"
@@ -255,4 +291,10 @@ public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewCont
         getView().hideLoading();
     }
 
+    private void releaseFileObserver() {
+        if (mFileObserver != null) {
+            mFileObserver.stopWatching();
+            mFileObserver = null;
+        }
+    }
 }

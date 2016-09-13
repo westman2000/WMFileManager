@@ -1,6 +1,10 @@
 package corp.wmsoft.android.lib.filemanager.ui.widgets.mp;
 
 import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.util.Log;
 
 import java.io.File;
@@ -8,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import corp.wmsoft.android.lib.filemanager.IFileManagerEvent;
+import corp.wmsoft.android.lib.filemanager.WMFileManager;
 import corp.wmsoft.android.lib.filemanager.interactors.GetMountPoints;
 import corp.wmsoft.android.lib.filemanager.models.FileSystemObject;
 import corp.wmsoft.android.lib.filemanager.models.MountPoint;
@@ -33,6 +38,8 @@ public class MountPointsViewPresenter extends MVPCPresenter<IMountPointsViewCont
     private List<MountPoint> mMountPoints;
     /**/
     private int mSelectedMountPointId = 0;
+    /**/
+    private BroadcastReceiver mUnMountReceiver = null;
 
 
     public MountPointsViewPresenter(
@@ -41,6 +48,8 @@ public class MountPointsViewPresenter extends MVPCPresenter<IMountPointsViewCont
         Log.d(TAG, "MountPointsViewPresenter()");
 
         this.mGetMountPoints = getMountPoints;
+
+        registerExternalStorageListener();
     }
 
     @Override
@@ -54,6 +63,12 @@ public class MountPointsViewPresenter extends MVPCPresenter<IMountPointsViewCont
     }
 
     @Override
+    public void onDestroyed() {
+        super.onDestroyed();
+        unRegisterExternalStorageListener();
+    }
+
+    @Override
     public void onExternalStoragePermissionsGranted() {
         if (mMountPoints == null)
             loadMountPoints();
@@ -64,7 +79,7 @@ public class MountPointsViewPresenter extends MVPCPresenter<IMountPointsViewCont
     @Override
     public void onSelectMountPoint(int mountPointId) {
         mSelectedMountPointId = mountPointId;
-        selectMountPoint();
+        selectMountPoint(true);
     }
 
     private void loadMountPoints() {
@@ -102,15 +117,57 @@ public class MountPointsViewPresenter extends MVPCPresenter<IMountPointsViewCont
             }
         }
 
-        selectMountPoint();
+        selectMountPoint(false);
     }
 
-    private void selectMountPoint() {
+    private void selectMountPoint(boolean fireEvent) {
         for (MountPoint mp : mMountPoints) {
             if (mp.getId() == mSelectedMountPointId) {
-                getView().selectMountPoint(mp);
+                getView().selectMountPoint(mp, fireEvent);
                 return;
             }
+        }
+    }
+
+    private void onStorageVolumeMounted(final String mountedPath) {
+        loadMountPoints();
+    }
+
+    private void onStorageVolumeUnMounted(final String unMountedPath) {
+        loadMountPoints();
+    }
+
+    /**
+     * Registers an intent to listen for ACTION_MEDIA_EJECT notifications.
+     * The intent will call closeExternalStorageFiles() if the external media
+     * is going to be ejected, so applications can clean up any files they have open.
+     */
+    private void registerExternalStorageListener() {
+        if (mUnMountReceiver == null) {
+            mUnMountReceiver = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    String action = intent.getAction();
+                    if (action.equals(Intent.ACTION_MEDIA_EJECT)) {
+                        onStorageVolumeUnMounted(intent.getData().getPath());
+                    } else if (action.equals(Intent.ACTION_MEDIA_MOUNTED)) {
+                        onStorageVolumeMounted(intent.getData().getPath());
+                    }
+                }
+            };
+            IntentFilter iFilter = new IntentFilter();
+            iFilter.addAction(Intent.ACTION_MEDIA_EJECT);
+            iFilter.addAction(Intent.ACTION_MEDIA_MOUNTED);
+            iFilter.addDataScheme("file");
+            // TODO - to read - https://developer.android.com/guide/topics/connectivity/usb/host.html
+            WMFileManager.getApplicationContext().registerReceiver(mUnMountReceiver, iFilter);
+        }
+    }
+
+    private void unRegisterExternalStorageListener() {
+        if (mUnMountReceiver != null) {
+            WMFileManager.getApplicationContext().unregisterReceiver(mUnMountReceiver);
+            mUnMountReceiver = null;
         }
     }
 }

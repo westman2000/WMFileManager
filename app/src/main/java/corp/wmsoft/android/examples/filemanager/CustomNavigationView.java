@@ -2,6 +2,7 @@ package corp.wmsoft.android.examples.filemanager;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.Environment;
 import android.support.annotation.CallSuper;
 import android.support.design.widget.NavigationView;
 import android.support.v7.app.AppCompatActivity;
@@ -107,14 +108,14 @@ public class CustomNavigationView extends NavigationView implements IMVPCDelegat
     }
 
     @Override
-    public void selectMountPoint(MountPoint mountPoint) {
+    public void selectMountPoint(MountPoint mountPoint, boolean fireEvent) {
 
         Log.d(TAG, "selectMountPoint("+mountPoint+")");
 
         MenuItem menuItem = getMenu().findItem(mountPoint.getId());
         if (menuItem != null) {
             menuItem.setChecked(true);
-            if (mOnMountPointSelected != null)
+            if (mOnMountPointSelected != null && fireEvent)
                 mOnMountPointSelected.onMountPointSelected(mountPoint);
         }
     }
@@ -134,9 +135,13 @@ public class CustomNavigationView extends NavigationView implements IMVPCDelegat
 
         Log.d(TAG, "setData("+data+")");
 
+        getMenu().removeGroup(R.id.mount_points);
+
         for (MountPoint mountPoint : data) {
             MenuItem menuItem = getMenu().add(R.id.mount_points, mountPoint.getId(), Menu.NONE, mountPoint.getDescription()+"("+mountPoint.isPrimary()+")");
             menuItem.setIcon(mountPoint.getIconResId());
+
+            menuItem.setEnabled(mountPoint.getState().equals(Environment.MEDIA_MOUNTED));
         }
 
         getMenu().setGroupCheckable(R.id.mount_points, true, true);

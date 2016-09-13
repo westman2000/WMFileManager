@@ -21,7 +21,7 @@ public interface IMountPointsViewContract {
 
         void onExternalStoragePermissionsNotGranted();
 
-        void selectMountPoint(MountPoint mountPoint);
+        void selectMountPoint(MountPoint mountPoint, boolean fireEvent);
 
     }
 
