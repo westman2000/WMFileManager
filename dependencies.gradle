@@ -9,5 +9,5 @@ ext {
     verName = "0.0.1"
 
     supportLibVer = "24.2.1"
-    mvpcrxLibVer = "0.0.1"
+    mvpcrxLibVer = "0.0.3"
 }
