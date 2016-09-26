@@ -38,6 +38,11 @@ public class WMFileManager {
         return FileHelper.createFileSystemObject(path);
     }
 
+    /**
+     * @exclude
+     * Get application context
+     * @return application context
+     */
     public static Context getApplicationContext() {
         if (mWeakApplicationContext == null || mWeakApplicationContext.get() == null)
             throw new RuntimeException("WMFileManager not initialized! Add WMFileManager.init(Context) to Application onCreate()");
