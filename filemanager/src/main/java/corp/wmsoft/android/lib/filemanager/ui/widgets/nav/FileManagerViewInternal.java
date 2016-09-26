@@ -91,6 +91,14 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
         return 640344;
     }
 
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+
+        if (mOnFileManagerEventListener == null)
+            throw new RuntimeException("IOnFileManagerEventListener not set! Call FileManagerView.setOnFileManagerEventListener() to set listener.");
+    }
+
     /**
      * @hide
      */
