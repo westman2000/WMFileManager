@@ -1,6 +1,7 @@
 package corp.wmsoft.android.lib.filemanager;
 
 import android.support.annotation.IntDef;
+import android.support.annotation.Keep;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -22,6 +23,7 @@ import java.lang.annotation.RetentionPolicy;
         IFileManagerSortMode.TYPE_DESC
 })
 @Retention(RetentionPolicy.SOURCE)
+@Keep
 public @interface IFileManagerSortMode {
 
     /**

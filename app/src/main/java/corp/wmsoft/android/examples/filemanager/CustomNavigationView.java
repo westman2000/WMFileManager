@@ -17,10 +17,9 @@ import corp.wmsoft.android.lib.filemanager.IFileManagerEvent;
 import corp.wmsoft.android.lib.filemanager.models.MountPoint;
 import corp.wmsoft.android.lib.filemanager.ui.widgets.mp.IMountPointsViewContract;
 import corp.wmsoft.android.lib.filemanager.ui.widgets.mp.MountPointsViewPresenterFactory;
-import corp.wmsoft.android.lib.filemanager.ui.widgets.nav.IFileManagerViewContract;
 import corp.wmsoft.android.lib.filemanager.ui.widgets.nav.IOnFileManagerEventListener;
-import corp.wmsoft.android.lib.mvpc.delegate.IMVPCDelegate;
-import corp.wmsoft.android.lib.mvpc.delegate.MVPCDelegate;
+import corp.wmsoft.android.lib.mvpcrx.delegate.IMVPCDelegate;
+import corp.wmsoft.android.lib.mvpcrx.delegate.MVPCDelegate;
 
 
 /**
@@ -138,7 +137,7 @@ public class CustomNavigationView extends NavigationView implements IMVPCDelegat
         getMenu().removeGroup(R.id.mount_points);
 
         for (MountPoint mountPoint : data) {
-            MenuItem menuItem = getMenu().add(R.id.mount_points, mountPoint.getId(), Menu.NONE, mountPoint.getDescription()+"("+mountPoint.isPrimary()+")");
+            MenuItem menuItem = getMenu().add(R.id.mount_points, mountPoint.getId(), Menu.NONE, mountPoint.getDescription());
             menuItem.setIcon(mountPoint.getIconResId());
 
             menuItem.setEnabled(mountPoint.getState().equals(Environment.MEDIA_MOUNTED));

@@ -8,8 +8,8 @@ import corp.wmsoft.android.lib.filemanager.models.FileSystemObject;
 import corp.wmsoft.android.lib.filemanager.models.ParentDirectory;
 import corp.wmsoft.android.lib.filemanager.util.FileHelper;
 import corp.wmsoft.android.lib.filemanager.util.rx.RxStorageHelper;
-import corp.wmsoft.android.lib.mvpc.interactor.MVPCUseCase;
-import corp.wmsoft.android.lib.mvpc.util.IMVPCSchedulerProvider;
+import corp.wmsoft.android.lib.mvpcrx.interactor.MVPCUseCase;
+import corp.wmsoft.android.lib.mvpcrx.util.IMVPCSchedulerProvider;
 import rx.Observable;
 import rx.Subscriber;
 

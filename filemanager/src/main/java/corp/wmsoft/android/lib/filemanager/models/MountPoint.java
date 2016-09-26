@@ -1,11 +1,13 @@
 package corp.wmsoft.android.lib.filemanager.models;
 
+import android.support.annotation.Keep;
+
 import java.io.File;
 import java.util.Locale;
 import java.util.Random;
 
 import corp.wmsoft.android.lib.filemanager.R;
-import corp.wmsoft.android.lib.mvpc.viewmodel.IMVPCViewModel;
+import corp.wmsoft.android.lib.mvpcrx.viewmodel.IMVPCViewModel;
 
 /**
  * <br/>Created by WestMan2000 on 9/2/16 at 2:04 PM.<br/>
@@ -50,18 +52,22 @@ public class MountPoint implements IMVPCViewModel {
         setupIconResId();
     }
 
+    @Keep
     public int getId() {
         return mId;
     }
 
+    @Keep
     public String getPath() {
         return mPath;
     }
 
+    @Keep
     public String getDescription() {
         return mDescription;
     }
 
+    @Keep
     public int getIconResId() {
         return mIconResId;
     }
@@ -70,6 +76,7 @@ public class MountPoint implements IMVPCViewModel {
         return isPrimary;
     }
 
+    @Keep
     public String getState() {
         return mState;
     }

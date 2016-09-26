@@ -1,6 +1,7 @@
 package corp.wmsoft.android.lib.filemanager;
 
 import android.support.annotation.IntDef;
+import android.support.annotation.Keep;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 
@@ -17,6 +18,7 @@ import java.lang.annotation.RetentionPolicy;
         IFileManagerNavigationMode.DETAILS
 })
 @Retention(RetentionPolicy.SOURCE)
+@Keep
 public @interface IFileManagerNavigationMode {
 
     /**

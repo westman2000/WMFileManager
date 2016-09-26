@@ -2,9 +2,12 @@ package corp.wmsoft.android.lib.filemanager;
 
 import android.app.Application;
 import android.content.Context;
+import android.support.annotation.Keep;
 
 import java.lang.ref.WeakReference;
 
+import corp.wmsoft.android.lib.filemanager.models.FileSystemObject;
+import corp.wmsoft.android.lib.filemanager.util.FileHelper;
 import corp.wmsoft.android.lib.filemanager.util.PreferencesHelper;
 
 
@@ -17,10 +20,22 @@ public class WMFileManager {
     private static WeakReference<Context> mWeakApplicationContext;
 
 
+    @Keep
     public static void init(Application application) {
         mWeakApplicationContext = new WeakReference<>(application.getApplicationContext());
 
         PreferencesHelper.loadDefaults(application);
+    }
+
+    /**
+     * Method that creates a {@link FileSystemObject} from a path
+     *
+     * @param path The path
+     * @return FileSystemObject The file system object reference
+     */
+    @Keep
+    public static FileSystemObject createFileSystemObject(String path) {
+        return FileHelper.createFileSystemObject(path);
     }
 
     public static Context getApplicationContext() {

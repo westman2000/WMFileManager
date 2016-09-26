@@ -1,46 +1,35 @@
 apply plugin: 'com.android.library'
 
-apply from: 'variables.gradle'
-
 android {
-    compileSdkVersion setup.compileSdk
-    buildToolsVersion setup.buildTools
+
+    compileSdkVersion compileSdkVer
+    buildToolsVersion buildToolsVer
 
     defaultConfig {
-        minSdkVersion setup.minSdk
-        targetSdkVersion setup.targetSdk
-        versionCode setup.verCode
-        versionName setup.verName
+        minSdkVersion minSdkVer
+        targetSdkVersion targetSdkVer
+        versionCode verCode
+        versionName verName
     }
+
     buildTypes {
-        release {
+        debug {
             minifyEnabled false
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        release {
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 }
 
-buildscript {
-    dependencies {
-        repositories {
-            jcenter()
-            mavenCentral()
-        }
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.1'
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
-    }
-}
-
 dependencies {
     // android framework
-    compile "com.android.support:appcompat-v7:${versions.supportLib}"
-    compile "com.android.support:recyclerview-v7:${versions.supportLib}"
+    compile "com.android.support:recyclerview-v7:$supportLibVer"
 
     // mvp-clean-rx
-    compile "corp.wmsoft.android.lib:mvpcandroid:${versions.mvpcandroid}"
+    compile "corp.wmsoft.android.lib:mvpc_rx:$mvpcrxLibVer"
 }
-
-
-// HOWTO
-// http://code.tutsplus.com/tutorials/creating-and-publishing-an-android-library--cms-24582
-

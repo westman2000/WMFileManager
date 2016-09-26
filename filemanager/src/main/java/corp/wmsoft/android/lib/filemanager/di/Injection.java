@@ -3,8 +3,8 @@ package corp.wmsoft.android.lib.filemanager.di;
 import corp.wmsoft.android.lib.filemanager.WMFileManager;
 import corp.wmsoft.android.lib.filemanager.interactors.GetFSOList;
 import corp.wmsoft.android.lib.filemanager.interactors.GetMountPoints;
-import corp.wmsoft.android.lib.mvpc.util.IMVPCSchedulerProvider;
-import corp.wmsoft.android.lib.mvpc.util.MVPCSchedulerProvider;
+import corp.wmsoft.android.lib.mvpcrx.util.IMVPCSchedulerProvider;
+import corp.wmsoft.android.lib.mvpcrx.util.MVPCSchedulerProvider;
 
 
 /**

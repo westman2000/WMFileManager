@@ -14,10 +14,8 @@ import java.util.List;
 import corp.wmsoft.android.lib.filemanager.IFileManagerEvent;
 import corp.wmsoft.android.lib.filemanager.WMFileManager;
 import corp.wmsoft.android.lib.filemanager.interactors.GetMountPoints;
-import corp.wmsoft.android.lib.filemanager.models.FileSystemObject;
 import corp.wmsoft.android.lib.filemanager.models.MountPoint;
-import corp.wmsoft.android.lib.filemanager.util.FileHelper;
-import corp.wmsoft.android.lib.mvpc.presenter.MVPCPresenter;
+import corp.wmsoft.android.lib.mvpcrx.presenter.MVPCPresenter;
 import rx.Subscriber;
 
 

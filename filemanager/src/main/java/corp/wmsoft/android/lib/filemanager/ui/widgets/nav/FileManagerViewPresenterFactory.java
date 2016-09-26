@@ -1,7 +1,7 @@
 package corp.wmsoft.android.lib.filemanager.ui.widgets.nav;
 
 import corp.wmsoft.android.lib.filemanager.di.Injection;
-import corp.wmsoft.android.lib.mvpc.presenter.factory.IMVPCPresenterFactory;
+import corp.wmsoft.android.lib.mvpcrx.presenter.factory.IMVPCPresenterFactory;
 
 
 /**

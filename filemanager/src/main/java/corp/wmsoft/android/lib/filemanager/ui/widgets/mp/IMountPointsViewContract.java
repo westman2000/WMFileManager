@@ -1,11 +1,13 @@
 package corp.wmsoft.android.lib.filemanager.ui.widgets.mp;
 
+import android.support.annotation.Keep;
+
 import java.util.List;
 
 import corp.wmsoft.android.lib.filemanager.IFileManagerEvent;
 import corp.wmsoft.android.lib.filemanager.models.MountPoint;
-import corp.wmsoft.android.lib.mvpc.presenter.IMVPCPresenter;
-import corp.wmsoft.android.lib.mvpc.view.IMVPCDelayedDataView;
+import corp.wmsoft.android.lib.mvpcrx.presenter.IMVPCPresenter;
+import corp.wmsoft.android.lib.mvpcrx.view.IMVPCDelayedDataView;
 
 
 /**
@@ -13,6 +15,7 @@ import corp.wmsoft.android.lib.mvpc.view.IMVPCDelayedDataView;
  */
 public interface IMountPointsViewContract {
 
+    @Keep
     interface View extends IMVPCDelayedDataView<List<MountPoint>> {
 
         void sendEvent(@IFileManagerEvent int event);
@@ -25,6 +28,7 @@ public interface IMountPointsViewContract {
 
     }
 
+    @Keep
     interface Presenter extends IMVPCPresenter<View> {
 
         void onExternalStoragePermissionsGranted();

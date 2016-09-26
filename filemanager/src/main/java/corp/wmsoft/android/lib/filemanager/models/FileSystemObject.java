@@ -6,7 +6,7 @@ import java.util.Date;
 
 import corp.wmsoft.android.lib.filemanager.R;
 import corp.wmsoft.android.lib.filemanager.util.FileHelper;
-import corp.wmsoft.android.lib.mvpc.viewmodel.IMVPCViewModel;
+import corp.wmsoft.android.lib.mvpcrx.viewmodel.IMVPCViewModel;
 
 
 /**
