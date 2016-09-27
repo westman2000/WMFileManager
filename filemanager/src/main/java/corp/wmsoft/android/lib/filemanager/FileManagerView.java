@@ -7,7 +7,6 @@ import android.widget.FrameLayout;
 
 import corp.wmsoft.android.lib.filemanager.models.FileSystemObject;
 import corp.wmsoft.android.lib.filemanager.ui.widgets.nav.FileManagerViewInternal;
-import corp.wmsoft.android.lib.filemanager.ui.widgets.nav.IOnFileManagerEventListener;
 
 
 /**
@@ -134,6 +133,7 @@ public class FileManagerView extends FrameLayout {
     public int getSortMode() {
         return mFileManagerViewInternal.getSortMode();
     }
+
 
     private void init(Context context) {
         this.mFileManagerViewInternal = new FileManagerViewInternal(context);

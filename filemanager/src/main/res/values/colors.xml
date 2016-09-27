@@ -4,4 +4,7 @@
     <!-- A black color with some transparency -->
     <color name="black_transparent">#99000000</color>
 
+    <color name="colorPrimary">#015360</color>
+    <color name="colorAccent">#33bc14</color>
+
 </resources>

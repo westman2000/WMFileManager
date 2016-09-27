@@ -16,6 +16,7 @@ import corp.wmsoft.android.lib.filemanager.IFileManagerEvent;
 import corp.wmsoft.android.lib.filemanager.IFileManagerFileTimeFormat;
 import corp.wmsoft.android.lib.filemanager.IFileManagerNavigationMode;
 import corp.wmsoft.android.lib.filemanager.IFileManagerSortMode;
+import corp.wmsoft.android.lib.filemanager.IOnFileManagerEventListener;
 import corp.wmsoft.android.lib.filemanager.R;
 import corp.wmsoft.android.lib.filemanager.adapters.FileSystemObjectAdapter;
 import corp.wmsoft.android.lib.filemanager.util.DividerItemDecoration;
@@ -97,6 +98,15 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
 
         if (mOnFileManagerEventListener == null)
             throw new RuntimeException("IOnFileManagerEventListener not set! Call FileManagerView.setOnFileManagerEventListener() to set listener.");
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+
+        mOnFileManagerEventListener = null;
+        mOnFilePickedListener = null;
+        mOnDirectoryChangedListener = null;
     }
 
     /**

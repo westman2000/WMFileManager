@@ -1,5 +1,6 @@
 package corp.wmsoft.android.lib.filemanager.models;
 
+import android.os.Environment;
 import android.support.annotation.Keep;
 
 import java.io.File;
@@ -74,6 +75,11 @@ public class MountPoint implements IMVPCViewModel {
 
     public boolean isPrimary() {
         return isPrimary;
+    }
+
+    @Keep
+    public boolean isMounted() {
+        return mState.equals(Environment.MEDIA_MOUNTED);
     }
 
     @Keep

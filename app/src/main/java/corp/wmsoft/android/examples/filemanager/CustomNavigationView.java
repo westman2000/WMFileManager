@@ -14,17 +14,21 @@ import android.view.MenuItem;
 import java.util.List;
 
 import corp.wmsoft.android.lib.filemanager.IFileManagerEvent;
+import corp.wmsoft.android.lib.filemanager.IOnMountPointSelected;
 import corp.wmsoft.android.lib.filemanager.models.MountPoint;
 import corp.wmsoft.android.lib.filemanager.ui.widgets.mp.IMountPointsViewContract;
 import corp.wmsoft.android.lib.filemanager.ui.widgets.mp.MountPointsViewPresenterFactory;
-import corp.wmsoft.android.lib.filemanager.ui.widgets.nav.IOnFileManagerEventListener;
+import corp.wmsoft.android.lib.filemanager.IOnFileManagerEventListener;
 import corp.wmsoft.android.lib.mvpcrx.delegate.IMVPCDelegate;
 import corp.wmsoft.android.lib.mvpcrx.delegate.MVPCDelegate;
 
 
 /**
  * <br/>Created by WestMan2000 on 9/12/16 at 12:07 PM.<br/>
+ *
+ * @deprecated - just as an example how to create custom MountPointView
  */
+@Deprecated
 @SuppressLint("LongLogTag")
 public class CustomNavigationView extends NavigationView implements IMVPCDelegate.ICallback<IMountPointsViewContract.View, IMountPointsViewContract.Presenter>, IMountPointsViewContract.View {
 
@@ -37,16 +41,7 @@ public class CustomNavigationView extends NavigationView implements IMVPCDelegat
     /**/
     private IOnFileManagerEventListener mOnFileManagerEventListener;
     /**/
-    private OnMountPointSelected mOnMountPointSelected;
-
-
-
-    public interface OnMountPointSelected {
-
-        void onMountPointSelected(MountPoint mountPoint);
-
-    }
-
+    private IOnMountPointSelected mOnMountPointSelected;
 
 
     public CustomNavigationView(Context context) {
@@ -161,7 +156,7 @@ public class CustomNavigationView extends NavigationView implements IMVPCDelegat
         Log.d(TAG, "showError()");
     }
 
-    public void setOnMountPointSelected(OnMountPointSelected onMountPointSelectedListener) {
+    public void setOnMountPointSelected(IOnMountPointSelected onMountPointSelectedListener) {
         mOnMountPointSelected = onMountPointSelectedListener;
     }
 

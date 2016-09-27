@@ -25,9 +25,11 @@ import corp.wmsoft.android.lib.filemanager.IFileManagerEvent;
 import corp.wmsoft.android.lib.filemanager.IFileManagerFileTimeFormat;
 import corp.wmsoft.android.lib.filemanager.IFileManagerNavigationMode;
 import corp.wmsoft.android.lib.filemanager.IFileManagerSortMode;
+import corp.wmsoft.android.lib.filemanager.MountPointView;
 import corp.wmsoft.android.lib.filemanager.WMFileManager;
 import corp.wmsoft.android.lib.filemanager.models.MountPoint;
-import corp.wmsoft.android.lib.filemanager.ui.widgets.nav.IOnFileManagerEventListener;
+import corp.wmsoft.android.lib.filemanager.IOnFileManagerEventListener;
+import corp.wmsoft.android.lib.filemanager.IOnMountPointSelected;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -37,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private static final int MP_PERMISSIONS_REQUEST = 456;
     /**/
     private FileManagerView mFileManagerView;
-    private CustomNavigationView mCustomNavigationView;
+    private MountPointView mMountPointView;
 
 
     @Override
@@ -48,9 +50,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        mCustomNavigationView = (CustomNavigationView) findViewById(R.id.nav_view);
-        mCustomNavigationView.setNavigationItemSelectedListener(this);
-        mCustomNavigationView.setOnFileManagerEventListener(new IOnFileManagerEventListener() {
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        mMountPointView = (MountPointView) findViewById(R.id.mount_points_view);
+        mMountPointView.setOnFileManagerEventListener(new IOnFileManagerEventListener() {
             @Override
             public void onFileManagerEvent(@IFileManagerEvent int event) {
                 if (event == IFileManagerEvent.NEED_EXTERNAL_STORAGE_PERMISSION) {
@@ -58,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             }
         });
-        mCustomNavigationView.setOnMountPointSelected(new CustomNavigationView.OnMountPointSelected() {
+        mMountPointView.setOnMountPointSelected(new IOnMountPointSelected() {
             @Override
             public void onMountPointSelected(MountPoint mountPoint) {
                 mFileManagerView.open(WMFileManager.createFileSystemObject(mountPoint.getPath()));
@@ -224,9 +228,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
-        mCustomNavigationView.onMountPointSelect(id);
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -245,9 +246,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (requestCode == MP_PERMISSIONS_REQUEST) {
             // We have requested multiple permissions for storage, so all of them need to be checked.
             if (verifyPermissions(grantResults)) {
-                mCustomNavigationView.onExternalStoragePermissionsGranted();
+                mMountPointView.onExternalStoragePermissionsGranted();
             } else {
-                mCustomNavigationView.onExternalStoragePermissionsNotGranted();
+                mMountPointView.onExternalStoragePermissionsNotGranted();
             }
         } else {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -333,7 +334,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         MP_PERMISSIONS_REQUEST);
             }
         } else {
-            mCustomNavigationView.onExternalStoragePermissionsGranted();
+            mMountPointView.onExternalStoragePermissionsGranted();
         }
     }
 
