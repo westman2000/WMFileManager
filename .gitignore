@@ -39,7 +39,6 @@ captures/
 *.ipr
 *.iws
 out
-*.properties
 
 # Keystore files
 *.jks

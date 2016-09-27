@@ -54,12 +54,35 @@
     <!-- Navigation View - View - Show hidden files option -->
     <string name="cm_filemanager_show_hidden">Відображати приховані файли</string>
 
+    <!-- Mime/Types - Folder -->
+    <string name="mime_folder">Папка</string>
+    <!-- Mime/Types - Unknown -->
+    <string name="mime_unknown">Невідомо</string>
+
     <!--  Filetime formats -->
     <string name="filetime_format_mode_system">Системний</string>
     <string name="filetime_format_mode_locale">Регіональний</string>
     <string name="filetime_format_mode_ddMMyyyy_HHmmss">дд/мм/рррр гг:хх:ss</string>
     <string name="filetime_format_mode_MMddyyyy_HHmmss">мм/дд/рррр гг:хх:сс</string>
     <string name="filetime_format_mode_yyyyMMdd_HHmmss">рррр-мм-дд гг:хх:сс</string>
+
+    <!-- Category descriptions -->
+    <string name="category_system">СИСТЕМА</string>
+    <string name="category_app">ДОДАТОК</string>
+    <string name="category_binary">ДВІЙКОВИЙ</string>
+    <string name="category_text">ТЕКСТ</string>
+    <string name="category_document">ДОКУМЕНТ</string>
+    <string name="category_ebook">ЕЛ. КНИГА</string>
+    <string name="category_mail">ПОШТА</string>
+    <string name="category_compress">СТИСНЕНИЙ</string>
+    <string name="category_exec">ВИКОН. ФАЙЛ</string>
+    <string name="category_database">БАЗА ДАНИХ</string>
+    <string name="category_font">ШРИФТ</string>
+    <string name="category_image">ЗОБРАЖЕННЯ</string>
+    <string name="category_audio">АУДІО</string>
+    <string name="category_video">ВІДЕО</string>
+    <string name="category_security">ЗАХИСТ</string>
+    <string name="category_all">ВСІ</string>
 
     <!-- Preferences - General - Filetime format mode title -->
     <string name="pref_filetime_format_mode">Формат дати\часу</string>

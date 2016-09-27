@@ -27,6 +27,14 @@ import corp.wmsoft.android.lib.filemanager.models.RegularFile;
 public class FileHelper {
 
     /**
+     * Special extension for compressed tar files
+     */
+    private static final String[] COMPRESSED_TAR =
+    {
+        "tar.gz", "tar.bz2", "tar.lzma"
+    };
+
+    /**
      * The root directory.
      * @hide
      */
@@ -316,5 +324,55 @@ public class FileHelper {
 
         //Comparison between files directly
         return fso1.compareTo(fso2);
+    }
+
+    /**
+     * Method that returns the extension of a file system object.
+     *
+     * @param fso The file system object
+     * @return The extension of the file system object, or <code>null</code>
+     * if <code>fso</code> has no extension.
+     */
+    public static String getExtension(FileSystemObject fso) {
+        return getExtension(fso.getName());
+    }
+
+    /**
+     * Method that returns the extension of a file system object.
+     *
+     * @param name The name of file system object
+     * @return The extension of the file system object, or <code>null</code>
+     * if <code>fso</code> has no extension.
+     */
+    public static String getExtension(String name) {
+        final char dot = '.';
+        int pos = name.lastIndexOf(dot);
+        if (pos == -1 || pos == 0) { // Hidden files doesn't have extensions
+            return null;
+        }
+
+        // Exceptions to the general extraction method
+        int cc = COMPRESSED_TAR.length;
+        for (int i = 0; i < cc; i++) {
+            if (name.endsWith("." + COMPRESSED_TAR[i])) { //$NON-NLS-1$
+                return COMPRESSED_TAR[i];
+            }
+        }
+
+        // General extraction method
+        return name.substring(pos + 1);
+    }
+
+    /**
+     * Method that checks if a file system object is a directory (real o symlink).
+     *
+     * @param fso The file system object to check
+     * @return boolean If file system object is a directory
+     */
+    public static boolean isDirectory(FileSystemObject fso) {
+        if (fso instanceof Directory) {
+            return true;
+        }
+        return false;
     }
 }

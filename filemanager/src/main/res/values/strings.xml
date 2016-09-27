@@ -64,10 +64,33 @@
     <!-- Preferences - General - Filetime format mode title -->
     <string name="pref_filetime_format_mode">Date/time format</string>
 
+    <!-- Mime/Types - Folder -->
+    <string name="mime_folder">Folder</string>
+    <!-- Mime/Types - Unknown -->
+    <string name="mime_unknown">Unknown</string>
+
     <!--  Filetime formats -->
     <string name="filetime_format_mode_ddMMyyyy_HHmmss_internal" translatable="false">dd/MM/yyyy HH:mm:ss</string>
     <string name="filetime_format_mode_MMddyyyy_HHmmss_internal" translatable="false">MM/dd/yyyy HH:mm:ss</string>
     <string name="filetime_format_mode_yyyyMMdd_HHmmss_internal" translatable="false">yyyy-MM-dd HH:mm:ss</string>
+
+    <!-- Category descriptions -->
+    <string name="category_system">SYSTEM</string>
+    <string name="category_app">APP</string>
+    <string name="category_binary">BINARY</string>
+    <string name="category_text">TEXT</string>
+    <string name="category_document">DOCUMENT</string>
+    <string name="category_ebook">EBOOK</string>
+    <string name="category_mail">MAIL</string>
+    <string name="category_compress">COMPRESS</string>
+    <string name="category_exec">EXECUTABLE</string>
+    <string name="category_database">DATABASE</string>
+    <string name="category_font">FONT</string>
+    <string name="category_image">IMAGE</string>
+    <string name="category_audio">AUDIO</string>
+    <string name="category_video">VIDEO</string>
+    <string name="category_security">SECURITY</string>
+    <string name="category_all">ALL</string>
 
     <!-- Strings related to Settings -->
     <string name="pref_key_filetime_format" translatable="false">pref_key_filetime_format</string>

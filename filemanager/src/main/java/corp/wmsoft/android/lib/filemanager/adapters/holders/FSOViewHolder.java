@@ -9,6 +9,7 @@ import corp.wmsoft.android.lib.filemanager.R;
 import corp.wmsoft.android.lib.filemanager.models.FileSystemObject;
 import corp.wmsoft.android.lib.filemanager.models.ParentDirectory;
 import corp.wmsoft.android.lib.filemanager.util.FileHelper;
+import corp.wmsoft.android.lib.filemanager.util.MimeTypeHelper;
 
 
 /**
@@ -18,18 +19,18 @@ import corp.wmsoft.android.lib.filemanager.util.FileHelper;
 public class FSOViewHolder extends RecyclerView.ViewHolder {
 
     //The resource of the item icon
-    protected static final int RESOURCE_ITEM_ICON    = R.id.navigation_view_item_icon;
+    private static final int RESOURCE_ITEM_ICON    = R.id.navigation_view_item_icon;
     //The resource of the item name
-    protected static final int RESOURCE_ITEM_NAME    = R.id.navigation_view_item_name;
+    private static final int RESOURCE_ITEM_NAME    = R.id.navigation_view_item_name;
     //The resource of the item summary information
-    protected static final int RESOURCE_ITEM_SUMMARY = R.id.navigation_view_item_summary;
+    private static final int RESOURCE_ITEM_SUMMARY = R.id.navigation_view_item_summary;
     //The resource of the item size information
-    protected static final int RESOURCE_ITEM_SIZE    = R.id.navigation_view_item_size;
+    private static final int RESOURCE_ITEM_SIZE    = R.id.navigation_view_item_size;
 
-    protected ImageView mIvIcon;
-    protected TextView  mTvName;
-    protected TextView  mTvSummary;
-    protected TextView  mTvSize;
+    private ImageView mIvIcon;
+    private TextView  mTvName;
+    private TextView  mTvSummary;
+    private TextView  mTvSize;
 
 
     public FSOViewHolder(View itemView) {
@@ -42,7 +43,9 @@ public class FSOViewHolder extends RecyclerView.ViewHolder {
 
     public void bind(FileSystemObject fso) {
 
-        mIvIcon.setImageResource(fso.getResourceIconId());
+        int iconResId = MimeTypeHelper.getIcon(mIvIcon.getContext(), fso, true);
+
+        mIvIcon.setImageResource(iconResId);
 
         mIvIcon.setAlpha(fso.isHidden() ? 0.3f : 1.0f);
 
