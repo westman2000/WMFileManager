@@ -24,7 +24,6 @@
         android:id="@+id/navigation_view_item_icon"
         android:layout_width="@dimen/default_row_height"
         android:layout_height="@dimen/default_row_height"
-        android:scaleType="centerCrop"
         android:contentDescription="@null"
         android:gravity="center|center_vertical"
         android:layout_centerHorizontal="true"

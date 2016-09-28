@@ -315,6 +315,8 @@ public final class MimeTypeHelper {
     }
 
     /**
+     * TODO - как то странно работает сортировка... лучше наверно переделать ее - сортировать по разрешениям
+     *
      * Method that compares {@link FileSystemObject} by MimeTypeCategory
      *
      * @param context The current context

@@ -1,5 +1,6 @@
 package corp.wmsoft.android.lib.filemanager.adapters.holders;
 
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -9,6 +10,7 @@ import corp.wmsoft.android.lib.filemanager.R;
 import corp.wmsoft.android.lib.filemanager.models.FileSystemObject;
 import corp.wmsoft.android.lib.filemanager.models.ParentDirectory;
 import corp.wmsoft.android.lib.filemanager.util.FileHelper;
+import corp.wmsoft.android.lib.filemanager.util.IconsHelper;
 import corp.wmsoft.android.lib.filemanager.util.MimeTypeHelper;
 
 
@@ -44,8 +46,8 @@ public class FSOViewHolder extends RecyclerView.ViewHolder {
     public void bind(FileSystemObject fso) {
 
         int iconResId = MimeTypeHelper.getIcon(mIvIcon.getContext(), fso, true);
-
-        mIvIcon.setImageResource(iconResId);
+        Drawable drawable = IconsHelper.getDrawable(iconResId);
+        IconsHelper.loadDrawable(mIvIcon, fso, drawable);
 
         mIvIcon.setAlpha(fso.isHidden() ? 0.3f : 1.0f);
 

@@ -18,14 +18,17 @@ public class FixedSizeImageView extends AppCompatImageView {
 
     public FixedSizeImageView(Context context) {
         super(context);
+        this.setScaleType(ScaleType.FIT_XY); // for fix bug https://code.google.com/p/android/issues/detail?id=202019
     }
 
     public FixedSizeImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        this.setScaleType(ScaleType.FIT_XY); // for fix bug https://code.google.com/p/android/issues/detail?id=202019
     }
 
     public FixedSizeImageView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+        this.setScaleType(ScaleType.FIT_XY); // for fix bug https://code.google.com/p/android/issues/detail?id=202019
     }
 
     public void setImageResource(int resId) {

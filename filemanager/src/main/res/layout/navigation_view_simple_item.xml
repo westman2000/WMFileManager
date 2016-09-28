@@ -12,7 +12,6 @@
         android:layout_width="@dimen/default_row_height"
         android:layout_height="@dimen/default_row_height"
         android:layout_gravity="center_vertical"
-        android:scaleType="centerCrop"
         android:contentDescription="@null"
         android:src="@drawable/ic_fso_default_24dp"/>
 
@@ -26,7 +25,7 @@
         android:layout_marginEnd="@dimen/extra_margin"
         android:layout_marginRight="@dimen/extra_margin"
         android:gravity="start|center_vertical"
-        android:singleLine="true"
+        android:maxLines="1"
         android:ellipsize="middle"
         android:textAppearance="@style/primary_text_appearance"/>
 
