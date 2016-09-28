@@ -112,14 +112,12 @@
                     android:id="@+id/action_sort_by_type_asc"
                     android:orderInCategory="206"
                     android:title="@string/sort_by_type_asc"
-                    android:enabled="false"
                     app:showAsAction="never" />
 
                 <item
                     android:id="@+id/action_sort_by_type_desc"
                     android:orderInCategory="207"
                     android:title="@string/sort_by_type_desc"
-                    android:enabled="false"
                     app:showAsAction="never" />
 
             </group>

@@ -311,16 +311,16 @@ public class FileHelper {
             return Long.valueOf(fso1.getSize()).compareTo(fso2.getSize()) * -1;
         }
 
-//        //Type (ascending)
-//        if (mode == IFileManagerSortMode.TYPE_ASC) {
-//            // Shouldn't need context here, mimetypes should be loaded
-//            return MimeTypeHelper.compareFSO(null, fso1, fso2);
-//        }
-//        //Type (descending)
-//        if (mode == IFileManagerSortMode.TYPE_DESC) {
-//            // Shouldn't need context here, mimetypes should be loaded
-//            return MimeTypeHelper.compareFSO(null, fso1, fso2) * -1;
-//        }
+        //Type (ascending)
+        if (mode == IFileManagerSortMode.TYPE_ASC) {
+            // Shouldn't need context here, mimetypes should be loaded
+            return MimeTypeHelper.compareFSO(null, fso1, fso2);
+        }
+        //Type (descending)
+        if (mode == IFileManagerSortMode.TYPE_DESC) {
+            // Shouldn't need context here, mimetypes should be loaded
+            return MimeTypeHelper.compareFSO(null, fso1, fso2) * -1;
+        }
 
         //Comparison between files directly
         return fso1.compareTo(fso2);
