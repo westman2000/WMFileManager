@@ -281,6 +281,20 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
     /**
      * @public
      */
+    public boolean isShowThumbs() {
+        return getPresenter().isShowThumbs();
+    }
+
+    /**
+     * @public
+     */
+    public void setShowThumbs(boolean isShowThumbs) {
+        getPresenter().setShowThumbs(isShowThumbs);
+    }
+
+    /**
+     * @public
+     */
     public void setSortMode(@IFileManagerSortMode int mode) {
         getPresenter().setSortMode(mode);
     }

@@ -122,6 +122,20 @@ public class FileManagerView extends FrameLayout {
     /**
      *
      */
+    public boolean isShowThumbs() {
+        return mFileManagerViewInternal.isShowThumbs();
+    }
+
+    /**
+     *
+     */
+    public void setShowThumbs(boolean isShowThumbs) {
+        mFileManagerViewInternal.setShowThumbs(isShowThumbs);
+    }
+
+    /**
+     *
+     */
     public void setSortMode(@IFileManagerSortMode int mode) {
         mFileManagerViewInternal.setSortMode(mode);
     }

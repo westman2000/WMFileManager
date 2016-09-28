@@ -59,5 +59,9 @@ public interface IFileManagerViewContract {
 
         @IFileManagerSortMode int getSortMode();
 
+        boolean isShowThumbs();
+
+        void setShowThumbs(boolean isThumbsVisible);
+
     }
 }

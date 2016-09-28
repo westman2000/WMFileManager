@@ -170,6 +170,17 @@ public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewCont
         return PreferencesHelper.getFileManagerSortMode();
     }
 
+    @Override
+    public boolean isShowThumbs() {
+        return PreferencesHelper.isShowThumbs();
+    }
+
+    @Override
+    public void setShowThumbs(boolean isThumbsVisible) {
+        PreferencesHelper.setShowThumbs(isThumbsVisible);
+        loadFSOList();
+    }
+
     /**
      * Method that change the view mode.
      *

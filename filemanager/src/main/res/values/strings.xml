@@ -53,6 +53,10 @@
     <string name="cm_filemanager_show_dirs_first">Show folders first</string>
     <!-- Navigation View - View - Show hidden files option -->
     <string name="cm_filemanager_show_hidden">Show hidden files</string>
+    <!-- Preferences - General - Display thumbs -->
+    <string name="pref_display_thumbs">Preview</string>
+    <!-- Preferences - General - Display thumbs summary -->
+    <string name="pref_display_thumbs_summary">Show a preview image for apps, music files, pictures and videos</string>
 
     <!--  Filetime formats -->
     <string name="filetime_format_mode_system">System-defined</string>
@@ -99,5 +103,6 @@
     <string name="pref_key_show_hidden" translatable="false">pref_key_show_hidden</string>
     <string name="pref_key_sort_mode" translatable="false">pref_key_sort_mode</string>
     <string name="pref_key_case_sensitive" translatable="false">pref_key_case_sensitive</string>
+    <string name="pref_key_show_thumbs" translatable="false">pref_key_show_thumbs</string>
 
 </resources>

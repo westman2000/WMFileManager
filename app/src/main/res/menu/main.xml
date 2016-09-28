@@ -145,6 +145,13 @@
                     android:checkable="true"
                     app:showAsAction="never" />
 
+                <item
+                    android:id="@+id/action_show_thumbs"
+                    android:orderInCategory="110"
+                    android:title="@string/pref_display_thumbs"
+                    android:checkable="true"
+                    app:showAsAction="never" />
+
             </group>
         </menu>
     </item>

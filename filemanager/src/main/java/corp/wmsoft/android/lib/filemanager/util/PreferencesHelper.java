@@ -143,4 +143,21 @@ public class PreferencesHelper {
         //Commit settings
         editor.apply();
     }
+
+    public static boolean isShowThumbs() {
+        String key = WMFileManager.getApplicationContext().getString(R.string.pref_key_show_thumbs);
+        return getSharedPreferences().getBoolean(key, true);
+    }
+
+    public static void setShowThumbs(boolean isShowThumbs) {
+        String key = WMFileManager.getApplicationContext().getString(R.string.pref_key_show_thumbs);
+        //Get the preferences editor
+        SharedPreferences.Editor editor = getSharedPreferences().edit();
+        //Save
+        editor.putBoolean(key, isShowThumbs);
+        //Commit settings
+        editor.apply();
+
+        IconsHelper.cleanup();
+    }
 }

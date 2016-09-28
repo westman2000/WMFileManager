@@ -134,6 +134,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         menu.findItem(R.id.action_is_show_hidden).setChecked(mFileManagerView.isShowHidden());
         menu.findItem(R.id.action_dirs_first).setChecked(mFileManagerView.isShowDirsFirst());
+        menu.findItem(R.id.action_show_thumbs).setChecked(mFileManagerView.isShowThumbs());
 
         if (mFileManagerView.getSortMode() == IFileManagerSortMode.NAME_ASC)
             menu.findItem(R.id.action_sort_by_name_asc).setChecked(true);
@@ -193,6 +194,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.action_dirs_first) {
             item.setChecked(!item.isChecked());
             mFileManagerView.setShowDirsFirst(item.isChecked());
+            return true;
+        } else if (id == R.id.action_show_thumbs) {
+            item.setChecked(!item.isChecked());
+            mFileManagerView.setShowThumbs(item.isChecked());
             return true;
         } else if (id == R.id.action_sort_by_name_asc) {
             mFileManagerView.setSortMode(IFileManagerSortMode.NAME_ASC);

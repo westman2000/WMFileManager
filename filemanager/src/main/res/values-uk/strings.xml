@@ -53,6 +53,10 @@
     <string name="cm_filemanager_show_dirs_first">Відображати папки першими</string>
     <!-- Navigation View - View - Show hidden files option -->
     <string name="cm_filemanager_show_hidden">Відображати приховані файли</string>
+    <!-- Preferences - General - Display thumbs -->
+    <string name="pref_display_thumbs">Переглянути</string>
+    <!-- Preferences - General - Display thumbs summary -->
+    <string name="pref_display_thumbs_summary">Показати зображення попереднього перегляду для додатків, музичних файлів, фотографій і відео</string>
 
     <!-- Mime/Types - Folder -->
     <string name="mime_folder">Папка</string>

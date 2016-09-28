@@ -26,4 +26,8 @@
         android:key="@string/pref_key_case_sensitive"
         android:defaultValue="false"/>
 
+    <Preference
+        android:key="@string/pref_key_show_thumbs"
+        android:defaultValue="true"/>
+
 </PreferenceScreen>

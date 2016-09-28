@@ -53,6 +53,10 @@
     <string name="cm_filemanager_show_dirs_first">Папки первыми</string>
     <!-- Navigation View - View - Show hidden files option -->
     <string name="cm_filemanager_show_hidden">Скрытые файлы</string>
+    <!-- Preferences - General - Display thumbs -->
+    <string name="pref_display_thumbs">Показывать эскизы</string>
+    <!-- Preferences - General - Display thumbs summary -->
+    <string name="pref_display_thumbs_summary">Отображение эскизов картинок, видеозаписей, музыкальных файлов и приложений</string>
 
     <!-- Mime/Types - Folder -->
     <string name="mime_folder">Папка</string>

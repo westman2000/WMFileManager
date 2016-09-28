@@ -33,8 +33,6 @@ public class IconsHelper {
     private static LruCache<String, Drawable> mThumbsCache;
     /* this used to store references to subscription and if there are created new subscription for this imageView - then first need to unsubscribe previous */
     private static WeakHashMap<ImageView, Pair<Subscription, Action1<GetThumbDrawable.ResponseValues>>> mSubscriptions;
-    /* TODO - remove later and read from Preferences */
-    private static final boolean mUseThumbs = true;
 
 
     /**
@@ -71,7 +69,7 @@ public class IconsHelper {
      * @param defaultIcon Drawable to be used in case no specific one could be found
      */
     public static void loadDrawable(ImageView iconView, FileSystemObject fso, Drawable defaultIcon) {
-        if (!mUseThumbs) {
+        if (!PreferencesHelper.isShowThumbs()) {
             iconView.setImageDrawable(defaultIcon);
             return;
         }
@@ -106,6 +104,9 @@ public class IconsHelper {
                     if (view == null) {
                         return;
                     }
+
+                    if (mSubscriptions == null)
+                        return;
 
                     Pair<Subscription, Action1<GetThumbDrawable.ResponseValues>> pair = mSubscriptions.get(view);
                     if (pair != null) {
