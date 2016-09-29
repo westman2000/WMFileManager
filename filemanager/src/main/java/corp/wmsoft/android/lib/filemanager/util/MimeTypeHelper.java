@@ -27,7 +27,7 @@ public final class MimeTypeHelper {
     /**
      * Enumeration of mime/type' categories
      */
-
+    // TODO - move to public interface
     public enum MimeTypeCategory {
         /**
          * No category
@@ -182,12 +182,12 @@ public final class MimeTypeHelper {
         }
     }
 
-    private static final String TAG = "MimeTypeHelper"; //$NON-NLS-1$
+    private static final String TAG = "MimeTypeHelper";
 
     /**
      * A constant that defines a string of all mime-types
      */
-    public static final String ALL_MIME_TYPES = "*/*"; //$NON-NLS-1$
+    public static final String ALL_MIME_TYPES = "*/*";
 
     private static Map<String, ArrayList<MimeTypeInfo>> sMimeTypes;
     /**

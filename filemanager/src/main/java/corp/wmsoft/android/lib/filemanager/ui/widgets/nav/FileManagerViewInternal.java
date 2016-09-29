@@ -5,6 +5,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +37,7 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
         implements IFileManagerViewContract.View, View.OnClickListener {
 
     /**/
-    private final static String TAG = "FileManagerView";
+    private static final String TAG = "WMFM::FileManagerViewInternal";
 
 
     /**/
@@ -114,6 +115,8 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
      */
     @Override
     public void showError(Error error) {
+        Log.e(TAG,"error="+error.getMessage());
+        error.printStackTrace();
     }
 
     /**

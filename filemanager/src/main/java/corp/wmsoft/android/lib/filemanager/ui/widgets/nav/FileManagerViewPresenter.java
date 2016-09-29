@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.os.Environment;
 import android.os.FileObserver;
 import android.os.Handler;
+import android.util.SparseArray;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +53,9 @@ public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewCont
     private int mCurrentMode;
     /**/
     private String mCurrentDir;
-    /* we need Handler because FileObserver send events in worker thread */
+    /**
+     *  we need Handler because FileObserver send events in worker thread
+     */
     private Handler mHandler;
 
 

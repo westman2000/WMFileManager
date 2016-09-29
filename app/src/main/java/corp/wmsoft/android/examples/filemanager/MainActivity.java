@@ -10,6 +10,8 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.util.SparseArrayCompat;
+import android.util.SparseArray;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -21,6 +23,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import corp.wmsoft.android.lib.filemanager.FileManagerView;
+import corp.wmsoft.android.lib.filemanager.IFileManagerDisplayRestrictions;
 import corp.wmsoft.android.lib.filemanager.IFileManagerEvent;
 import corp.wmsoft.android.lib.filemanager.IFileManagerFileTimeFormat;
 import corp.wmsoft.android.lib.filemanager.IFileManagerNavigationMode;
@@ -78,6 +81,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             }
         });
+
+        mFileManagerView.setRestrictions(WMFileManager.createRestrictionOnlyTorrents());
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {

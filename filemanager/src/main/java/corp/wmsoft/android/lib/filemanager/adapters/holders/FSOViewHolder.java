@@ -51,6 +51,9 @@ public class FSOViewHolder extends RecyclerView.ViewHolder {
 
         mIvIcon.setAlpha(fso.isHidden() ? 0.3f : 1.0f);
 
+        // was strange bug
+        // java.lang.ArrayIndexOutOfBoundsException: length=61; index=-1
+        // at android.text.StaticLayout.calculateEllipsis(StaticLayout.java:785)
         mTvName.setText(fso.getName());
 
         if (mTvSummary != null) {

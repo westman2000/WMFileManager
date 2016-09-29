@@ -3,6 +3,7 @@ package corp.wmsoft.android.lib.filemanager;
 import android.content.Context;
 import android.support.annotation.Keep;
 import android.util.AttributeSet;
+import android.util.SparseArray;
 import android.widget.FrameLayout;
 
 import corp.wmsoft.android.lib.filemanager.models.FileSystemObject;
@@ -148,6 +149,12 @@ public class FileManagerView extends FrameLayout {
         return mFileManagerViewInternal.getSortMode();
     }
 
+    /**
+     *
+     */
+    public void setRestrictions(SparseArray restrictions) {
+        WMFileManager.setRestrictions(restrictions);
+    }
 
     private void init(Context context) {
         this.mFileManagerViewInternal = new FileManagerViewInternal(context);

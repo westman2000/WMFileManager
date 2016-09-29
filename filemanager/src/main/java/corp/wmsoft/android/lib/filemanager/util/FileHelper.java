@@ -3,6 +3,9 @@ package corp.wmsoft.android.lib.filemanager.util;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
+import android.util.Log;
+import android.util.SparseArray;
+import android.util.SparseIntArray;
 
 import java.io.File;
 import java.text.DateFormat;
@@ -10,11 +13,15 @@ import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
+import corp.wmsoft.android.lib.filemanager.IFileManagerDisplayRestrictions;
 import corp.wmsoft.android.lib.filemanager.IFileManagerFileTimeFormat;
 import corp.wmsoft.android.lib.filemanager.IFileManagerSortMode;
 import corp.wmsoft.android.lib.filemanager.R;
+import corp.wmsoft.android.lib.filemanager.WMFileManager;
 import corp.wmsoft.android.lib.filemanager.models.Directory;
 import corp.wmsoft.android.lib.filemanager.models.FileSystemObject;
 import corp.wmsoft.android.lib.filemanager.models.ParentDirectory;
@@ -25,6 +32,10 @@ import corp.wmsoft.android.lib.filemanager.models.RegularFile;
  * A helper class with useful methods for deal with files.
  */
 public class FileHelper {
+
+    /**/
+    private static final String TAG = "WMFM::FileHelper";
+
 
     /**
      * Special extension for compressed tar files
@@ -202,6 +213,7 @@ public class FileHelper {
      * @param files The listed files
      * @return List<FileSystemObject> The applied mode listed files
      */
+    // TODO - переделать на RX filter - ибо пиздец!
     public static List<FileSystemObject> applyUserPreferences(List<FileSystemObject> files) {
 
         //Retrieve user preferences
@@ -209,18 +221,25 @@ public class FileHelper {
         final boolean showHidden = PreferencesHelper.isShowHidden();
         final @IFileManagerSortMode int sortMode = PreferencesHelper.getFileManagerSortMode();
 
-        //Remove all unnecessary files (no required by the user)
-        int cc = files.size();
-        for (int i = cc - 1; i >= 0; i--) {
-            FileSystemObject file = files.get(i);
+        Iterator<FileSystemObject> it = files.iterator();
+
+        while (it.hasNext()) {
+
+            FileSystemObject file = it.next();
 
             //Hidden files
             if (!showHidden) {
                 if (file.isHidden()) {
-                    files.remove(i);
+                    it.remove();
+                    continue;
                 }
             }
-            // TODO -  Restrictions (only apply to files)
+            // Restrictions (only apply to files)
+            if (!isDirectory(file)) {
+                if (!isDisplayAllowed(file)) {
+                    it.remove();
+                }
+            }
         }
 
         //Apply sort mode
@@ -374,5 +393,84 @@ public class FileHelper {
             return true;
         }
         return false;
+    }
+
+    /**
+     * Method that check if a file should be displayed according to the restrictions
+     *
+     * @param fso The file system object to check
+     * @return boolean If the file should be displayed
+     */
+    private static boolean isDisplayAllowed(FileSystemObject fso) {
+
+        SparseArray restrictions = WMFileManager.getRestrictions();
+
+        for (int i=0; i<restrictions.size(); i++) {
+            @IFileManagerDisplayRestrictions int key = restrictions.keyAt(i);
+            Object value = restrictions.valueAt(i);
+
+            switch (key) {
+                case IFileManagerDisplayRestrictions.CATEGORY_TYPE_RESTRICTION:
+                    if (value instanceof MimeTypeHelper.MimeTypeCategory) {
+                        MimeTypeHelper.MimeTypeCategory cat1 = (MimeTypeHelper.MimeTypeCategory)value;
+                        // NOTE: We don't need the context here, because mime-type
+                        // database should be loaded prior to this call
+                        MimeTypeHelper.MimeTypeCategory cat2 = MimeTypeHelper.getCategory(null, fso);
+                        if (cat1.compareTo(cat2) != 0) {
+                            return false;
+                        }
+                    }
+                    break;
+
+                case IFileManagerDisplayRestrictions.MIME_TYPE_RESTRICTION:
+                    String[] mimeTypes = null;
+                    if (value instanceof String) {
+                        mimeTypes = new String[] {(String) value};
+                    } else if (value instanceof String[]) {
+                        mimeTypes = (String[]) value;
+                    }
+                    if (mimeTypes != null) {
+                        boolean matches = false;
+                        for (String mimeType : mimeTypes) {
+                            if (mimeType.compareTo(MimeTypeHelper.ALL_MIME_TYPES) == 0) {
+                                matches = true;
+                                break;
+                            }
+                            // NOTE: We don't need the context here, because mime-type
+                            // database should be loaded prior to this call
+                            if (MimeTypeHelper.matchesMimeType(null, fso, mimeType)) {
+                                matches = true;
+                                break;
+                            }
+                        }
+                        if (!matches) {
+                            return false;
+                        }
+                    }
+                    break;
+
+                case IFileManagerDisplayRestrictions.SIZE_RESTRICTION:
+                    if (value instanceof Long) {
+                        Long maxSize = (Long)value;
+                        if (fso.getSize() > maxSize) {
+                            return false;
+                        }
+                    }
+                    break;
+
+                case IFileManagerDisplayRestrictions.DIRECTORY_ONLY_RESTRICTION:
+                    if (value instanceof Boolean) {
+                        Boolean directoryOnly = (Boolean) value;
+                        if (directoryOnly && !FileHelper.isDirectory(fso)) {
+                            return false;
+                        }
+                    }
+                    break;
+
+                default:
+                    break;
+            }
+        }
+        return true;
     }
 }
