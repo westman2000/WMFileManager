@@ -156,6 +156,24 @@ public class FileManagerView extends FrameLayout {
         WMFileManager.setRestrictions(restrictions);
     }
 
+    /**
+     * Method that sets the listener for picked items
+     *
+     * @param onFilePickedListener The listener reference
+     */
+    public void setOnFilePickedListener(IOnFilePickedListener onFilePickedListener) {
+        mFileManagerViewInternal.setOnFilePickedListener(onFilePickedListener);
+    }
+
+    /**
+     * Method that sets the listener for directory changes
+     *
+     * @param onDirectoryChangedListener The listener reference
+     */
+    public void setOnDirectoryChangedListener(IOnDirectoryChangedListener onDirectoryChangedListener) {
+        mFileManagerViewInternal.setOnDirectoryChangedListener(onDirectoryChangedListener);
+    }
+
     private void init(Context context) {
         this.mFileManagerViewInternal = new FileManagerViewInternal(context);
 

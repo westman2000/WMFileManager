@@ -14,7 +14,7 @@ import corp.wmsoft.android.lib.mvpcrx.view.IMVPCDelayedDataView;
 /**
  * This specifies the contract between the view and the presenter.
  */
-public interface IFileManagerViewContract {
+interface IFileManagerViewContract {
 
     interface View extends IMVPCDelayedDataView<List<FileSystemObject>> {
 
@@ -31,37 +31,41 @@ public interface IFileManagerViewContract {
         void setNavigationModeInternal(@IFileManagerNavigationMode int mode);
 
         void timeFormatChanged();
+
+        void filePicked(String file);
+
+        void directoryChanged(String dir);
     }
 
     interface Presenter extends IMVPCPresenter<View> {
 
-        void changeViewMode(final @IFileManagerNavigationMode int newMode);
+        void                            changeViewMode(final @IFileManagerNavigationMode int newMode);
 
         @IFileManagerNavigationMode int getCurrentMode();
 
         @IFileManagerFileTimeFormat int getCurrentFileTimeFormat();
 
-        void onExternalStoragePermissionsGranted();
+        void                            onExternalStoragePermissionsGranted();
 
-        void onFSOPicked(FileSystemObject fso);
+        void                            onFSOPicked(FileSystemObject fso);
 
-        void onSetTimeFormat(@IFileManagerFileTimeFormat int format);
+        void                            onSetTimeFormat(@IFileManagerFileTimeFormat int format);
 
-        boolean isShowHidden();
+        boolean                         isShowHidden();
 
-        void setShowHidden(boolean isVisible);
+        void                            setShowHidden(boolean isVisible);
 
-        boolean isShowDirsFirst();
+        boolean                         isShowDirsFirst();
 
-        void setShowDirsFirst(boolean isDirsFirst);
+        void                            setShowDirsFirst(boolean isDirsFirst);
 
-        void setSortMode(@IFileManagerSortMode int mode);
+        void                            setSortMode(@IFileManagerSortMode int mode);
 
-        @IFileManagerSortMode int getSortMode();
+        @IFileManagerSortMode int       getSortMode();
 
-        boolean isShowThumbs();
+        boolean                         isShowThumbs();
 
-        void setShowThumbs(boolean isThumbsVisible);
+        void                            setShowThumbs(boolean isThumbsVisible);
 
     }
 }

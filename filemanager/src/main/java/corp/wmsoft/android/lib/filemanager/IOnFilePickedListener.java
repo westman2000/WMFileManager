@@ -1,16 +1,17 @@
-package corp.wmsoft.android.lib.filemanager.ui.widgets.nav;
+package corp.wmsoft.android.lib.filemanager;
 
-import corp.wmsoft.android.lib.filemanager.models.FileSystemObject;
+import android.support.annotation.Keep;
 
 /**
  * <br/>Created by WestMan2000 on 9/2/16 at 10:41 AM.<br/>
  * An interface to communicate a request when the user choose a file.
  */
+@Keep
 public interface IOnFilePickedListener {
     /**
      * Method invoked when a request when the user choose a file.
      *
-     * @param fso The item choose
+     * @param file Full path to choose file
      */
-    void onFilePicked(FileSystemObject fso);
+    void onFilePicked(String file);
 }

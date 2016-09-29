@@ -5,6 +5,7 @@ import android.os.Environment;
 import android.os.FileObserver;
 import android.os.Handler;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -123,6 +124,8 @@ public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewCont
             changeCurrentDir(fso.getParent());
         } else if (fso instanceof Directory) {
             changeCurrentDir(fso.getFullPath());
+        } else {
+            getView().filePicked(fso.getFullPath());
         }
     }
 
@@ -262,6 +265,8 @@ public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewCont
             @Override
             public void onCompleted() {
                 showFileList();
+                FileSystemObject dir = FileHelper.createFileSystemObject(new File(mCurrentDir));
+                getView().directoryChanged(dir.getFullPath());
             }
 
             @Override

@@ -17,7 +17,9 @@ import corp.wmsoft.android.lib.filemanager.IFileManagerEvent;
 import corp.wmsoft.android.lib.filemanager.IFileManagerFileTimeFormat;
 import corp.wmsoft.android.lib.filemanager.IFileManagerNavigationMode;
 import corp.wmsoft.android.lib.filemanager.IFileManagerSortMode;
+import corp.wmsoft.android.lib.filemanager.IOnDirectoryChangedListener;
 import corp.wmsoft.android.lib.filemanager.IOnFileManagerEventListener;
+import corp.wmsoft.android.lib.filemanager.IOnFilePickedListener;
 import corp.wmsoft.android.lib.filemanager.R;
 import corp.wmsoft.android.lib.filemanager.adapters.FileSystemObjectAdapter;
 import corp.wmsoft.android.lib.filemanager.util.DividerItemDecoration;
@@ -37,7 +39,7 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
         implements IFileManagerViewContract.View, View.OnClickListener {
 
     /**/
-    private static final String TAG = "WMFM::FileManagerViewInternal";
+    private static final String TAG = "WMFM::FMViewInternal";
 
 
     /**/
@@ -167,6 +169,18 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
     @Override
     public void timeFormatChanged() {
         mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void filePicked(String file) {
+        if (mOnFilePickedListener != null)
+            mOnFilePickedListener.onFilePicked(file);
+    }
+
+    @Override
+    public void directoryChanged(String dir) {
+        if (mOnDirectoryChangedListener != null)
+            mOnDirectoryChangedListener.onDirectoryChanged(dir);
     }
 
     /**
