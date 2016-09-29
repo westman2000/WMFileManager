@@ -1,10 +1,7 @@
 package corp.wmsoft.android.lib.filemanager.interactors;
 
-import android.util.Log;
-
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.Callable;
 
@@ -37,13 +34,9 @@ public class GetFSOList extends MVPCUseCase<GetFSOList.RequestValues, List<FileS
             @Override
             public List<FileSystemObject> call() throws Exception {
 
-                Log.d(TAG, "getSrc="+requestValues.getSrc());
-
                 File f = new File(requestValues.getSrc());
 
                 File[] files = f.listFiles();
-
-                Log.d(TAG, "files="+ Arrays.toString(files));
 
                 List<FileSystemObject> fsoList = new ArrayList<>();
 
@@ -56,21 +49,14 @@ public class GetFSOList extends MVPCUseCase<GetFSOList.RequestValues, List<FileS
                     }
                 }
 
-                Log.d(TAG, "fsoList="+ fsoList);
-
                 //Now if not is the root directory
                 if (!RxStorageHelper.isStorageVolume(requestValues.getSrc())) {
                     fsoList.add(0, new ParentDirectory(new File(requestValues.getSrc()).getParent()));
                 }
 
-                Log.d(TAG, "===========");
-
                 //Apply user preferences
-                List<FileSystemObject> sortedFiles = FileHelper.applyUserPreferences(fsoList);
 
-                Log.d(TAG, "sortedFiles="+sortedFiles);
-
-                return sortedFiles;
+                return FileHelper.applyUserPreferences(fsoList);
             }
         });
     }

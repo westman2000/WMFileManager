@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.os.Environment;
 import android.os.FileObserver;
 import android.os.Handler;
-import android.util.SparseArray;
 
 import java.util.ArrayList;
 import java.util.List;

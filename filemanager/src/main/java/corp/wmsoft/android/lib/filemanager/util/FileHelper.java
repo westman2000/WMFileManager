@@ -3,9 +3,7 @@ package corp.wmsoft.android.lib.filemanager.util;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
-import android.util.Log;
 import android.util.SparseArray;
-import android.util.SparseIntArray;
 
 import java.io.File;
 import java.text.DateFormat;
@@ -15,7 +13,6 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import corp.wmsoft.android.lib.filemanager.IFileManagerDisplayRestrictions;
 import corp.wmsoft.android.lib.filemanager.IFileManagerFileTimeFormat;
