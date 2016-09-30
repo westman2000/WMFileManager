@@ -24,6 +24,7 @@ import corp.wmsoft.android.lib.filemanager.R;
 import corp.wmsoft.android.lib.filemanager.adapters.FileSystemObjectAdapter;
 import corp.wmsoft.android.lib.filemanager.util.DividerItemDecoration;
 import corp.wmsoft.android.lib.filemanager.models.FileSystemObject;
+import corp.wmsoft.android.lib.filemanager.util.FileHelper;
 import corp.wmsoft.android.lib.mvpcrx.predefined.MVPCFrameLayout;
 import corp.wmsoft.android.lib.mvpcrx.presenter.factory.IMVPCPresenterFactory;
 
@@ -183,6 +184,11 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
             mOnDirectoryChangedListener.onDirectoryChanged(dir);
     }
 
+    @Override
+    public void openFilePath(String filePath) {
+        getPresenter().onFSOPicked(FileHelper.createFileSystemObject(filePath));
+    }
+
     /**
      * @hide
      */
@@ -230,10 +236,6 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
     public void onClick(View view) {
         int position = mRecyclerView.getChildAdapterPosition(view);
         FileSystemObject fso = mAdapter.getItem(position);
-        getPresenter().onFSOPicked(fso);
-    }
-
-    public void open(FileSystemObject fso) {
         getPresenter().onFSOPicked(fso);
     }
 

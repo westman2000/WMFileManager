@@ -6,7 +6,6 @@ import android.util.AttributeSet;
 import android.util.SparseArray;
 import android.widget.FrameLayout;
 
-import corp.wmsoft.android.lib.filemanager.models.FileSystemObject;
 import corp.wmsoft.android.lib.filemanager.ui.widgets.nav.FileManagerViewInternal;
 
 
@@ -35,8 +34,8 @@ public class FileManagerView extends FrameLayout {
         init(context);
     }
 
-    public void open(FileSystemObject fso) {
-        this.mFileManagerViewInternal.open(fso);
+    public void openFilePath(String filePath) {
+        this.mFileManagerViewInternal.openFilePath(filePath);
     }
 
     /**

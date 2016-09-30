@@ -1,7 +1,6 @@
 package corp.wmsoft.android.lib.filemanager.models;
 
 import android.os.Environment;
-import android.support.annotation.Keep;
 
 import java.io.File;
 import java.util.Locale;
@@ -53,22 +52,18 @@ public class MountPoint implements IMVPCViewModel {
         setupIconResId();
     }
 
-    @Keep
     public int getId() {
         return mId;
     }
 
-    @Keep
     public String getPath() {
         return mPath;
     }
 
-    @Keep
     public String getDescription() {
         return mDescription;
     }
 
-    @Keep
     public int getIconResId() {
         return mIconResId;
     }
@@ -77,12 +72,10 @@ public class MountPoint implements IMVPCViewModel {
         return isPrimary;
     }
 
-    @Keep
     public boolean isMounted() {
         return mState.equals(Environment.MEDIA_MOUNTED);
     }
 
-    @Keep
     public String getState() {
         return mState;
     }

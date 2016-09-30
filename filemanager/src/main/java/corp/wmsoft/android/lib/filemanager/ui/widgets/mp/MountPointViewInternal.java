@@ -85,7 +85,7 @@ public class MountPointViewInternal extends MVPCLinearLayout<IMountPointsViewCon
                 imageButton.setColorFilter(ContextCompat.getColor(getContext(), R.color.colorAccent));
 
                 if (mOnMountPointSelectedListener != null && fireEvent)
-                    mOnMountPointSelectedListener.onMountPointSelected(mountPoint);
+                    mOnMountPointSelectedListener.onMountPointSelected(mountPoint.getPath());
             } else {
                 // unselect
                 imageButton.setColorFilter(ContextCompat.getColor(getContext(), R.color.colorPrimary));

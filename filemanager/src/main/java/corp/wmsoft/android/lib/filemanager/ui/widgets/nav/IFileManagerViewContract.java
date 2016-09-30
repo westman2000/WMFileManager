@@ -35,6 +35,8 @@ interface IFileManagerViewContract {
         void filePicked(String file);
 
         void directoryChanged(String dir);
+
+        void openFilePath(String filePath);
     }
 
     interface Presenter extends IMVPCPresenter<View> {

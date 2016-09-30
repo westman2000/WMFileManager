@@ -27,7 +27,6 @@ import corp.wmsoft.android.lib.filemanager.IFileManagerNavigationMode;
 import corp.wmsoft.android.lib.filemanager.IFileManagerSortMode;
 import corp.wmsoft.android.lib.filemanager.MountPointView;
 import corp.wmsoft.android.lib.filemanager.WMFileManager;
-import corp.wmsoft.android.lib.filemanager.models.MountPoint;
 import corp.wmsoft.android.lib.filemanager.IOnFileManagerEventListener;
 import corp.wmsoft.android.lib.filemanager.IOnMountPointSelected;
 import corp.wmsoft.android.lib.filemanager.IOnDirectoryChangedListener;
@@ -66,8 +65,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
         mMountPointView.setOnMountPointSelected(new IOnMountPointSelected() {
             @Override
-            public void onMountPointSelected(MountPoint mountPoint) {
-                mFileManagerView.open(WMFileManager.createFileSystemObject(mountPoint.getPath()));
+            public void onMountPointSelected(String mountPointPath) {
+                mFileManagerView.openFilePath(mountPointPath);
             }
         });
 
