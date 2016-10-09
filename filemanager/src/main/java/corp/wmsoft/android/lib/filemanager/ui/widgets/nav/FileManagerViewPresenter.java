@@ -28,6 +28,11 @@ import rx.Subscriber;
 /**
  * <br/>Created by WestMan2000 on 8/31/16 at 3:49 PM.<br/>
  */
+
+// TODO - мега баг!
+// TODO - если закрыть диалог, то FileObserver отключится, но список файорв еще старый при открытии снова, и можно выбрать не существующий файл
+
+
 @SuppressLint("LongLogTag")
 public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewContract.View> implements IFileManagerViewContract.Presenter {
 
@@ -77,6 +82,13 @@ public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewCont
         super.attachView(mvpView);
         getView().showLoading();
         getView().sendEvent(IFileManagerEvent.NEED_EXTERNAL_STORAGE_PERMISSION);
+    }
+
+    @Override
+    public void detachView() {
+        super.detachView();
+
+        releaseFileObserver();
     }
 
     @Override

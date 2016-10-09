@@ -1,6 +1,6 @@
 ext {
     compileSdkVer = 24
-    buildToolsVer = "24.0.2"
+    buildToolsVer = "24.0.3"
 
     minSdkVer = 14
     targetSdkVer = 24
@@ -9,5 +9,5 @@ ext {
     verName = "0.0.1"
 
     supportLibVer = "24.2.1"
-    mvpcrxLibVer = "0.0.4"
+    mvpcrxLibVer = "0.0.5"
 }

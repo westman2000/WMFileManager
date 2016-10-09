@@ -33,3 +33,5 @@ dependencies {
     // mvp-clean-rx
     compile "corp.wmsoft.android.lib:mvpc_rx:$mvpcrxLibVer"
 }
+
+// TODO - for bread crumbs - https://developer.android.com/samples/SlidingTabsBasic/src/com.example.android.common/view/SlidingTabLayout.html
