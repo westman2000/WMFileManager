@@ -198,6 +198,11 @@ public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewCont
         loadFSOList();
     }
 
+    @Override
+    public String getCurrentDir() {
+        return mCurrentDir;
+    }
+
     /**
      * Method that change the view mode.
      *

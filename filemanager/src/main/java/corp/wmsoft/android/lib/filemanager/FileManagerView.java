@@ -151,6 +151,13 @@ public class FileManagerView extends FrameLayout {
     /**
      *
      */
+    public String getCurrentDirectory() {
+        return mFileManagerViewInternal.getCurrentDirectory();
+    }
+
+    /**
+     *
+     */
     public void setRestrictions(SparseArray restrictions) {
         WMFileManager.setRestrictions(restrictions);
     }

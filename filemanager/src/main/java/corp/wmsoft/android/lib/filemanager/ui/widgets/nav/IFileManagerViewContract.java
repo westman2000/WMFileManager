@@ -69,5 +69,6 @@ interface IFileManagerViewContract {
 
         void                            setShowThumbs(boolean isThumbsVisible);
 
+        String                          getCurrentDir();
     }
 }

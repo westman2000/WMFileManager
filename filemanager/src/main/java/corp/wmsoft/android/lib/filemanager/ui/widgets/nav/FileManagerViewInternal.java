@@ -327,6 +327,13 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
     }
 
     /**
+     * @public
+     */
+    public String getCurrentDirectory() {
+        return getPresenter().getCurrentDir();
+    }
+
+    /**
      * Method that sets the listener for events
      *
      * @param onFileManagerEventListener The listener reference
