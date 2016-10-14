@@ -1,94 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">FileManager</string>
+    <string name="wm_fm_app_name">FileManager</string>
 
     <!-- Date/time format order (%1$s: date; %2$s: time) -->
-    <string name="datetime_format_order">%1$s %2$s</string>
+    <string name="wm_fm_datetime_format_order">%1$s %2$s</string>
 
     <!-- The parent directory of the current directory in navigation view -->
-    <string name="parent_dir">Домашня папка</string>
+    <string name="wm_fm_parent_dir">Домашня папка</string>
     <!-- External storage descripton -->
-    <string name="external_storage">Зовнішній накопичувач</string>
+    <string name="wm_fm_external_storage">Зовнішній накопичувач</string>
     <!-- Usb storage descripton -->
-    <string name="usb_storage">USB накопичувач</string>
+    <string name="wm_fm_usb_storage">USB накопичувач</string>
 
     <!-- Human readable sizes -->
-    <string name="size_bytes">б</string>
-    <string name="size_kilobytes">кБ</string>
-    <string name="size_megabytes">МБ</string>
-    <string name="size_gigabytes">ГБ</string>
+    <string name="wm_fm_size_bytes">б</string>
+    <string name="wm_fm_size_kilobytes">кБ</string>
+    <string name="wm_fm_size_megabytes">МБ</string>
+    <string name="wm_fm_size_gigabytes">ГБ</string>
 
     <!-- ActionBar Buttons - Sort Mode -->
-    <string name="actionbar_button_sort_mode_cd">Режим сортування</string>
+    <string name="wm_fm_actionbar_button_sort_mode_cd">Режим сортування</string>
     <!-- ActionBar Buttons - Layout Mode -->
-    <string name="actionbar_button_layout_mode_cd">Режим відображення</string>
+    <string name="wm_fm_actionbar_button_layout_mode_cd">Режим відображення</string>
     <!-- ActionBar Buttons - Other View Options -->
-    <string name="actionbar_button_other_view_options_cd">Інші налаштування відображення</string>
+    <string name="wm_fm_actionbar_button_other_view_options_cd">Інші налаштування відображення</string>
 
     <!-- Navigation View - Sort - Sort by name (ascending) -->
-    <string name="sort_by_name_asc">За ім’ям \u25B2</string>
+    <string name="wm_fm_sort_by_name_asc">За ім’ям \u25B2</string>
     <!-- Navigation View - Sort - Sort by name (descending) -->
-    <string name="sort_by_name_desc">За ім’ям \u25BC</string>
+    <string name="wm_fm_sort_by_name_desc">За ім’ям \u25BC</string>
     <!-- Navigation View - Sort - Sort by date (ascending) -->
-    <string name="sort_by_date_asc">За датою \u25B2</string>
+    <string name="wm_fm_sort_by_date_asc">За датою \u25B2</string>
     <!-- Navigation View - Sort - Sort by date (descending) -->
-    <string name="sort_by_date_desc">За датою \u25BC</string>
+    <string name="wm_fm_sort_by_date_desc">За датою \u25BC</string>
     <!-- Navigation View - Sort - Sort by size (ascending) -->
-    <string name="sort_by_size_asc">За розміром \u25B2</string>
+    <string name="wm_fm_sort_by_size_asc">За розміром \u25B2</string>
     <!-- Navigation View - Sort - Sort by size (descending) -->
-    <string name="sort_by_size_desc">За розміром \u25B2</string>
+    <string name="wm_fm_sort_by_size_desc">За розміром \u25B2</string>
     <!-- Navigation View - Sort - Sort by type (ascending) -->
-    <string name="sort_by_type_asc">За типом \u25B2</string>
+    <string name="wm_fm_sort_by_type_asc">За типом \u25B2</string>
     <!-- Navigation View - Sort - Sort by type (descending) -->
-    <string name="sort_by_type_desc">За типом \u25B2</string>
+    <string name="wm_fm_sort_by_type_desc">За типом \u25B2</string>
 
     <!-- Navigation View - Layout - Icons -->
-    <string name="layout_icons">Іконки</string>
+    <string name="wm_fm_layout_icons">Іконки</string>
     <!-- Navigation View - Layout - Simple -->
-    <string name="layout_simple">Список</string>
+    <string name="wm_fm_layout_simple">Список</string>
     <!-- Navigation View - Layout - Details -->
-    <string name="layout_details">Детально</string>
+    <string name="wm_fm_layout_details">Детально</string>
 
     <!-- Navigation View - View - Show folders first -->
-    <string name="cm_filemanager_show_dirs_first">Відображати папки першими</string>
+    <string name="wm_fm_show_dirs_first">Відображати папки першими</string>
     <!-- Navigation View - View - Show hidden files option -->
-    <string name="cm_filemanager_show_hidden">Відображати приховані файли</string>
+    <string name="wm_fm_show_hidden">Відображати приховані файли</string>
     <!-- Preferences - General - Display thumbs -->
-    <string name="pref_display_thumbs">Переглянути</string>
+    <string name="wm_fm_pref_display_thumbs">Переглянути</string>
     <!-- Preferences - General - Display thumbs summary -->
-    <string name="pref_display_thumbs_summary">Показати зображення попереднього перегляду для додатків, музичних файлів, фотографій і відео</string>
+    <string name="wm_fm_pref_display_thumbs_summary">Показати зображення попереднього перегляду для додатків, музичних файлів, фотографій і відео</string>
 
     <!-- Mime/Types - Folder -->
-    <string name="mime_folder">Папка</string>
+    <string name="wm_fm_mime_folder">Папка</string>
     <!-- Mime/Types - Unknown -->
-    <string name="mime_unknown">Невідомо</string>
+    <string name="wm_fm_mime_unknown">Невідомо</string>
 
     <!--  Filetime formats -->
-    <string name="filetime_format_mode_system">Системний</string>
-    <string name="filetime_format_mode_locale">Регіональний</string>
-    <string name="filetime_format_mode_ddMMyyyy_HHmmss">дд/мм/рррр гг:хх:ss</string>
-    <string name="filetime_format_mode_MMddyyyy_HHmmss">мм/дд/рррр гг:хх:сс</string>
-    <string name="filetime_format_mode_yyyyMMdd_HHmmss">рррр-мм-дд гг:хх:сс</string>
+    <string name="wm_fm_filetime_format_mode_system">Системний</string>
+    <string name="wm_fm_filetime_format_mode_locale">Регіональний</string>
+    <string name="wm_fm_filetime_format_mode_ddMMyyyy_HHmmss">дд/мм/рррр гг:хх:ss</string>
+    <string name="wm_fm_filetime_format_mode_MMddyyyy_HHmmss">мм/дд/рррр гг:хх:сс</string>
+    <string name="wm_fm_filetime_format_mode_yyyyMMdd_HHmmss">рррр-мм-дд гг:хх:сс</string>
 
     <!-- Category descriptions -->
-    <string name="category_system">СИСТЕМА</string>
-    <string name="category_app">ДОДАТОК</string>
-    <string name="category_binary">ДВІЙКОВИЙ</string>
-    <string name="category_text">ТЕКСТ</string>
-    <string name="category_document">ДОКУМЕНТ</string>
-    <string name="category_ebook">ЕЛ. КНИГА</string>
-    <string name="category_mail">ПОШТА</string>
-    <string name="category_compress">СТИСНЕНИЙ</string>
-    <string name="category_exec">ВИКОН. ФАЙЛ</string>
-    <string name="category_database">БАЗА ДАНИХ</string>
-    <string name="category_font">ШРИФТ</string>
-    <string name="category_image">ЗОБРАЖЕННЯ</string>
-    <string name="category_audio">АУДІО</string>
-    <string name="category_video">ВІДЕО</string>
-    <string name="category_security">ЗАХИСТ</string>
-    <string name="category_all">ВСІ</string>
+    <string name="wm_fm_category_system">СИСТЕМА</string>
+    <string name="wm_fm_category_app">ДОДАТОК</string>
+    <string name="wm_fm_category_binary">ДВІЙКОВИЙ</string>
+    <string name="wm_fm_category_text">ТЕКСТ</string>
+    <string name="wm_fm_category_document">ДОКУМЕНТ</string>
+    <string name="wm_fm_category_ebook">ЕЛ. КНИГА</string>
+    <string name="wm_fm_category_mail">ПОШТА</string>
+    <string name="wm_fm_category_compress">СТИСНЕНИЙ</string>
+    <string name="wm_fm_category_exec">ВИКОН. ФАЙЛ</string>
+    <string name="wm_fm_category_database">БАЗА ДАНИХ</string>
+    <string name="wm_fm_category_font">ШРИФТ</string>
+    <string name="wm_fm_category_image">ЗОБРАЖЕННЯ</string>
+    <string name="wm_fm_category_audio">АУДІО</string>
+    <string name="wm_fm_category_video">ВІДЕО</string>
+    <string name="wm_fm_category_security">ЗАХИСТ</string>
+    <string name="wm_fm_category_all">ВСІ</string>
 
     <!-- Preferences - General - Filetime format mode title -->
-    <string name="pref_filetime_format_mode">Формат дати\часу</string>
+    <string name="wm_fm_pref_filetime_format_mode">Формат дати\часу</string>
 
 </resources>

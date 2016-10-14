@@ -82,13 +82,13 @@ public class MountPointViewInternal extends MVPCLinearLayout<IMountPointsViewCon
             int mountPointId = (int) imageButton.getTag();
             if (mountPointId == mountPoint.getId()) {
                 // select it
-                imageButton.setColorFilter(ContextCompat.getColor(getContext(), R.color.colorAccent));
+                imageButton.setColorFilter(ContextCompat.getColor(getContext(), R.color.wm_fm_colorAccent));
 
                 if (mOnMountPointSelectedListener != null && fireEvent)
                     mOnMountPointSelectedListener.onMountPointSelected(mountPoint.getPath());
             } else {
                 // unselect
-                imageButton.setColorFilter(ContextCompat.getColor(getContext(), R.color.colorPrimary));
+                imageButton.setColorFilter(ContextCompat.getColor(getContext(), R.color.wm_fm_colorPrimary));
             }
         }
     }
@@ -109,7 +109,7 @@ public class MountPointViewInternal extends MVPCLinearLayout<IMountPointsViewCon
             AppCompatImageButton imageButton = new AppCompatImageButton(getContext());
             imageButton.setImageResource(mountPoint.getIconResId());
             imageButton.setTag(mountPoint.getId());
-            imageButton.setColorFilter(ContextCompat.getColor(getContext(), R.color.colorPrimary));
+            imageButton.setColorFilter(ContextCompat.getColor(getContext(), R.color.wm_fm_colorPrimary));
             imageButton.setEnabled(mountPoint.isMounted());
             imageButton.setOnClickListener(new OnClickListener() {
                 @Override

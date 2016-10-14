@@ -1,108 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">FileManager</string>
+    <string name="wm_fm_app_name">FileManager</string>
 
     <!-- Date/time format order (%1$s: date; %2$s: time) -->
-    <string name="datetime_format_order">%1$s %2$s</string>
+    <string name="wm_fm_datetime_format_order">%1$s %2$s</string>
 
     <!-- The parent directory of the current directory in navigation view -->
-    <string name="parent_dir">Parent folder</string>
+    <string name="wm_fm_parent_dir">Parent folder</string>
     <!-- External storage descripton -->
-    <string name="external_storage">External storage</string>
+    <string name="wm_fm_external_storage">External storage</string>
     <!-- Usb storage descripton -->
-    <string name="usb_storage">USB storage</string>
+    <string name="wm_fm_usb_storage">USB storage</string>
 
     <!-- Human readable sizes -->
-    <string name="size_bytes">B</string>
-    <string name="size_kilobytes">kB</string>
-    <string name="size_megabytes">MB</string>
-    <string name="size_gigabytes">GB</string>
+    <string name="wm_fm_size_bytes">B</string>
+    <string name="wm_fm_size_kilobytes">kB</string>
+    <string name="wm_fm_size_megabytes">MB</string>
+    <string name="wm_fm_size_gigabytes">GB</string>
 
     <!-- ActionBar Buttons - Sort Mode -->
-    <string name="actionbar_button_sort_mode_cd">Sort mode</string>
+    <string name="wm_fm_actionbar_button_sort_mode_cd">Sort mode</string>
     <!-- ActionBar Buttons - Layout Mode -->
-    <string name="actionbar_button_layout_mode_cd">Layout mode</string>
+    <string name="wm_fm_actionbar_button_layout_mode_cd">Layout mode</string>
     <!-- ActionBar Buttons - Other View Options -->
-    <string name="actionbar_button_other_view_options_cd">Other view options</string>
+    <string name="wm_fm_actionbar_button_other_view_options_cd">Other view options</string>
 
     <!-- Navigation View - Sort - Sort by name (ascending) -->
-    <string name="sort_by_name_asc">By name \u25B2</string>
+    <string name="wm_fm_sort_by_name_asc">By name \u25B2</string>
     <!-- Navigation View - Sort - Sort by name (descending) -->
-    <string name="sort_by_name_desc">By name \u25BC</string>
+    <string name="wm_fm_sort_by_name_desc">By name \u25BC</string>
     <!-- Navigation View - Sort - Sort by date (ascending) -->
-    <string name="sort_by_date_asc">By date \u25B2</string>
+    <string name="wm_fm_sort_by_date_asc">By date \u25B2</string>
     <!-- Navigation View - Sort - Sort by date (descending) -->
-    <string name="sort_by_date_desc">By date \u25BC</string>
+    <string name="wm_fm_sort_by_date_desc">By date \u25BC</string>
     <!-- Navigation View - Sort - Sort by size (ascending) -->
-    <string name="sort_by_size_asc">By size \u25B2</string>
+    <string name="wm_fm_sort_by_size_asc">By size \u25B2</string>
     <!-- Navigation View - Sort - Sort by size (descending) -->
-    <string name="sort_by_size_desc">By size \u25BC</string>
+    <string name="wm_fm_sort_by_size_desc">By size \u25BC</string>
     <!-- Navigation View - Sort - Sort by type (ascending) -->
-    <string name="sort_by_type_asc">By type \u25B2</string>
+    <string name="wm_fm_sort_by_type_asc">By type \u25B2</string>
     <!-- Navigation View - Sort - Sort by type (descending) -->
-    <string name="sort_by_type_desc">By type \u25BC</string>
+    <string name="wm_fm_sort_by_type_desc">By type \u25BC</string>
 
     <!-- Navigation View - Layout - Icons -->
-    <string name="layout_icons">Icons</string>
+    <string name="wm_fm_layout_icons">Icons</string>
     <!-- Navigation View - Layout - Simple -->
-    <string name="layout_simple">Simple</string>
+    <string name="wm_fm_layout_simple">Simple</string>
     <!-- Navigation View - Layout - Details -->
-    <string name="layout_details">Details</string>
+    <string name="wm_fm_layout_details">Details</string>
 
     <!-- Navigation View - View - Show folders first -->
-    <string name="cm_filemanager_show_dirs_first">Show folders first</string>
+    <string name="wm_fm_show_dirs_first">Show folders first</string>
     <!-- Navigation View - View - Show hidden files option -->
-    <string name="cm_filemanager_show_hidden">Show hidden files</string>
+    <string name="wm_fm_show_hidden">Show hidden files</string>
     <!-- Preferences - General - Display thumbs -->
-    <string name="pref_display_thumbs">Preview</string>
+    <string name="wm_fm_pref_display_thumbs">Preview</string>
     <!-- Preferences - General - Display thumbs summary -->
-    <string name="pref_display_thumbs_summary">Show a preview image for apps, music files, pictures and videos</string>
+    <string name="wm_fm_pref_display_thumbs_summary">Show a preview image for apps, music files, pictures and videos</string>
 
     <!--  Filetime formats -->
-    <string name="filetime_format_mode_system">System-defined</string>
-    <string name="filetime_format_mode_locale">Locale-defined</string>
-    <string name="filetime_format_mode_ddMMyyyy_HHmmss">dd/mm/yyyy hh:mm:ss</string>
-    <string name="filetime_format_mode_MMddyyyy_HHmmss">mm/dd/yyyy hh:mm:ss</string>
-    <string name="filetime_format_mode_yyyyMMdd_HHmmss">yyyy-mm-dd hh:mm:ss</string>
+    <string name="wm_fm_filetime_format_mode_system">System-defined</string>
+    <string name="wm_fm_filetime_format_mode_locale">Locale-defined</string>
+    <string name="wm_fm_filetime_format_mode_ddMMyyyy_HHmmss">dd/mm/yyyy hh:mm:ss</string>
+    <string name="wm_fm_filetime_format_mode_MMddyyyy_HHmmss">mm/dd/yyyy hh:mm:ss</string>
+    <string name="wm_fm_filetime_format_mode_yyyyMMdd_HHmmss">yyyy-mm-dd hh:mm:ss</string>
 
     <!-- Preferences - General - Filetime format mode title -->
-    <string name="pref_filetime_format_mode">Date/time format</string>
+    <string name="wm_fm_pref_filetime_format_mode">Date/time format</string>
 
     <!-- Mime/Types - Folder -->
-    <string name="mime_folder">Folder</string>
+    <string name="wm_fm_mime_folder">Folder</string>
     <!-- Mime/Types - Unknown -->
-    <string name="mime_unknown">Unknown</string>
+    <string name="wm_fm_mime_unknown">Unknown</string>
 
     <!--  Filetime formats -->
-    <string name="filetime_format_mode_ddMMyyyy_HHmmss_internal" translatable="false">dd/MM/yyyy HH:mm:ss</string>
-    <string name="filetime_format_mode_MMddyyyy_HHmmss_internal" translatable="false">MM/dd/yyyy HH:mm:ss</string>
-    <string name="filetime_format_mode_yyyyMMdd_HHmmss_internal" translatable="false">yyyy-MM-dd HH:mm:ss</string>
+    <string name="wm_fm_filetime_format_mode_ddMMyyyy_HHmmss_internal" translatable="false">dd/MM/yyyy HH:mm:ss</string>
+    <string name="wm_fm_filetime_format_mode_MMddyyyy_HHmmss_internal" translatable="false">MM/dd/yyyy HH:mm:ss</string>
+    <string name="wm_fm_filetime_format_mode_yyyyMMdd_HHmmss_internal" translatable="false">yyyy-MM-dd HH:mm:ss</string>
 
     <!-- Category descriptions -->
-    <string name="category_system">SYSTEM</string>
-    <string name="category_app">APP</string>
-    <string name="category_binary">BINARY</string>
-    <string name="category_text">TEXT</string>
-    <string name="category_document">DOCUMENT</string>
-    <string name="category_ebook">EBOOK</string>
-    <string name="category_mail">MAIL</string>
-    <string name="category_compress">COMPRESS</string>
-    <string name="category_exec">EXECUTABLE</string>
-    <string name="category_database">DATABASE</string>
-    <string name="category_font">FONT</string>
-    <string name="category_image">IMAGE</string>
-    <string name="category_audio">AUDIO</string>
-    <string name="category_video">VIDEO</string>
-    <string name="category_security">SECURITY</string>
-    <string name="category_all">ALL</string>
+    <string name="wm_fm_category_system">SYSTEM</string>
+    <string name="wm_fm_category_app">APP</string>
+    <string name="wm_fm_category_binary">BINARY</string>
+    <string name="wm_fm_category_text">TEXT</string>
+    <string name="wm_fm_category_document">DOCUMENT</string>
+    <string name="wm_fm_category_ebook">EBOOK</string>
+    <string name="wm_fm_category_mail">MAIL</string>
+    <string name="wm_fm_category_compress">COMPRESS</string>
+    <string name="wm_fm_category_exec">EXECUTABLE</string>
+    <string name="wm_fm_category_database">DATABASE</string>
+    <string name="wm_fm_category_font">FONT</string>
+    <string name="wm_fm_category_image">IMAGE</string>
+    <string name="wm_fm_category_audio">AUDIO</string>
+    <string name="wm_fm_category_video">VIDEO</string>
+    <string name="wm_fm_category_security">SECURITY</string>
+    <string name="wm_fm_category_all">ALL</string>
 
     <!-- Strings related to Settings -->
-    <string name="pref_key_filetime_format" translatable="false">pref_key_filetime_format</string>
-    <string name="pref_key_navigation_mode" translatable="false">pref_key_navigation_mode</string>
-    <string name="pref_key_show_dirs_first" translatable="false">pref_key_show_dirs_first</string>
-    <string name="pref_key_show_hidden" translatable="false">pref_key_show_hidden</string>
-    <string name="pref_key_sort_mode" translatable="false">pref_key_sort_mode</string>
-    <string name="pref_key_case_sensitive" translatable="false">pref_key_case_sensitive</string>
-    <string name="pref_key_show_thumbs" translatable="false">pref_key_show_thumbs</string>
+    <string name="wm_fm_pref_key_filetime_format" translatable="false">wm_fm_pref_key_filetime_format</string>
+    <string name="wm_fm_pref_key_navigation_mode" translatable="false">wm_fm_pref_key_navigation_mode</string>
+    <string name="wm_fm_pref_key_show_dirs_first" translatable="false">wm_fm_pref_key_show_dirs_first</string>
+    <string name="wm_fm_pref_key_show_hidden" translatable="false">wm_fm_pref_key_show_hidden</string>
+    <string name="wm_fm_pref_key_sort_mode" translatable="false">wm_fm_pref_key_sort_mode</string>
+    <string name="wm_fm_pref_key_case_sensitive" translatable="false">wm_fm_pref_key_case_sensitive</string>
+    <string name="wm_fm_pref_key_show_thumbs" translatable="false">wm_fm_pref_key_show_thumbs</string>
 
 </resources>

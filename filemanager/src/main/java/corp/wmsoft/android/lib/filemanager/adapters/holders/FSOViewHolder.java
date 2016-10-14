@@ -17,7 +17,6 @@ import corp.wmsoft.android.lib.filemanager.util.MimeTypeHelper;
 /**
  * <br/>Created by WestMan2000 on 9/1/16 at 12:27 PM.<br/>
  */
-// TODO - создать что то типа com.cyanogenmod.filemanager.ui.IconHolder
 public class FSOViewHolder extends RecyclerView.ViewHolder {
 
     //The resource of the item icon
@@ -58,7 +57,7 @@ public class FSOViewHolder extends RecyclerView.ViewHolder {
 
         if (mTvSummary != null) {
             if (fso instanceof ParentDirectory) {
-                mTvSummary.setText(R.string.parent_dir);
+                mTvSummary.setText(R.string.wm_fm_parent_dir);
             } else {
                 mTvSummary.setText(FileHelper.formatFileTime(mTvSummary.getContext(), fso.getLastModifiedTime()));
             }

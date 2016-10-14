@@ -112,7 +112,7 @@ public final class MimeTypeHelper {
             for (int i = 0; i < categories.length; i++) {
                 String description = getCategoryDescription(context, categories[i]);
                 if (TextUtils.equals("-", description)) {
-                    description = context.getString(R.string.category_all);
+                    description = context.getString(R.string.wm_fm_category_all);
                 }
                 description = description.substring(0, 1).toUpperCase() + description.substring(1).toLowerCase();
                 localizedNames[i] = description;
@@ -348,7 +348,7 @@ public final class MimeTypeHelper {
 
         //Check if the argument is a folder
         if (fso instanceof Directory) {
-            return res.getString(R.string.mime_folder);
+            return res.getString(R.string.wm_fm_mime_folder);
         }
 
         //Get the extension and delivery
@@ -357,7 +357,7 @@ public final class MimeTypeHelper {
             return mime;
         }
 
-        return res.getString(R.string.mime_unknown);
+        return res.getString(R.string.wm_fm_mime_unknown);
     }
 
     /**

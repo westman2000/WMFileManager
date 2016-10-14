@@ -26,7 +26,6 @@ import corp.wmsoft.android.lib.filemanager.IFileManagerFileTimeFormat;
 import corp.wmsoft.android.lib.filemanager.IFileManagerNavigationMode;
 import corp.wmsoft.android.lib.filemanager.IFileManagerSortMode;
 import corp.wmsoft.android.lib.filemanager.MountPointView;
-import corp.wmsoft.android.lib.filemanager.WMFileManager;
 import corp.wmsoft.android.lib.filemanager.IOnFileManagerEventListener;
 import corp.wmsoft.android.lib.filemanager.IOnMountPointSelected;
 import corp.wmsoft.android.lib.filemanager.IOnDirectoryChangedListener;
@@ -80,19 +79,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-        mFileManagerView.setRestrictions(WMFileManager.createRestrictionOnlyTox());
+//        mFileManagerView.setRestrictions(WMFileManager.createRestrictionOnlyTox());
 
         mFileManagerView.setOnDirectoryChangedListener(new IOnDirectoryChangedListener() {
             @Override
             public void onDirectoryChanged(String dir) {
-                Snackbar.make(findViewById(R.id.fab), "new dir: ["+dir+"]", Snackbar.LENGTH_LONG).show();
+//                Snackbar.make(findViewById(R.id.fab), "new dir: ["+dir+"]", Snackbar.LENGTH_LONG).show();
             }
         });
 
         mFileManagerView.setOnFilePickedListener(new IOnFilePickedListener() {
             @Override
             public void onFilePicked(String file) {
-                Snackbar.make(findViewById(R.id.fab), "file: ["+file+"]", Snackbar.LENGTH_LONG).show();
+//                Snackbar.make(findViewById(R.id.fab), "file: ["+file+"]", Snackbar.LENGTH_LONG).show();
             }
         });
 
@@ -100,8 +99,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
             }
         });
 

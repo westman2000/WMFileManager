@@ -76,9 +76,9 @@ public class RxStorageHelper {
                                     String description;
                                     //noinspection IndexOfReplaceableByContains
                                     if (path.toLowerCase(Locale.ROOT).indexOf("usb") != -1) {
-                                        description = appContext.getString(R.string.usb_storage);
+                                        description = appContext.getString(R.string.wm_fm_usb_storage);
                                     } else {
-                                        description = appContext.getString(R.string.external_storage);
+                                        description = appContext.getString(R.string.wm_fm_external_storage);
                                     }
                                     // Create the object by reflection
                                     Constructor<StorageVolume> constructor =

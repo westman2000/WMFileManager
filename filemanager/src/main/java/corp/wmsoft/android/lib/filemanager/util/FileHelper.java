@@ -125,10 +125,10 @@ public class FileHelper {
     public static String getHumanReadableSize(Context context, long size) {
         Resources res = context.getResources();
         final int[] magnitude = {
-                R.string.size_bytes,
-                R.string.size_kilobytes,
-                R.string.size_megabytes,
-                R.string.size_gigabytes
+                R.string.wm_fm_size_bytes,
+                R.string.wm_fm_size_kilobytes,
+                R.string.wm_fm_size_megabytes,
+                R.string.wm_fm_size_gigabytes
         };
 
         double aux = size;
@@ -178,17 +178,17 @@ public class FileHelper {
             sFileTimeFormat = PreferencesHelper.getFileManagerFileTimeFormat();
 
             if (sFileTimeFormat == IFileManagerFileTimeFormat.SYSTEM) {
-                sDateTimeFormatOrder = ctx.getString(R.string.datetime_format_order);
+                sDateTimeFormatOrder = ctx.getString(R.string.wm_fm_datetime_format_order);
                 sDateFormat = android.text.format.DateFormat.getDateFormat(ctx);
                 sTimeFormat = android.text.format.DateFormat.getTimeFormat(ctx);
             } else if (sFileTimeFormat == IFileManagerFileTimeFormat.LOCALE) {
                 sDateFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
             } else if (sFileTimeFormat == IFileManagerFileTimeFormat.DDMMYYYY_HHMMSS) {
-                sDateFormat = new SimpleDateFormat(ctx.getString(R.string.filetime_format_mode_ddMMyyyy_HHmmss_internal));
+                sDateFormat = new SimpleDateFormat(ctx.getString(R.string.wm_fm_filetime_format_mode_ddMMyyyy_HHmmss_internal));
             } else if (sFileTimeFormat == IFileManagerFileTimeFormat.MMDDYYYY_HHMMSS) {
-                sDateFormat = new SimpleDateFormat(ctx.getString(R.string.filetime_format_mode_MMddyyyy_HHmmss_internal));
+                sDateFormat = new SimpleDateFormat(ctx.getString(R.string.wm_fm_filetime_format_mode_MMddyyyy_HHmmss_internal));
             } else if (sFileTimeFormat == IFileManagerFileTimeFormat.YYYYMMDD_HHMMSS) {
-                sDateFormat = new SimpleDateFormat(ctx.getString(R.string.filetime_format_mode_yyyyMMdd_HHmmss_internal));
+                sDateFormat = new SimpleDateFormat(ctx.getString(R.string.wm_fm_filetime_format_mode_yyyyMMdd_HHmmss_internal));
             }
             sReloadDateTimeFormats = false;
         }
@@ -386,10 +386,7 @@ public class FileHelper {
      * @return boolean If file system object is a directory
      */
     public static boolean isDirectory(FileSystemObject fso) {
-        if (fso instanceof Directory) {
-            return true;
-        }
-        return false;
+        return fso instanceof Directory;
     }
 
     /**

@@ -1,94 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">FileManager</string>
+    <string name="wm_fm_app_name">FileManager</string>
 
     <!-- Date/time format order (%1$s: date; %2$s: time) -->
-    <string name="datetime_format_order">%1$s %2$s</string>
+    <string name="wm_fm_datetime_format_order">%1$s %2$s</string>
 
     <!-- The parent directory of the current directory in navigation view -->
-    <string name="parent_dir">Вверх</string>
+    <string name="wm_fm_parent_dir">Вверх</string>
     <!-- External storage descripton -->
-    <string name="external_storage">Внешний накопитель</string>
+    <string name="wm_fm_external_storage">Внешний накопитель</string>
     <!-- Usb storage descripton -->
-    <string name="usb_storage">USB-накопитель</string>
+    <string name="wm_fm_usb_storage">USB-накопитель</string>
 
     <!-- Human readable sizes -->
-    <string name="size_bytes">б</string>
-    <string name="size_kilobytes">Кб</string>
-    <string name="size_megabytes">Мб</string>
-    <string name="size_gigabytes">Гб</string>
+    <string name="wm_fm_size_bytes">б</string>
+    <string name="wm_fm_size_kilobytes">Кб</string>
+    <string name="wm_fm_size_megabytes">Мб</string>
+    <string name="wm_fm_size_gigabytes">Гб</string>
 
     <!-- ActionBar Buttons - Sort Mode -->
-    <string name="actionbar_button_sort_mode_cd">Режим сортировки</string>
+    <string name="wm_fm_actionbar_button_sort_mode_cd">Режим сортировки</string>
     <!-- ActionBar Buttons - Layout Mode -->
-    <string name="actionbar_button_layout_mode_cd">Вид объектов</string>
+    <string name="wm_fm_actionbar_button_layout_mode_cd">Вид объектов</string>
     <!-- ActionBar Buttons - Other View Options -->
-    <string name="actionbar_button_other_view_options_cd">Настройки отображения</string>
+    <string name="wm_fm_actionbar_button_other_view_options_cd">Настройки отображения</string>
 
     <!-- Navigation View - Sort - Sort by name (ascending) -->
-    <string name="sort_by_name_asc">По имени \u25B2</string>
+    <string name="wm_fm_sort_by_name_asc">По имени \u25B2</string>
     <!-- Navigation View - Sort - Sort by name (descending) -->
-    <string name="sort_by_name_desc">По имени \u25BC</string>
+    <string name="wm_fm_sort_by_name_desc">По имени \u25BC</string>
     <!-- Navigation View - Sort - Sort by date (ascending) -->
-    <string name="sort_by_date_asc">По дате \u25B2</string>
+    <string name="wm_fm_sort_by_date_asc">По дате \u25B2</string>
     <!-- Navigation View - Sort - Sort by date (descending) -->
-    <string name="sort_by_date_desc">По дате \u25BC</string>
+    <string name="wm_fm_sort_by_date_desc">По дате \u25BC</string>
     <!-- Navigation View - Sort - Sort by size (ascending) -->
-    <string name="sort_by_size_asc">По размеру \u25B2</string>
+    <string name="wm_fm_sort_by_size_asc">По размеру \u25B2</string>
     <!-- Navigation View - Sort - Sort by size (descending) -->
-    <string name="sort_by_size_desc">По размеру \u25BC</string>
+    <string name="wm_fm_sort_by_size_desc">По размеру \u25BC</string>
     <!-- Navigation View - Sort - Sort by type (ascending) -->
-    <string name="sort_by_type_asc">По типу \u25B2</string>
+    <string name="wm_fm_sort_by_type_asc">По типу \u25B2</string>
     <!-- Navigation View - Sort - Sort by type (descending) -->
-    <string name="sort_by_type_desc">По типу \u25BC</string>
+    <string name="wm_fm_sort_by_type_desc">По типу \u25BC</string>
 
     <!-- Navigation View - Layout - Icons -->
-    <string name="layout_icons">Значки</string>
+    <string name="wm_fm_layout_icons">Значки</string>
     <!-- Navigation View - Layout - Simple -->
-    <string name="layout_simple">Список</string>
+    <string name="wm_fm_layout_simple">Список</string>
     <!-- Navigation View - Layout - Details -->
-    <string name="layout_details">Подробный список</string>
+    <string name="wm_fm_layout_details">Подробный список</string>
 
     <!-- Navigation View - View - Show folders first -->
-    <string name="cm_filemanager_show_dirs_first">Папки первыми</string>
+    <string name="wm_fm_show_dirs_first">Папки первыми</string>
     <!-- Navigation View - View - Show hidden files option -->
-    <string name="cm_filemanager_show_hidden">Скрытые файлы</string>
+    <string name="wm_fm_show_hidden">Скрытые файлы</string>
     <!-- Preferences - General - Display thumbs -->
-    <string name="pref_display_thumbs">Показывать эскизы</string>
+    <string name="wm_fm_pref_display_thumbs">Показывать эскизы</string>
     <!-- Preferences - General - Display thumbs summary -->
-    <string name="pref_display_thumbs_summary">Отображение эскизов картинок, видеозаписей, музыкальных файлов и приложений</string>
+    <string name="wm_fm_pref_display_thumbs_summary">Отображение эскизов картинок, видеозаписей, музыкальных файлов и приложений</string>
 
     <!-- Mime/Types - Folder -->
-    <string name="mime_folder">Папка</string>
+    <string name="wm_fm_mime_folder">Папка</string>
     <!-- Mime/Types - Unknown -->
-    <string name="mime_unknown">Неизвестно</string>
+    <string name="wm_fm_mime_unknown">Неизвестно</string>
 
     <!--  Filetime formats -->
-    <string name="filetime_format_mode_system">Системный</string>
-    <string name="filetime_format_mode_locale">Региональный</string>
-    <string name="filetime_format_mode_ddMMyyyy_HHmmss">дд/мм/гггг чч:мм:сс</string>
-    <string name="filetime_format_mode_MMddyyyy_HHmmss">мм/дд/гггг чч:мм:сс</string>
-    <string name="filetime_format_mode_yyyyMMdd_HHmmss">гггг-мм-дд чч:мм:сс</string>
+    <string name="wm_fm_filetime_format_mode_system">Системный</string>
+    <string name="wm_fm_filetime_format_mode_locale">Региональный</string>
+    <string name="wm_fm_filetime_format_mode_ddMMyyyy_HHmmss">дд/мм/гггг чч:мм:сс</string>
+    <string name="wm_fm_filetime_format_mode_MMddyyyy_HHmmss">мм/дд/гггг чч:мм:сс</string>
+    <string name="wm_fm_filetime_format_mode_yyyyMMdd_HHmmss">гггг-мм-дд чч:мм:сс</string>
 
     <!-- Category descriptions -->
-    <string name="category_system">СИСТЕМА</string>
-    <string name="category_app">ПРИЛОЖЕНИЕ</string>
-    <string name="category_binary">ДВОИЧНЫЙ</string>
-    <string name="category_text">ТЕКСТ</string>
-    <string name="category_document">ДОКУМЕНТ</string>
-    <string name="category_ebook">ЭЛ. КНИГА</string>
-    <string name="category_mail">ПОЧТА</string>
-    <string name="category_compress">СЖАТЫЙ</string>
-    <string name="category_exec">ИСПОЛН. ФАЙЛ</string>
-    <string name="category_database">БАЗА ДАННЫХ</string>
-    <string name="category_font">ШРИФТ</string>
-    <string name="category_image">ИЗОБРАЖЕНИЕ</string>
-    <string name="category_audio">АУДИО</string>
-    <string name="category_video">ВИДЕО</string>
-    <string name="category_security">ЗАЩИТА</string>
-    <string name="category_all">ВСЕ</string>
+    <string name="wm_fm_category_system">СИСТЕМА</string>
+    <string name="wm_fm_category_app">ПРИЛОЖЕНИЕ</string>
+    <string name="wm_fm_category_binary">ДВОИЧНЫЙ</string>
+    <string name="wm_fm_category_text">ТЕКСТ</string>
+    <string name="wm_fm_category_document">ДОКУМЕНТ</string>
+    <string name="wm_fm_category_ebook">ЭЛ. КНИГА</string>
+    <string name="wm_fm_category_mail">ПОЧТА</string>
+    <string name="wm_fm_category_compress">СЖАТЫЙ</string>
+    <string name="wm_fm_category_exec">ИСПОЛН. ФАЙЛ</string>
+    <string name="wm_fm_category_database">БАЗА ДАННЫХ</string>
+    <string name="wm_fm_category_font">ШРИФТ</string>
+    <string name="wm_fm_category_image">ИЗОБРАЖЕНИЕ</string>
+    <string name="wm_fm_category_audio">АУДИО</string>
+    <string name="wm_fm_category_video">ВИДЕО</string>
+    <string name="wm_fm_category_security">ЗАЩИТА</string>
+    <string name="wm_fm_category_all">ВСЕ</string>
 
     <!-- Preferences - General - Filetime format mode title -->
-    <string name="pref_filetime_format_mode">Формат даты/времени</string>
+    <string name="wm_fm_pref_filetime_format_mode">Формат даты/времени</string>
 
 </resources>

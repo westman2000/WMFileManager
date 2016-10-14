@@ -2,9 +2,9 @@
 <resources>
 
     <!-- A black color with some transparency -->
-    <color name="black_transparent">#99000000</color>
+    <color name="wm_fm_black_transparent">#99000000</color>
 
-    <color name="colorPrimary">#015360</color>
-    <color name="colorAccent">#33bc14</color>
+    <color name="wm_fm_colorPrimary">#015360</color>
+    <color name="wm_fm_colorAccent">#33bc14</color>
 
 </resources>

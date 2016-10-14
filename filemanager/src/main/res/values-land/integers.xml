@@ -2,6 +2,6 @@
 <resources>
 
     <!-- The default grid columns value -->
-    <integer name="default_grid_columns">5</integer>
+    <integer name="wm_fm_default_grid_columns">5</integer>
 
 </resources>

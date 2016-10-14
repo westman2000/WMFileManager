@@ -47,14 +47,14 @@ public class PreferencesHelper {
 
     @IFileManagerNavigationMode
     public static int getFileManagerNavigationMode() {
-        String key = WMFileManager.getApplicationContext().getString(R.string.pref_key_navigation_mode);
+        String key = WMFileManager.getApplicationContext().getString(R.string.wm_fm_pref_key_navigation_mode);
         //noinspection WrongConstant
         @IFileManagerNavigationMode int mode = getSharedPreferences().getInt(key, IFileManagerNavigationMode.DETAILS);
         return mode;
     }
 
     public static void setFileManagerNavigationMode(@IFileManagerNavigationMode int mode) {
-        String key = WMFileManager.getApplicationContext().getString(R.string.pref_key_navigation_mode);
+        String key = WMFileManager.getApplicationContext().getString(R.string.wm_fm_pref_key_navigation_mode);
         //Get the preferences editor
         SharedPreferences.Editor editor = getSharedPreferences().edit();
         //Save
@@ -65,14 +65,14 @@ public class PreferencesHelper {
 
     @IFileManagerFileTimeFormat
     public static int getFileManagerFileTimeFormat() {
-        String key = WMFileManager.getApplicationContext().getString(R.string.pref_key_filetime_format);
+        String key = WMFileManager.getApplicationContext().getString(R.string.wm_fm_pref_key_filetime_format);
         //noinspection WrongConstant
         @IFileManagerFileTimeFormat int format = getSharedPreferences().getInt(key, IFileManagerFileTimeFormat.MMDDYYYY_HHMMSS);
         return format;
     }
 
     public static void setFileManagerFileTimeFormat(@IFileManagerFileTimeFormat int format) {
-        String key = WMFileManager.getApplicationContext().getString(R.string.pref_key_filetime_format);
+        String key = WMFileManager.getApplicationContext().getString(R.string.wm_fm_pref_key_filetime_format);
         //Get the preferences editor
         SharedPreferences.Editor editor = getSharedPreferences().edit();
         //Save
@@ -82,12 +82,12 @@ public class PreferencesHelper {
     }
 
     public static boolean isShowDirsFirst() {
-        String key = WMFileManager.getApplicationContext().getString(R.string.pref_key_show_dirs_first);
+        String key = WMFileManager.getApplicationContext().getString(R.string.wm_fm_pref_key_show_dirs_first);
         return getSharedPreferences().getBoolean(key, true);
     }
 
     public static void setShowDirsFirst(boolean isShowDirsFirst) {
-        String key = WMFileManager.getApplicationContext().getString(R.string.pref_key_show_dirs_first);
+        String key = WMFileManager.getApplicationContext().getString(R.string.wm_fm_pref_key_show_dirs_first);
         //Get the preferences editor
         SharedPreferences.Editor editor = getSharedPreferences().edit();
         //Save
@@ -97,12 +97,12 @@ public class PreferencesHelper {
     }
 
     public static boolean isShowHidden() {
-        String key = WMFileManager.getApplicationContext().getString(R.string.pref_key_show_hidden);
+        String key = WMFileManager.getApplicationContext().getString(R.string.wm_fm_pref_key_show_hidden);
         return getSharedPreferences().getBoolean(key, false);
     }
 
     public static void setShowHidden(boolean isShowHidden) {
-        String key = WMFileManager.getApplicationContext().getString(R.string.pref_key_show_hidden);
+        String key = WMFileManager.getApplicationContext().getString(R.string.wm_fm_pref_key_show_hidden);
         //Get the preferences editor
         SharedPreferences.Editor editor = getSharedPreferences().edit();
         //Save
@@ -113,14 +113,14 @@ public class PreferencesHelper {
 
     @IFileManagerSortMode
     public static int getFileManagerSortMode() {
-        String key = WMFileManager.getApplicationContext().getString(R.string.pref_key_sort_mode);
+        String key = WMFileManager.getApplicationContext().getString(R.string.wm_fm_pref_key_sort_mode);
         //noinspection WrongConstant
         @IFileManagerSortMode int sortMode = getSharedPreferences().getInt(key, IFileManagerSortMode.NAME_ASC);
         return sortMode;
     }
 
     public static void setFileManagerSortMode(@IFileManagerSortMode int sortMode) {
-        String key = WMFileManager.getApplicationContext().getString(R.string.pref_key_sort_mode);
+        String key = WMFileManager.getApplicationContext().getString(R.string.wm_fm_pref_key_sort_mode);
         //Get the preferences editor
         SharedPreferences.Editor editor = getSharedPreferences().edit();
         //Save
@@ -130,12 +130,12 @@ public class PreferencesHelper {
     }
 
     public static boolean isCaseSensitiveSort() {
-        String key = WMFileManager.getApplicationContext().getString(R.string.pref_key_case_sensitive);
+        String key = WMFileManager.getApplicationContext().getString(R.string.wm_fm_pref_key_case_sensitive);
         return getSharedPreferences().getBoolean(key, false);
     }
 
     public static void setCaseSensitiveSort(boolean isCaseSensitiveSort) {
-        String key = WMFileManager.getApplicationContext().getString(R.string.pref_key_case_sensitive);
+        String key = WMFileManager.getApplicationContext().getString(R.string.wm_fm_pref_key_case_sensitive);
         //Get the preferences editor
         SharedPreferences.Editor editor = getSharedPreferences().edit();
         //Save
@@ -145,12 +145,12 @@ public class PreferencesHelper {
     }
 
     public static boolean isShowThumbs() {
-        String key = WMFileManager.getApplicationContext().getString(R.string.pref_key_show_thumbs);
+        String key = WMFileManager.getApplicationContext().getString(R.string.wm_fm_pref_key_show_thumbs);
         return getSharedPreferences().getBoolean(key, true);
     }
 
     public static void setShowThumbs(boolean isShowThumbs) {
-        String key = WMFileManager.getApplicationContext().getString(R.string.pref_key_show_thumbs);
+        String key = WMFileManager.getApplicationContext().getString(R.string.wm_fm_pref_key_show_thumbs);
         //Get the preferences editor
         SharedPreferences.Editor editor = getSharedPreferences().edit();
         //Save

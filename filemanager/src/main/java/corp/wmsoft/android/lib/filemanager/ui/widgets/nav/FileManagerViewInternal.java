@@ -155,7 +155,7 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
      */
     @Override
     public void showAsGrid() {
-        mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), getResources().getInteger(R.integer.default_grid_columns)));
+        mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), getResources().getInteger(R.integer.wm_fm_default_grid_columns)));
         mRecyclerView.removeItemDecoration(mDividerItemDecoration);
     }
 

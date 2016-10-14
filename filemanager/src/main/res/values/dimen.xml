@@ -2,26 +2,26 @@
 <resources>
 
     <!-- The primary text size -->
-    <dimen name="primary_text_size">14sp</dimen>
+    <dimen name="wm_fm_primary_text_size">14sp</dimen>
     <!-- The secondary text size -->
-    <dimen name="secondary_text_size">12sp</dimen>
+    <dimen name="wm_fm_secondary_text_size">12sp</dimen>
 
     <!-- The navigation grid width -->
-    <dimen name="navigation_grid_width">85dp</dimen>
+    <dimen name="wm_fm_navigation_grid_width">85dp</dimen>
     <!-- The navigation grid height -->
-    <dimen name="navigation_grid_height">85dp</dimen>
+    <dimen name="wm_fm_navigation_grid_height">85dp</dimen>
 
     <!-- The default row height -->
-    <dimen name="default_row_height">56dp</dimen>
+    <dimen name="wm_fm_default_row_height">56dp</dimen>
 
     <!-- A small margin -->
-    <dimen name="small_margin">2dp</dimen>
+    <dimen name="wm_fm_small_margin">2dp</dimen>
     <!-- An extra margin -->
-    <dimen name="extra_margin">8dp</dimen>
+    <dimen name="wm_fm_extra_margin">8dp</dimen>
     <!-- The default margin -->
-    <dimen name="default_margin">5dp</dimen>
+    <dimen name="wm_fm_default_margin">5dp</dimen>
 
-    <dimen name="easy_mode_type_icon_wh">40dp</dimen>
-    <dimen name="easy_mode_type_icon_margin_lr">16dp</dimen>
+    <dimen name="wm_fm_easy_mode_type_icon_wh">40dp</dimen>
+    <dimen name="wm_fm_easy_mode_type_icon_margin_lr">16dp</dimen>
 
 </resources>

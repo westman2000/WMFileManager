@@ -1,32 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/navigation_view_details_item"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/default_row_height"
+    android:layout_height="@dimen/wm_fm_default_row_height"
     android:orientation="horizontal"
     android:background="?attr/selectableItemBackground">
 
     <corp.wmsoft.android.lib.filemanager.ui.widgets.FixedSizeImageView
         android:id="@+id/navigation_view_item_icon"
-        android:layout_width="@dimen/default_row_height"
-        android:layout_height="@dimen/default_row_height"
+        android:layout_width="@dimen/wm_fm_default_row_height"
+        android:layout_height="@dimen/wm_fm_default_row_height"
         android:layout_gravity="center_vertical"
-        android:contentDescription="@null"
-        android:src="@drawable/ic_fso_default_24dp"/>
+        android:contentDescription="@null" />
 
     <TextView
         android:id="@+id/navigation_view_item_name"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:layout_marginStart="@dimen/small_margin"
-        android:layout_marginLeft="@dimen/small_margin"
-        android:layout_marginEnd="@dimen/extra_margin"
-        android:layout_marginRight="@dimen/extra_margin"
+        android:layout_marginStart="@dimen/wm_fm_small_margin"
+        android:layout_marginLeft="@dimen/wm_fm_small_margin"
+        android:layout_marginEnd="@dimen/wm_fm_extra_margin"
+        android:layout_marginRight="@dimen/wm_fm_extra_margin"
         android:gravity="start|center_vertical"
         android:maxLines="1"
-        android:ellipsize="middle"
-        android:textAppearance="@style/primary_text_appearance"/>
+        android:ellipsize="end"
+        android:textAppearance="@style/wm_fm_primary_text_appearance"/>
 
 </LinearLayout>
