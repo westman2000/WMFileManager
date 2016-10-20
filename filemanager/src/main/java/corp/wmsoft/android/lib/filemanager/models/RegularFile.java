@@ -8,7 +8,6 @@ import java.util.Date;
  */
 public class RegularFile extends FileSystemObject {
 
-
     /**
      * Constructor of <code>RegularFile</code>.
      *
@@ -28,6 +27,16 @@ public class RegularFile extends FileSystemObject {
     @Override
     public String toString() {
         return "RegularFile [type=" + super.toString() + "]";
+    }
+
+    @Override
+    public boolean isDirectory() {
+        return false;
+    }
+
+    @Override
+    public boolean isParentDirectory() {
+        return false;
     }
 
 }

@@ -17,3 +17,8 @@
 #}
 
 -keepattributes EnclosingMethod
+-dontwarn android.databinding.**
+-keep class corp.wmsoft.android.lib.filemanager.databinding.** {
+    <fields>;
+    <methods>;
+}

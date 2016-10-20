@@ -1,22 +1,23 @@
 package corp.wmsoft.android.lib.filemanager.ui.widgets.nav;
 
-import java.util.List;
+import android.support.annotation.Keep;
 
 import corp.wmsoft.android.lib.filemanager.IFileManagerEvent;
 import corp.wmsoft.android.lib.filemanager.IFileManagerFileTimeFormat;
 import corp.wmsoft.android.lib.filemanager.IFileManagerNavigationMode;
 import corp.wmsoft.android.lib.filemanager.IFileManagerSortMode;
-import corp.wmsoft.android.lib.filemanager.models.FileSystemObject;
 import corp.wmsoft.android.lib.mvpcrx.presenter.IMVPCPresenter;
-import corp.wmsoft.android.lib.mvpcrx.view.IMVPCDelayedDataView;
+import corp.wmsoft.android.lib.mvpcrx.view.IMVPCView;
 
 
 /**
  * This specifies the contract between the view and the presenter.
  */
-interface IFileManagerViewContract {
+public interface IFileManagerViewContract {
 
-    interface View extends IMVPCDelayedDataView<List<FileSystemObject>> {
+    interface View extends IMVPCView {
+
+        void setViewModel(FileManagerViewModel viewModel);
 
         void sendEvent(@IFileManagerEvent int event);
 
@@ -49,7 +50,8 @@ interface IFileManagerViewContract {
 
         void                            onExternalStoragePermissionsGranted();
 
-        void                            onFSOPicked(FileSystemObject fso);
+        @Keep
+        void                            onFSOPicked(FSOViewModel fsoViewModel);
 
         void                            onSetTimeFormat(@IFileManagerFileTimeFormat int format);
 

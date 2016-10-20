@@ -17,6 +17,7 @@ import corp.wmsoft.android.lib.filemanager.util.MimeTypeHelper;
 /**
  * <br/>Created by WestMan2000 on 9/1/16 at 12:27 PM.<br/>
  */
+@Deprecated
 public class FSOViewHolder extends RecyclerView.ViewHolder {
 
     //The resource of the item icon

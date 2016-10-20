@@ -13,9 +13,11 @@ import corp.wmsoft.android.lib.filemanager.adapters.holders.FSOViewHolder;
 import corp.wmsoft.android.lib.filemanager.models.FileSystemObject;
 import corp.wmsoft.android.lib.filemanager.IFileManagerNavigationMode;
 
+
 /**
  * <br/>Created by WestMan2000 on 9/1/16 at 12:09 PM.<br/>
  */
+@Deprecated
 public class FileSystemObjectAdapter extends RecyclerView.Adapter<FSOViewHolder> {
 
     /**/

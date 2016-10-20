@@ -3,15 +3,25 @@ package corp.wmsoft.android.lib.filemanager;
 import android.support.annotation.IntDef;
 import android.support.annotation.Keep;
 
+import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 
 /**
- * <br/>Created by WestMan2000 on 9/1/16 at 11:31 AM.<br/>
- *
  * Navigation sort modes.
+ *
+ * @see IFileManagerSortMode#NAME_ASC
+ * @see IFileManagerSortMode#NAME_DESC
+ * @see IFileManagerSortMode#DATE_ASC
+ * @see IFileManagerSortMode#DATE_DESC
+ * @see IFileManagerSortMode#SIZE_ASC
+ * @see IFileManagerSortMode#SIZE_DESC
+ * @see IFileManagerSortMode#TYPE_ASC
+ * @see IFileManagerSortMode#TYPE_DESC
  */
+@Keep
+@Documented
 @IntDef({
         IFileManagerSortMode.NAME_ASC,
         IFileManagerSortMode.NAME_DESC,
@@ -23,7 +33,6 @@ import java.lang.annotation.RetentionPolicy;
         IFileManagerSortMode.TYPE_DESC
 })
 @Retention(RetentionPolicy.SOURCE)
-@Keep
 public @interface IFileManagerSortMode {
 
     /**

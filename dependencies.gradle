@@ -1,13 +1,13 @@
 ext {
-    compileSdkVer = 24
-    buildToolsVer = "24.0.3"
+    compileSdkVer = 25
+    buildToolsVer = "25.0.0"
 
     minSdkVer = 14
-    targetSdkVer = 24
+    targetSdkVer = 25
 
     verCode = 1
     verName = "0.0.1"
 
-    supportLibVer = "24.2.1"
-    mvpcrxLibVer = "0.0.5"
+    supportLibVer = "25.0.0"
+    mvpcrxLibVer = "0.0.6"
 }

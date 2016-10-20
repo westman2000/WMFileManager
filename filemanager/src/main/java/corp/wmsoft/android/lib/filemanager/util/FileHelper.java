@@ -110,7 +110,7 @@ public class FileHelper {
      */
     public static String getHumanReadableSize(Context context, FileSystemObject fso) {
         //Only if has size
-        if (fso instanceof Directory) {
+        if (fso.isDirectory()) {
             return "";
         }
         return getHumanReadableSize(context, fso.getSize());
@@ -244,8 +244,8 @@ public class FileHelper {
             @Override
             public int compare(FileSystemObject lhs, FileSystemObject rhs) {
                 //Parent directory always goes first
-                boolean isLhsParentDirectory = lhs instanceof ParentDirectory;
-                boolean isRhsParentDirectory = rhs instanceof ParentDirectory;
+                boolean isLhsParentDirectory = lhs.isParentDirectory();
+                boolean isRhsParentDirectory = rhs.isParentDirectory();
                 if (isLhsParentDirectory || isRhsParentDirectory) {
                     if (isLhsParentDirectory && isRhsParentDirectory) {
                         return 0;
@@ -255,8 +255,8 @@ public class FileHelper {
 
                 //Need to sort directory first?
                 if (showDirsFirst) {
-                    boolean isLhsDirectory = lhs instanceof Directory;
-                    boolean isRhsDirectory = rhs instanceof Directory;
+                    boolean isLhsDirectory = lhs.isDirectory();
+                    boolean isRhsDirectory = rhs.isDirectory();
                     if (isLhsDirectory || isRhsDirectory) {
                         if (isLhsDirectory && isRhsDirectory) {
                             //Apply sort mode
@@ -386,7 +386,7 @@ public class FileHelper {
      * @return boolean If file system object is a directory
      */
     public static boolean isDirectory(FileSystemObject fso) {
-        return fso instanceof Directory;
+        return fso.isDirectory();
     }
 
     /**

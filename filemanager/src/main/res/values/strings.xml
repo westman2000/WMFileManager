@@ -105,4 +105,7 @@
     <string name="wm_fm_pref_key_case_sensitive" translatable="false">wm_fm_pref_key_case_sensitive</string>
     <string name="wm_fm_pref_key_show_thumbs" translatable="false">wm_fm_pref_key_show_thumbs</string>
 
+    <!-- empty hints -->
+    <string name="wm_fm_hint_empty_folder">Empty folder</string>
+
 </resources>

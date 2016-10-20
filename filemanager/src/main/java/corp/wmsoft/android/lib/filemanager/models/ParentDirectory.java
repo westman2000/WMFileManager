@@ -26,4 +26,8 @@ public class ParentDirectory extends Directory {
         return false;
     }
 
+    @Override
+    public boolean isParentDirectory() {
+        return true;
+    }
 }

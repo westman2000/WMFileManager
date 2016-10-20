@@ -28,6 +28,16 @@ public class Directory extends FileSystemObject {
         setResourceIconId(RESOURCE_FOLDER_DEFAULT);
     }
 
+    @Override
+    public boolean isDirectory() {
+        return true;
+    }
+
+    @Override
+    public boolean isParentDirectory() {
+        return false;
+    }
+
     /**
      * {@inheritDoc}
      */

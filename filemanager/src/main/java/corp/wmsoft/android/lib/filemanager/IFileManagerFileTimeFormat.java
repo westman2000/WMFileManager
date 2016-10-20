@@ -3,13 +3,22 @@ package corp.wmsoft.android.lib.filemanager;
 import android.support.annotation.IntDef;
 import android.support.annotation.Keep;
 
+import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 
 /**
- * <br/>Created by WestMan2000 on 9/1/16 at 11:31 AM.<br/>
+ * Possible file time formats to show
+ *
+ * @see IFileManagerFileTimeFormat#SYSTEM
+ * @see IFileManagerFileTimeFormat#LOCALE
+ * @see IFileManagerFileTimeFormat#DDMMYYYY_HHMMSS
+ * @see IFileManagerFileTimeFormat#MMDDYYYY_HHMMSS
+ * @see IFileManagerFileTimeFormat#YYYYMMDD_HHMMSS
  */
+@Keep
+@Documented
 @IntDef({
         IFileManagerFileTimeFormat.SYSTEM,
         IFileManagerFileTimeFormat.LOCALE,
@@ -18,17 +27,31 @@ import java.lang.annotation.RetentionPolicy;
         IFileManagerFileTimeFormat.YYYYMMDD_HHMMSS
 })
 @Retention(RetentionPolicy.SOURCE)
-@Keep
 public @interface IFileManagerFileTimeFormat {
 
+    /**
+     * by system
+     */
     int SYSTEM          = 100;
 
+    /**
+     * by current locale
+     */
     int LOCALE          = 200;
 
-    int DDMMYYYY_HHMMSS = 300; // dd/MM/yyyy HH:mm:ss
+    /**
+     * format: dd/MM/yyyy HH:mm:ss
+     */
+    int DDMMYYYY_HHMMSS = 300;
 
-    int MMDDYYYY_HHMMSS = 400; // MM/dd/yyyy HH:mm:ss
+    /**
+     * format: MM/dd/yyyy HH:mm:ss
+     */
+    int MMDDYYYY_HHMMSS = 400;
 
-    int YYYYMMDD_HHMMSS = 500; // yyyy-MM-dd HH:mm:ss
+    /**
+     * format: yyyy-MM-dd HH:mm:ss
+     */
+    int YYYYMMDD_HHMMSS = 500;
 
 }

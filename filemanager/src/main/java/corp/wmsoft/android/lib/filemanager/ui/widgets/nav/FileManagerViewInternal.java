@@ -1,17 +1,11 @@
 package corp.wmsoft.android.lib.filemanager.ui.widgets.nav;
 
 import android.content.Context;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.view.Gravity;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ProgressBar;
-
-import java.util.List;
+import android.view.LayoutInflater;
 
 import corp.wmsoft.android.lib.filemanager.IFileManagerEvent;
 import corp.wmsoft.android.lib.filemanager.IFileManagerFileTimeFormat;
@@ -21,9 +15,9 @@ import corp.wmsoft.android.lib.filemanager.IOnDirectoryChangedListener;
 import corp.wmsoft.android.lib.filemanager.IOnFileManagerEventListener;
 import corp.wmsoft.android.lib.filemanager.IOnFilePickedListener;
 import corp.wmsoft.android.lib.filemanager.R;
-import corp.wmsoft.android.lib.filemanager.adapters.FileSystemObjectAdapter;
-import corp.wmsoft.android.lib.filemanager.util.DividerItemDecoration;
-import corp.wmsoft.android.lib.filemanager.models.FileSystemObject;
+import corp.wmsoft.android.lib.filemanager.adapters.FSOViewModelAdapter;
+import corp.wmsoft.android.lib.filemanager.databinding.FileManagerViewLayoutBinding;
+import corp.wmsoft.android.lib.filemanager.mapper.FSOMapper;
 import corp.wmsoft.android.lib.filemanager.util.FileHelper;
 import corp.wmsoft.android.lib.mvpcrx.predefined.MVPCFrameLayout;
 import corp.wmsoft.android.lib.mvpcrx.presenter.factory.IMVPCPresenterFactory;
@@ -36,21 +30,23 @@ import corp.wmsoft.android.lib.mvpcrx.presenter.factory.IMVPCPresenterFactory;
  */
 // TODO - add History
 // TODO - after history - add back action
-public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewContract.View, IFileManagerViewContract.Presenter>
-        implements IFileManagerViewContract.View, View.OnClickListener {
+public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewContract.View, IFileManagerViewContract.Presenter> implements IFileManagerViewContract.View {
 
     /**/
+    @SuppressWarnings("unused")
     private static final String TAG = "WMFM::FMViewInternal";
 
+    /**/
+    private FileManagerViewLayoutBinding binding;
 
     /**/
-    private RecyclerView mRecyclerView;
+    private LinearLayoutManager mLinearLayoutManager;
+    /**/
+    private GridLayoutManager mGridLayoutManager;
     /**/
     private DividerItemDecoration mDividerItemDecoration;
     /**/
-    private ProgressBar mProgressBar;
-    /**/
-    private FileSystemObjectAdapter mAdapter;
+    private FSOViewModelAdapter mAdapter;
     /**/
     private IOnFileManagerEventListener mOnFileManagerEventListener;
     /**/
@@ -75,6 +71,7 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
         init();
     }
 
+    @SuppressWarnings("unused")
     public FileManagerViewInternal(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init();
@@ -97,6 +94,11 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
     }
 
     @Override
+    public void onInitializePresenter(IFileManagerViewContract.Presenter presenter) {
+        mAdapter.setPresenter(presenter);
+    }
+
+    @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
 
@@ -113,13 +115,10 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
         mOnDirectoryChangedListener = null;
     }
 
-    /**
-     * @hide
-     */
     @Override
-    public void showError(Error error) {
-        Log.e(TAG,"error="+error.getMessage());
-        error.printStackTrace();
+    public void setViewModel(FileManagerViewModel viewModel) {
+        binding.setViewModel(viewModel);
+        mAdapter.setList(viewModel.fsoViewModels);
     }
 
     /**
@@ -146,8 +145,15 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
     @Override
     public void showAsList() {
         // use a linear layout manager for simple and details mode
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mRecyclerView.addItemDecoration(mDividerItemDecoration);
+        if (mLinearLayoutManager == null)
+            mLinearLayoutManager = new LinearLayoutManager(getContext());
+
+        binding.fsoList.setLayoutManager(mLinearLayoutManager);
+
+        if (mDividerItemDecoration == null)
+            mDividerItemDecoration = new DividerItemDecoration(binding.fsoList.getContext(), LinearLayoutManager.VERTICAL);
+
+        binding.fsoList.addItemDecoration(mDividerItemDecoration);
     }
 
     /**
@@ -155,8 +161,12 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
      */
     @Override
     public void showAsGrid() {
-        mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), getResources().getInteger(R.integer.wm_fm_default_grid_columns)));
-        mRecyclerView.removeItemDecoration(mDividerItemDecoration);
+        if (mGridLayoutManager == null)
+            mGridLayoutManager = new GridLayoutManager(getContext(), getResources().getInteger(R.integer.wm_fm_default_grid_columns));
+
+        binding.fsoList.setLayoutManager(mGridLayoutManager);
+
+        binding.fsoList.removeItemDecoration(mDividerItemDecoration);
     }
 
     /**
@@ -186,57 +196,8 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
 
     @Override
     public void openFilePath(String filePath) {
-        getPresenter().onFSOPicked(FileHelper.createFileSystemObject(filePath));
-    }
-
-    /**
-     * @hide
-     */
-    @Override
-    public void showLoading() {
-        mRecyclerView.setVisibility(View.GONE);
-        mProgressBar.setVisibility(View.VISIBLE);
-    }
-
-    /**
-     * @hide
-     */
-    @Override
-    public void hideLoading() {
-        mRecyclerView.setVisibility(View.VISIBLE);
-        mProgressBar.setVisibility(View.GONE);
-    }
-
-    /**
-     * @hide
-     */
-    @Override
-    public void setData(List<FileSystemObject> data) {
-        mAdapter.clearAndAddAll(data);
-    }
-
-    /**
-     * @hide
-     */
-    @Override
-    public void showContent() {
-    }
-
-    /**
-     * @hide
-     */
-    @Override
-    public void showNoDataView() {
-    }
-
-    /**
-     * @hide
-     */
-    @Override
-    public void onClick(View view) {
-        int position = mRecyclerView.getChildAdapterPosition(view);
-        FileSystemObject fso = mAdapter.getItem(position);
-        getPresenter().onFSOPicked(fso);
+        // TODO - убрать эти сложности и передавать строку в презентер
+        getPresenter().onFSOPicked(FSOMapper.mapToViewModel(FileHelper.createFileSystemObject(filePath)));
     }
 
     /**
@@ -372,30 +333,18 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
      */
     private void init() {
 
-        mAdapter = new FileSystemObjectAdapter();
-        mAdapter.setViewOnClickListener(this);
+        // Create data binding for file_manager_view_layout.xml
+        binding = FileManagerViewLayoutBinding.inflate(LayoutInflater.from(getContext()));
 
-        mRecyclerView = new RecyclerView(getContext());
+        mAdapter = new FSOViewModelAdapter();
+
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
-        mRecyclerView.setHasFixedSize(true);
+        binding.fsoList.setHasFixedSize(true);
 
-        mDividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL_LIST);
+        binding.setAdapter(mAdapter);
 
-        mRecyclerView.setAdapter(mAdapter);
-
-        addView(mRecyclerView);
-
-        createProgressBar();
+        addView(binding.getRoot());
     }
 
-    private void createProgressBar() {
-        mProgressBar = new ProgressBar(getContext());
-
-        LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        params.gravity = Gravity.CENTER;
-        mProgressBar.setLayoutParams(params);
-
-        addView(mProgressBar);
-    }
 }

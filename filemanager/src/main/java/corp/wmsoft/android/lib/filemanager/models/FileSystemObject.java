@@ -1,6 +1,8 @@
 package corp.wmsoft.android.lib.filemanager.models;
 
 
+import android.support.annotation.Keep;
+
 import java.io.File;
 import java.util.Date;
 
@@ -32,6 +34,28 @@ public abstract class FileSystemObject implements IMVPCViewModel, Comparable<Fil
 
 
     /**
+     * To prevent always ask
+     * <pre>
+     *      if (fso instanceof Directory) {
+     *          ...
+     *      }
+     * </pre>
+     * @return is fso a directory
+     */
+    public abstract boolean isDirectory();
+
+    /**
+     * To prevent always ask
+     * <pre>
+     *      if (fso instanceof ParentDirectory) {
+     *          ...
+     *      }
+     * </pre>
+     * @return is fso a directory
+     */
+    public abstract boolean isParentDirectory();
+
+    /**
      * Constructor of <code>FileSystemObject</code>.
      *
      * @param name The name of the object
@@ -55,6 +79,7 @@ public abstract class FileSystemObject implements IMVPCViewModel, Comparable<Fil
      *
      * @return String The name of the object
      */
+    @Keep
     public String getName() {
         return this.mName;
     }

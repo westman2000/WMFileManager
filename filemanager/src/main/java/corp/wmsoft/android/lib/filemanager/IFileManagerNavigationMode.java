@@ -5,22 +5,34 @@ import android.support.annotation.Keep;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 
+import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 
 /**
- * <br/>Created by WestMan2000 on 9/1/16 at 11:31 AM.<br/>
+ * Possible navigation modes
+ *
+ * @see IFileManagerNavigationMode#UNDEFINED
+ * @see IFileManagerNavigationMode#ICONS
+ * @see IFileManagerNavigationMode#SIMPLE
+ * @see IFileManagerNavigationMode#DETAILS
  */
+@Keep
+@Documented
 @IntDef({
+        IFileManagerNavigationMode.UNDEFINED,
         IFileManagerNavigationMode.ICONS,
         IFileManagerNavigationMode.SIMPLE,
         IFileManagerNavigationMode.DETAILS
 })
 @Retention(RetentionPolicy.SOURCE)
-@Keep
 public @interface IFileManagerNavigationMode {
 
+    /**
+     * Undefined mode, used internally for first start
+     */
+    int UNDEFINED = 0;
     /**
      * That mode shows a icon based view (icon + name) with a {@link GridLayoutManager}.
      */

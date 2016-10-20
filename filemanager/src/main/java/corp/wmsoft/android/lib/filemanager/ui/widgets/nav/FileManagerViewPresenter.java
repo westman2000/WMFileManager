@@ -4,9 +4,9 @@ import android.annotation.SuppressLint;
 import android.os.Environment;
 import android.os.FileObserver;
 import android.os.Handler;
+import android.util.Log;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 import corp.wmsoft.android.lib.filemanager.IFileManagerEvent;
@@ -15,13 +15,12 @@ import corp.wmsoft.android.lib.filemanager.IFileManagerNavigationMode;
 import corp.wmsoft.android.lib.filemanager.IFileManagerSortMode;
 import corp.wmsoft.android.lib.filemanager.interactors.GetFSOList;
 import corp.wmsoft.android.lib.filemanager.interactors.GetMountPoints;
-import corp.wmsoft.android.lib.filemanager.models.Directory;
 import corp.wmsoft.android.lib.filemanager.models.FileSystemObject;
 import corp.wmsoft.android.lib.filemanager.models.MountPoint;
-import corp.wmsoft.android.lib.filemanager.models.ParentDirectory;
 import corp.wmsoft.android.lib.filemanager.util.FileHelper;
 import corp.wmsoft.android.lib.filemanager.util.PreferencesHelper;
 import corp.wmsoft.android.lib.mvpcrx.presenter.MVPCPresenter;
+
 import rx.Subscriber;
 
 
@@ -37,7 +36,7 @@ import rx.Subscriber;
 public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewContract.View> implements IFileManagerViewContract.Presenter {
 
     /**/
-    private final static String TAG = "FileManagerViewPresenter";
+    private final static String TAG = "wmfm::FileManagerViewP";
 
     /**
      * Use cases
@@ -52,10 +51,10 @@ public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewCont
     /**/
     private FileObserver mFileObserver;
     /**/
-    private List<FileSystemObject> mFiles;
+    private final FileManagerViewModel mViewModel;
     /**/
     @IFileManagerNavigationMode
-    private int mCurrentMode;
+    private int mCurrentMode = IFileManagerNavigationMode.UNDEFINED;
     /**/
     private String mCurrentDir;
     /**
@@ -66,36 +65,28 @@ public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewCont
 
     public FileManagerViewPresenter(
             GetFSOList getFSOList,
-            GetMountPoints getMountPoints) {
+            GetMountPoints getMountPoints
+    ) {
 
         this.mGetFSOList     = getFSOList;
         this.mGetMountPoints = getMountPoints;
 
         //Initialize variables
-        this.mFiles = new ArrayList<>();
-
-        mHandler = new Handler();
+        mViewModel = new FileManagerViewModel();
+        mHandler   = new Handler();
     }
 
     @Override
     public void attachView(IFileManagerViewContract.View mvpView) {
         super.attachView(mvpView);
-        getView().showLoading();
+        getView().setViewModel(mViewModel);
         getView().sendEvent(IFileManagerEvent.NEED_EXTERNAL_STORAGE_PERMISSION);
-    }
-
-    @Override
-    public void detachView() {
-        super.detachView();
-
-        releaseFileObserver();
     }
 
     @Override
     public void onDestroyed() {
         super.onDestroyed();
         releaseFileObserver();
-
     }
 
     @IFileManagerNavigationMode
@@ -112,8 +103,7 @@ public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewCont
 
     @Override
     public void onExternalStoragePermissionsGranted() {
-        //noinspection WrongConstant
-        if (mCurrentMode == 0)
+        if (mCurrentMode == IFileManagerNavigationMode.UNDEFINED)
             setViewMode(PreferencesHelper.getFileManagerNavigationMode()); // Set the default configuration if this is first launch
         else
             setViewMode(mCurrentMode);
@@ -122,7 +112,7 @@ public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewCont
             // get mount point manually or ask for it from MountPointsView if it set
             loadMountPoints();
         } else {
-            if (mFiles == null)
+            if (mViewModel.fsoViewModels.isEmpty())
                 changeCurrentDir(mCurrentDir);
             else {
                 showFileList();
@@ -130,14 +120,25 @@ public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewCont
         }
     }
 
+    /**
+     * Called from data binding
+     * @param fsoViewModel view model
+     */
     @Override
-    public void onFSOPicked(FileSystemObject fso) {
-        if (fso instanceof ParentDirectory) {
-            changeCurrentDir(fso.getParent());
-        } else if (fso instanceof Directory) {
-            changeCurrentDir(fso.getFullPath());
+    public void onFSOPicked(FSOViewModel fsoViewModel) {
+
+        Log.d(TAG, "onFSOPicked()");
+        Log.d(TAG, "fsoViewModel.fso.isParentDirectory()="+fsoViewModel.fso.isParentDirectory());
+        Log.d(TAG, "fsoViewModel.fso.isDirectory()="+fsoViewModel.fso.isDirectory());
+
+        Log.d(TAG, "fsoViewModel.fso.getFullPath()="+fsoViewModel.fso.getFullPath());
+
+        if (fsoViewModel.fso.isParentDirectory()) {
+            changeCurrentDir(fsoViewModel.fso.getParent());
+        } else if (fsoViewModel.fso.isDirectory()) {
+            changeCurrentDir(fsoViewModel.fso.getFullPath());
         } else {
-            getView().filePicked(fso.getFullPath());
+            getView().filePicked(fsoViewModel.fso.getFullPath());
         }
     }
 
@@ -246,6 +247,7 @@ public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewCont
      * @param newDir The new directory location
      */
     private void changeCurrentDir(final String newDir) {
+        Log.d(TAG, "changeCurrentDir("+newDir+")");
         this.mCurrentDir = newDir;
         loadFSOList();
     }
@@ -260,7 +262,7 @@ public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewCont
 
             @Override
             public void onError(Throwable e) {
-                getView().showError(new Error("Can't get mount points"));
+                // TODO - show error
                 mCurrentDir = Environment.getExternalStorageDirectory().getAbsolutePath();
             }
 
@@ -277,10 +279,17 @@ public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewCont
     }
 
     private void loadFSOList() {
-        getView().showLoading();
-        executeUseCase(mGetFSOList, new GetFSOList.RequestValues(mCurrentDir), new Subscriber<List<FileSystemObject>>() {
+
+        executeUseCase(mGetFSOList, new GetFSOList.RequestValues(mCurrentDir), new Subscriber<List<FSOViewModel>>() {
+            @Override
+            public void onStart() {
+                mViewModel.isLoading.set(true);
+                mViewModel.fsoViewModels.clear();
+            }
+
             @Override
             public void onCompleted() {
+                Log.d(TAG, "onCompleted("+mCurrentDir+")");
                 showFileList();
                 FileSystemObject dir = FileHelper.createFileSystemObject(new File(mCurrentDir));
                 getView().directoryChanged(dir.getFullPath());
@@ -288,19 +297,19 @@ public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewCont
 
             @Override
             public void onError(Throwable e) {
-                getView().showError(new Error(e));
+                Log.d(TAG, "onError("+e+")");
+                // TODO - show error
             }
 
             @Override
-            public void onNext(List<FileSystemObject> fileSystemObjects) {
-                mFiles = new ArrayList<>(fileSystemObjects);
+            public void onNext(List<FSOViewModel> fsoViewModelList) {
+                Log.d(TAG, "onNext()");
+                mViewModel.fsoViewModels.addAll(fsoViewModelList);
             }
         });
     }
 
     private void showFileList() {
-
-        getView().setData(mFiles);
 
         releaseFileObserver();
         mFileObserver = new FileObserver(mCurrentDir, FILE_OBSERVER_MASK) {
@@ -322,8 +331,7 @@ public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewCont
         // TODO - Change the breadcrumb
         // TODO - The current directory is now the "newDir"
 
-        getView().showContent();
-        getView().hideLoading();
+        mViewModel.isLoading.set(false);
     }
 
     private void releaseFileObserver() {

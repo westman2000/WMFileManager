@@ -1,31 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/navigation_view_details_item"
-    android:layout_width="match_parent"
-    android:layout_height="@dimen/wm_fm_default_row_height"
-    android:orientation="horizontal"
-    android:background="?attr/selectableItemBackground">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <corp.wmsoft.android.lib.filemanager.ui.widgets.FixedSizeImageView
-        android:id="@+id/navigation_view_item_icon"
-        android:layout_width="@dimen/wm_fm_default_row_height"
+    <data>
+        <variable name="viewModel" type="corp.wmsoft.android.lib.filemanager.ui.widgets.nav.FSOViewModel"/>
+        <variable name="presenter" type="corp.wmsoft.android.lib.filemanager.ui.widgets.nav.IFileManagerViewContract.Presenter"/>
+    </data>
+
+    <LinearLayout
+        android:id="@+id/navigation_view_details_item"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/wm_fm_default_row_height"
-        android:layout_gravity="center_vertical"
-        android:contentDescription="@null" />
+        android:orientation="horizontal"
+        android:onClick="@{() -> presenter.onFSOPicked(viewModel)}"
+        android:background="?attr/selectableItemBackground">
 
-    <TextView
-        android:id="@+id/navigation_view_item_name"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:layout_marginStart="@dimen/wm_fm_small_margin"
-        android:layout_marginLeft="@dimen/wm_fm_small_margin"
-        android:layout_marginEnd="@dimen/wm_fm_extra_margin"
-        android:layout_marginRight="@dimen/wm_fm_extra_margin"
-        android:gravity="start|center_vertical"
-        android:maxLines="1"
-        android:ellipsize="end"
-        android:textAppearance="@style/wm_fm_primary_text_appearance"/>
+        <corp.wmsoft.android.lib.filemanager.ui.widgets.FixedSizeImageView
+            android:id="@+id/navigation_view_item_icon"
+            android:layout_width="@dimen/wm_fm_default_row_height"
+            android:layout_height="@dimen/wm_fm_default_row_height"
+            android:layout_gravity="center_vertical"
+            android:contentDescription="@null" />
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/navigation_view_item_name"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="@{viewModel.fso.name}"
+            android:layout_weight="1"
+            android:layout_marginStart="@dimen/wm_fm_small_margin"
+            android:layout_marginLeft="@dimen/wm_fm_small_margin"
+            android:layout_marginEnd="@dimen/wm_fm_extra_margin"
+            android:layout_marginRight="@dimen/wm_fm_extra_margin"
+            android:gravity="start|center_vertical"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textAppearance="@style/wm_fm_primary_text_appearance"/>
+
+    </LinearLayout>
+
+</layout>

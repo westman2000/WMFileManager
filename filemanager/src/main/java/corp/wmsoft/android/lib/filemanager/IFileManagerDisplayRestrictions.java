@@ -3,14 +3,20 @@ package corp.wmsoft.android.lib.filemanager;
 import android.support.annotation.IntDef;
 import android.support.annotation.Keep;
 
+import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 /**
- * <p>Created by WestMan2000 on 9/28/16. <p>
+ * An enumeration of the restrictions that can be applied when displaying list of files.
  *
- *     An enumeration of the restrictions that can be applied when displaying list of files.
+ * @see IFileManagerDisplayRestrictions#CATEGORY_TYPE_RESTRICTION
+ * @see IFileManagerDisplayRestrictions#MIME_TYPE_RESTRICTION
+ * @see IFileManagerDisplayRestrictions#SIZE_RESTRICTION
+ * @see IFileManagerDisplayRestrictions#DIRECTORY_ONLY_RESTRICTION
  */
+@Keep
+@Documented
 @IntDef({
         IFileManagerDisplayRestrictions.CATEGORY_TYPE_RESTRICTION,
         IFileManagerDisplayRestrictions.MIME_TYPE_RESTRICTION,
@@ -18,7 +24,6 @@ import java.lang.annotation.RetentionPolicy;
         IFileManagerDisplayRestrictions.DIRECTORY_ONLY_RESTRICTION
 })
 @Retention(RetentionPolicy.SOURCE)
-@Keep
 public @interface IFileManagerDisplayRestrictions {
 
     /**
