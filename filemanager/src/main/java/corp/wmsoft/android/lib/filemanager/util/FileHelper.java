@@ -71,7 +71,7 @@ public class FileHelper {
 
 
     /**
-     * Method that creates a {@link FileSystemObject} from a {@link File}
+     * Method that creates a {@link FileSystemObject} from a {@link String path to file}
      *
      * @param path The path
      * @return FileSystemObject The file system object reference
@@ -250,18 +250,18 @@ public class FileHelper {
 
         while (it.hasNext()) {
 
-            FileSystemObject file = it.next();
+            FileSystemObject fso = it.next();
 
             //Hidden files
             if (!showHidden) {
-                if (file.isHidden()) {
+                if (fso.isHidden()) {
                     it.remove();
                     continue;
                 }
             }
             // Restrictions (only apply to files)
-            if (!isDirectory(file)) {
-                if (!isDisplayAllowed(file)) {
+            if (!fso.isDirectory()) {
+                if (!isDisplayAllowed(fso)) {
                     it.remove();
                 }
             }

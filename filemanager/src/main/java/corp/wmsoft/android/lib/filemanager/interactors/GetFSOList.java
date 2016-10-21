@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 
-import corp.wmsoft.android.lib.filemanager.mapper.FSOMapper;
+import corp.wmsoft.android.lib.filemanager.mapper.FileSystemObjectMapper;
 import corp.wmsoft.android.lib.filemanager.models.FileSystemObject;
 import corp.wmsoft.android.lib.filemanager.models.ParentDirectory;
 import corp.wmsoft.android.lib.filemanager.ui.widgets.nav.FSOViewModel;
@@ -67,7 +67,7 @@ public class GetFSOList extends MVPCUseCase<GetFSOList.RequestValues, List<FSOVi
                 .flatMap(new Func1<List<FileSystemObject>, Observable<List<FSOViewModel>>>() {
                     @Override
                     public Observable<List<FSOViewModel>> call(List<FileSystemObject> fileSystemObjects) {
-                        return FSOMapper.mapToViewModels(fileSystemObjects);
+                        return FileSystemObjectMapper.mapToViewModels(fileSystemObjects);
                     }
                 });
     }

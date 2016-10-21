@@ -76,7 +76,7 @@ public class FSOViewModelAdapter extends BaseDataBoundAdapter {
         presenter = null;
     }
 
-    @BindingAdapter({"bind:iconByFso"})
+    @BindingAdapter({"iconByFso"})
     public static void loadIcon(ImageView view, FSOViewModel fsoViewModel) {
         int iconResId = MimeTypeHelper.getIcon(view.getContext(), fsoViewModel.fso, true);
         Drawable drawable = IconsHelper.getDrawable(iconResId);

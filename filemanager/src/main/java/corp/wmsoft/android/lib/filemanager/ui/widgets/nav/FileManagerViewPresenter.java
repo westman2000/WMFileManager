@@ -3,7 +3,6 @@ package corp.wmsoft.android.lib.filemanager.ui.widgets.nav;
 import android.annotation.SuppressLint;
 import android.os.Environment;
 import android.os.FileObserver;
-import android.os.Handler;
 import android.util.Log;
 
 import java.util.List;
@@ -14,6 +13,7 @@ import corp.wmsoft.android.lib.filemanager.IFileManagerNavigationMode;
 import corp.wmsoft.android.lib.filemanager.IFileManagerSortMode;
 import corp.wmsoft.android.lib.filemanager.interactors.GetFSOList;
 import corp.wmsoft.android.lib.filemanager.interactors.GetMountPoints;
+import corp.wmsoft.android.lib.filemanager.interactors.OnFileObserverEvent;
 import corp.wmsoft.android.lib.filemanager.interactors.UpdateListSummary;
 import corp.wmsoft.android.lib.filemanager.models.MountPoint;
 import corp.wmsoft.android.lib.filemanager.util.FileHelper;
@@ -38,11 +38,16 @@ public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewCont
     private final GetFSOList mGetFSOList;
     private final GetMountPoints mGetMountPoints;
     private final UpdateListSummary mUpdateListSummary;
+    private final OnFileObserverEvent mOnFileObserverEvent;
     /**/
-    private static final int FILE_OBSERVER_MASK = FileObserver.CREATE
-            | FileObserver.DELETE | FileObserver.DELETE_SELF
-            | FileObserver.MOVED_FROM | FileObserver.MOVED_TO
-            | FileObserver.MODIFY | FileObserver.MOVE_SELF;
+    private static final int FILE_OBSERVER_MASK =
+                    FileObserver.CREATE | // add
+                    FileObserver.DELETE | // remove
+                    FileObserver.DELETE_SELF | // remove and go up
+                    FileObserver.MOVED_FROM | // remove
+                    FileObserver.MOVED_TO | // add
+                    FileObserver.MODIFY | // update
+                    FileObserver.MOVE_SELF; // remove and go up
     /**/
     private FileObserver mFileObserver;
     /**/
@@ -52,25 +57,22 @@ public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewCont
     private int mCurrentMode = IFileManagerNavigationMode.UNDEFINED;
     /**/
     private String mCurrentDir;
-    /**
-     *  we need Handler because FileObserver send events in worker thread
-     */
-    private Handler mHandler;
 
 
     public FileManagerViewPresenter(
             GetFSOList getFSOList,
             GetMountPoints getMountPoints,
-            UpdateListSummary updateListSummary
+            UpdateListSummary updateListSummary,
+            OnFileObserverEvent onFileObserverEvent
     ) {
 
         this.mGetFSOList        = getFSOList;
         this.mGetMountPoints    = getMountPoints;
         this.mUpdateListSummary = updateListSummary;
+        this.mOnFileObserverEvent = onFileObserverEvent;
 
         //Initialize variables
         mViewModel = new FileManagerViewModel();
-        mHandler   = new Handler();
     }
 
     @Override
@@ -327,20 +329,22 @@ public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewCont
             @Override
             public void onEvent(int event, String path) {
 
-                Log.d(TAG, "FileObserver -> onEvent("+event+", "+path+")");
+                OnFileObserverEvent.RequestValues requestValues = new OnFileObserverEvent.RequestValues(mViewModel, event, path, mCurrentDir);
 
-                int newEvent = event & FileObserver.ALL_EVENTS;
+                executeUseCase(mOnFileObserverEvent, requestValues, new Subscriber<Boolean>() {
+                    @Override
+                    public void onCompleted() {}
 
-                Log.d(TAG, "newEvent="+newEvent);
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d(TAG, "loadFSOList.onError("+e+")");
+                        // TODO - show error
+                    }
 
-                if (path != null && newEvent > 0)
-                    mHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            Log.d(TAG, "FileObserver -> run()");  // TODO - тут баг! почему то добавляется несколько раз список
-                            loadFSOList();
-                        }
-                    });
+                    @Override
+                    public void onNext(Boolean aBoolean) {}
+                });
+
             }
         };
 
@@ -348,7 +352,6 @@ public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewCont
 
         // TODO - Add to history?
         // TODO - Change the breadcrumb
-        // TODO - The current directory is now the "newDir"
     }
 
     private void releaseFileObserver() {

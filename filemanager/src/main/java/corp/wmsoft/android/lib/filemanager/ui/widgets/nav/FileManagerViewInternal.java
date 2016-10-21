@@ -18,7 +18,7 @@ import corp.wmsoft.android.lib.filemanager.IOnFilePickedListener;
 import corp.wmsoft.android.lib.filemanager.R;
 import corp.wmsoft.android.lib.filemanager.adapters.FSOViewModelAdapter;
 import corp.wmsoft.android.lib.filemanager.databinding.FileManagerViewLayoutBinding;
-import corp.wmsoft.android.lib.filemanager.mapper.FSOMapper;
+import corp.wmsoft.android.lib.filemanager.mapper.FileSystemObjectMapper;
 import corp.wmsoft.android.lib.filemanager.util.FileHelper;
 import corp.wmsoft.android.lib.mvpcrx.predefined.MVPCFrameLayout;
 import corp.wmsoft.android.lib.mvpcrx.presenter.factory.IMVPCPresenterFactory;
@@ -201,7 +201,7 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
     @Override
     public void openFilePath(String filePath) {
         // TODO - убрать эти сложности и передавать строку в презентер
-        getPresenter().onFSOPicked(FSOMapper.mapToViewModel(FileHelper.createFileSystemObject(filePath)));
+        getPresenter().onFSOPicked(FileSystemObjectMapper.mapToViewModel(FileHelper.createFileSystemObject(filePath)));
     }
 
     /**

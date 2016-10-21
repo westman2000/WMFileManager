@@ -15,19 +15,20 @@ import java.util.Map;
 import java.util.Properties;
 
 import corp.wmsoft.android.lib.filemanager.R;
-import corp.wmsoft.android.lib.filemanager.models.Directory;
 import corp.wmsoft.android.lib.filemanager.models.FileSystemObject;
+
 
 /**
  * A helper class with useful methods for deal with mime types.
  */
-@SuppressWarnings({"WeakerAccess", "unused", "FinalStaticMethod", "Convert2Diamond", "FinalPrivateMethod"})
+@SuppressWarnings("unused")
 public final class MimeTypeHelper {
 
     /**
      * Enumeration of mime/type' categories
      */
     // TODO - move to public interface
+    @SuppressWarnings("unused")
     public enum MimeTypeCategory {
         /**
          * No category
@@ -127,9 +128,9 @@ public final class MimeTypeHelper {
      */
     private static class MimeTypeInfo {
 
-        public MimeTypeCategory mCategory;
-        public String mMimeType;
-        public int mDrawableId;
+        MimeTypeCategory mCategory;
+        String mMimeType;
+        int mDrawableId;
 
         MimeTypeInfo() {/**NON BLOCK**/}
 
@@ -187,7 +188,7 @@ public final class MimeTypeHelper {
     /**
      * A constant that defines a string of all mime-types
      */
-    public static final String ALL_MIME_TYPES = "*/*";
+    static final String ALL_MIME_TYPES = "*/*";
 
     private static Map<String, ArrayList<MimeTypeInfo>> sMimeTypes;
     /**
@@ -209,7 +210,7 @@ public final class MimeTypeHelper {
       * @param mimeType The mime type to be checked
       * @return true if mime type is known, false otherwise
       */
-     public static final boolean isAndroidCursorMimeType(String mimeType) {
+     public static boolean isAndroidCursorMimeType(String mimeType) {
          return mimeType.startsWith("vnd.android.cursor");
      }
 
@@ -221,7 +222,7 @@ public final class MimeTypeHelper {
      * @param mimeType The mime type to be checked
      * @return true if mime type is known, false otherwise
      */
-    public static final boolean isMimeTypeKnown(Context context, String mimeType) {
+    public static boolean isMimeTypeKnown(Context context, String mimeType) {
         //Ensure that mime types are loaded
         if (sMimeTypes == null) {
             loadMimeTypes(context);
@@ -251,11 +252,11 @@ public final class MimeTypeHelper {
      * @param fso The file system object
      * @return String The associated mime/type icon resource identifier
      */
-    public static final @DrawableRes int getIcon(Context context, FileSystemObject fso) {
+    public static @DrawableRes int getIcon(Context context, FileSystemObject fso) {
         return getIcon(context, fso, false);
     }
 
-    public static final @DrawableRes int getIcon(Context context, FileSystemObject fso, boolean firstFound) {
+    public static @DrawableRes int getIcon(Context context, FileSystemObject fso, boolean firstFound) {
 
         //Ensure that mime types are loaded
         if (sMimeTypes == null) {
@@ -299,14 +300,14 @@ public final class MimeTypeHelper {
      * @param fso The file system object
      * @return String The mime/type
      */
-    public static final String getMimeType(Context context, FileSystemObject fso) {
+    private static String getMimeType(Context context, FileSystemObject fso) {
         //Ensure that mime types are loaded
         if (sMimeTypes == null) {
             loadMimeTypes(context);
         }
 
         //Directories don't have a mime type
-        if (FileHelper.isDirectory(fso)) {
+        if (fso.isDirectory()) {
             return null;
         }
 
@@ -324,7 +325,7 @@ public final class MimeTypeHelper {
      * @param fso2 File system object 2
      * @return int Either -1, 0, 1 based on if fso1 appears before or after fso2
      */
-    public static final int compareFSO(Context context, FileSystemObject fso1, FileSystemObject fso2) {
+    static int compareFSO(Context context, FileSystemObject fso1, FileSystemObject fso2) {
         MimeTypeCategory mtc1 = getCategory(context, fso1);
         MimeTypeCategory mtc2 = getCategory(context, fso2);
 
@@ -338,7 +339,7 @@ public final class MimeTypeHelper {
      * @param fso The file system object
      * @return String The mime/type description
      */
-    public static final String getMimeTypeDescription(Context context, FileSystemObject fso) {
+    public static String getMimeTypeDescription(Context context, FileSystemObject fso) {
         Resources res = context.getResources();
 
         //Ensure that mime types are loaded
@@ -367,7 +368,7 @@ public final class MimeTypeHelper {
      * @return The correct mimetype for this file, or null if the mimetype cannot be determined
      * or is not ambiguous.
      */
-    private static final String getAmbiguousExtensionMimeType(String absolutePath, String ext) {
+    private static String getAmbiguousExtensionMimeType(String absolutePath, String ext) {
         if (AmbiguousExtensionHelper.AMBIGUOUS_EXTENSIONS_MAP.containsKey(ext)) {
             AmbiguousExtensionHelper helper =
                     AmbiguousExtensionHelper.AMBIGUOUS_EXTENSIONS_MAP.get(ext);
@@ -385,11 +386,11 @@ public final class MimeTypeHelper {
      * @param ext The extension of the file.
      * @return The MimeTypeInfo object that describes this file, or null if it cannot be retrieved.
      */
-    private static final MimeTypeInfo getMimeTypeInternal(FileSystemObject fso, String ext) {
+    private static MimeTypeInfo getMimeTypeInternal(FileSystemObject fso, String ext) {
         return getMimeTypeInternal(fso.getFullPath(), ext);
     }
 
-    private static final MimeTypeInfo getMimeTypeInternal(FileSystemObject fso,
+    private static MimeTypeInfo getMimeTypeInternal(FileSystemObject fso,
                                                           String ext,
                                                           boolean firstFound) {
         return getMimeTypeInternal(fso.getFullPath(), ext, firstFound);
@@ -401,11 +402,11 @@ public final class MimeTypeHelper {
      * @param ext The extension of the file.
      * @return The MimeTypeInfo object that describes this file, or null if it cannot be retrieved.
      */
-    private static final MimeTypeInfo getMimeTypeInternal(String absolutePath, String ext) {
+    private static MimeTypeInfo getMimeTypeInternal(String absolutePath, String ext) {
         return getMimeTypeInternal(absolutePath, ext, false);
     }
 
-    private static final MimeTypeInfo getMimeTypeInternal(String absolutePath,
+    private static MimeTypeInfo getMimeTypeInternal(String absolutePath,
                                                           String ext,
                                                           boolean firstFound) {
         MimeTypeInfo mimeTypeInfo = null;
@@ -427,7 +428,7 @@ public final class MimeTypeHelper {
         return mimeTypeInfo;
     }
 
-    private static final String getMimeTypeFromExtension(final FileSystemObject fso) {
+    private static String getMimeTypeFromExtension(final FileSystemObject fso) {
         String ext = FileHelper.getExtension(fso);
         if (ext == null) {
             return "application/octet-stream";
@@ -456,8 +457,8 @@ public final class MimeTypeHelper {
      * @param absolutePath The absolute path of the file. Can be null if not available.
      * @return MimeTypeCategory The mime/type category
      */
-    public static final MimeTypeCategory getCategoryFromExt(Context context, String ext,
-                                                            String absolutePath) {
+    private static MimeTypeCategory getCategoryFromExt(Context context, String ext,
+                                                       String absolutePath) {
         // Ensure that have a context
         if (context == null && sMimeTypes == null) {
             // No category
@@ -486,7 +487,7 @@ public final class MimeTypeHelper {
      * @param file The file
      * @return MimeTypeCategory The mime/type category
      */
-    public static final MimeTypeCategory getCategory(Context context, File file) {
+    private static MimeTypeCategory getCategory(Context context, File file) {
         // Ensure that have a context
         if (context == null && sMimeTypes == null) {
             // No category
@@ -515,7 +516,7 @@ public final class MimeTypeHelper {
      * @param fso The file system object
      * @return MimeTypeCategory The mime/type category
      */
-    public static final MimeTypeCategory getCategory(Context context, FileSystemObject fso) {
+    static MimeTypeCategory getCategory(Context context, FileSystemObject fso) {
         // Ensure that have a context
         if (context == null && sMimeTypes == null) {
             // No category
@@ -527,7 +528,7 @@ public final class MimeTypeHelper {
         }
 
         // Directory and Symlinks no computes as category
-        if (FileHelper.isDirectory(fso)) {
+        if (fso.isDirectory()) {
             return MimeTypeCategory.NONE;
         }
 
@@ -550,8 +551,8 @@ public final class MimeTypeHelper {
      * @param category The category
      * @return String The description of the category
      */
-    public static final String getCategoryDescription(
-                    Context context, MimeTypeCategory category) {
+    private static String getCategoryDescription(
+            Context context, MimeTypeCategory category) {
         if (category == null || category.compareTo(MimeTypeCategory.NONE) == 0) {
             return "-";
         }
@@ -571,7 +572,7 @@ public final class MimeTypeHelper {
      * @param mimeTypeExpression The mime-type expression (xe: *&#47;*, audio&#47;*)
      * @return boolean If the file system object matches the mime-type expression
      */
-    public static final boolean matchesMimeType(
+    static boolean matchesMimeType(
             Context ctx, FileSystemObject fso, String mimeTypeExpression) {
         String mimeType = getMimeType(ctx, fso);
         return mimeType != null && mimeType.matches(convertToRegExp(mimeTypeExpression));
@@ -592,8 +593,8 @@ public final class MimeTypeHelper {
 
                 // Parse the properties to an in-memory structure
                 // Format:  <extension> = <category> | <mime type> | <drawable>
-                sMimeTypes = new HashMap<String, ArrayList<MimeTypeInfo>>();
-                sExtensionMimeTypes = new HashMap<String, MimeTypeInfo>();
+                sMimeTypes = new HashMap<>();
+                sExtensionMimeTypes = new HashMap<>();
                 Enumeration<Object> e = mimeTypes.keys();
                 while (e.hasMoreElements()) {
                     try {
@@ -612,7 +613,7 @@ public final class MimeTypeHelper {
                             // If no list exists yet for this mimetype, create one.
                             // Else, add it to the existing list.
                             if (sMimeTypes.get(extension) == null) {
-                                ArrayList<MimeTypeInfo> infoList = new ArrayList<MimeTypeInfo>();
+                                ArrayList<MimeTypeInfo> infoList = new ArrayList<>();
                                 infoList.add(mimeTypeInfo);
                                 sMimeTypes.put(extension, infoList);
                             } else {
