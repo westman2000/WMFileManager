@@ -1,4 +1,5 @@
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
         <variable name="viewModel" type="corp.wmsoft.android.lib.filemanager.ui.widgets.nav.FSOViewModel"/>
@@ -16,10 +17,10 @@
             android:id="@+id/navigation_view_item_icon"
             android:layout_width="@dimen/wm_fm_default_row_height"
             android:layout_height="@dimen/wm_fm_default_row_height"
+            app:iconByFso="@{viewModel}"
             android:contentDescription="@null"
             android:gravity="center|center_vertical"
-            android:layout_centerHorizontal="true"
-            android:src="@null" />
+            android:layout_centerHorizontal="true" />
 
         <TextView
             android:id="@+id/navigation_view_item_name"

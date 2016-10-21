@@ -27,11 +27,6 @@ import rx.Subscriber;
 /**
  * <br/>Created by WestMan2000 on 8/31/16 at 3:49 PM.<br/>
  */
-
-// TODO - мега баг!
-// TODO - если закрыть диалог, то FileObserver отключится, но список файорв еще старый при открытии снова, и можно выбрать не существующий файл
-
-
 @SuppressLint("LongLogTag")
 public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewContract.View> implements IFileManagerViewContract.Presenter {
 
@@ -112,11 +107,8 @@ public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewCont
             // get mount point manually or ask for it from MountPointsView if it set
             loadMountPoints();
         } else {
-            if (mViewModel.fsoViewModels.isEmpty())
+            if (mViewModel.fsoViewModels.isEmpty() && !mViewModel.isLoading.get())
                 changeCurrentDir(mCurrentDir);
-            else {
-                showFileList();
-            }
         }
     }
 
@@ -126,13 +118,6 @@ public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewCont
      */
     @Override
     public void onFSOPicked(FSOViewModel fsoViewModel) {
-
-        Log.d(TAG, "onFSOPicked()");
-        Log.d(TAG, "fsoViewModel.fso.isParentDirectory()="+fsoViewModel.fso.isParentDirectory());
-        Log.d(TAG, "fsoViewModel.fso.isDirectory()="+fsoViewModel.fso.isDirectory());
-
-        Log.d(TAG, "fsoViewModel.fso.getFullPath()="+fsoViewModel.fso.getFullPath());
-
         if (fsoViewModel.fso.isParentDirectory()) {
             changeCurrentDir(fsoViewModel.fso.getParent());
         } else if (fsoViewModel.fso.isDirectory()) {
@@ -283,16 +268,23 @@ public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewCont
         executeUseCase(mGetFSOList, new GetFSOList.RequestValues(mCurrentDir), new Subscriber<List<FSOViewModel>>() {
             @Override
             public void onStart() {
-                mViewModel.isLoading.set(true);
                 mViewModel.fsoViewModels.clear();
+                mViewModel.isLoading.set(true);
+                mViewModel.isEmptyFolder.set(false);
             }
 
             @Override
             public void onCompleted() {
                 Log.d(TAG, "onCompleted("+mCurrentDir+")");
-                showFileList();
-                FileSystemObject dir = FileHelper.createFileSystemObject(new File(mCurrentDir));
-                getView().directoryChanged(dir.getFullPath());
+
+                setupFileObserver();
+
+                // send event to view
+                if (isViewAttached())
+                    getView().directoryChanged(mCurrentDir);
+
+                mViewModel.isLoading.set(false);
+                mViewModel.isEmptyFolder.set(mViewModel.fsoViewModels.size() == 1 && mViewModel.fsoViewModels.get(0).fso.isParentDirectory());
             }
 
             @Override
@@ -309,29 +301,34 @@ public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewCont
         });
     }
 
-    private void showFileList() {
+    private void setupFileObserver() {
 
         releaseFileObserver();
+
         mFileObserver = new FileObserver(mCurrentDir, FILE_OBSERVER_MASK) {
             @Override
             public void onEvent(int event, String path) {
+
+                Log.d(TAG, "FileObserver -> onEvent("+event+", "+path+")");
+
                 int newEvent = event & FileObserver.ALL_EVENTS;
+
                 if (path != null && newEvent > 0)
                     mHandler.post(new Runnable() {
                         @Override
                         public void run() {
+                            Log.d(TAG, "FileObserver -> run()");  // TODO - тут баг! почему то добавляется несколько раз список
                             loadFSOList();
                         }
                     });
             }
         };
+
         mFileObserver.startWatching();
 
         // TODO - Add to history?
         // TODO - Change the breadcrumb
         // TODO - The current directory is now the "newDir"
-
-        mViewModel.isLoading.set(false);
     }
 
     private void releaseFileObserver() {

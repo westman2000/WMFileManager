@@ -17,4 +17,6 @@ public class FileManagerViewModel {
     // показывать ли процесс загрузки
     public final ObservableBoolean isLoading = new ObservableBoolean(true);
 
+    public final ObservableBoolean isEmptyFolder = new ObservableBoolean(false);
+
 }

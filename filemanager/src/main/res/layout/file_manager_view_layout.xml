@@ -27,7 +27,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="@{adapter.isEmptyFolder ? View.VISIBLE : View.GONE}"
+            android:visibility="@{viewModel.isEmptyFolder ? View.VISIBLE : View.GONE}"
             android:layout_gravity="center"
             android:text="@string/wm_fm_hint_empty_folder"/>
 

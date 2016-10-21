@@ -1,9 +1,11 @@
 package corp.wmsoft.android.lib.filemanager.adapters;
 
+import android.databinding.BindingAdapter;
 import android.databinding.ObservableArrayList;
-import android.databinding.ObservableBoolean;
 import android.databinding.ObservableList;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
+import android.widget.ImageView;
 
 import java.util.List;
 
@@ -14,6 +16,8 @@ import corp.wmsoft.android.lib.filemanager.adapters.base.BaseDataBoundAdapter;
 import corp.wmsoft.android.lib.filemanager.adapters.base.BaseDataBoundViewHolder;
 import corp.wmsoft.android.lib.filemanager.ui.widgets.nav.FSOViewModel;
 import corp.wmsoft.android.lib.filemanager.ui.widgets.nav.IFileManagerViewContract;
+import corp.wmsoft.android.lib.filemanager.util.IconsHelper;
+import corp.wmsoft.android.lib.filemanager.util.MimeTypeHelper;
 
 
 /**
@@ -21,11 +25,12 @@ import corp.wmsoft.android.lib.filemanager.ui.widgets.nav.IFileManagerViewContra
  */
 public class FSOViewModelAdapter extends BaseDataBoundAdapter {
 
-    public final ObservableBoolean isEmptyFolder = new ObservableBoolean(false);
     /**/
     private ObservableList<FSOViewModel> fsoViewModels = new ObservableArrayList<>();
+
     /**/
     private IFileManagerViewContract.Presenter presenter;
+
     /**/
     @IFileManagerNavigationMode
     private int mCurrentNavigationMode;
@@ -39,40 +44,6 @@ public class FSOViewModelAdapter extends BaseDataBoundAdapter {
     public int getItemCount() {
         return fsoViewModels.size();
     }
-
-    private ObservableList.OnListChangedCallback<ObservableList<FSOViewModel>> callback =
-            new ObservableList.OnListChangedCallback<ObservableList<FSOViewModel>>() {
-
-                @Override
-                public void onChanged(ObservableList<FSOViewModel> contactViewModels) {
-                    notifyDataSetChanged();
-                    isEmptyFolder.set(contactViewModels.size() == 1 && contactViewModels.get(0).fso.isParentDirectory());
-                }
-
-                @Override
-                public void onItemRangeChanged(ObservableList<FSOViewModel> contactViewModels, int positionStart, int itemCount) {
-                    notifyItemRangeChanged(positionStart, itemCount);
-                    isEmptyFolder.set(contactViewModels.size() == 1 && contactViewModels.get(0).fso.isParentDirectory());
-                }
-
-                @Override
-                public void onItemRangeInserted(ObservableList<FSOViewModel> contactViewModels, int positionStart, int itemCount) {
-                    notifyItemRangeInserted(positionStart, itemCount);
-                    isEmptyFolder.set(contactViewModels.size() == 1 && contactViewModels.get(0).fso.isParentDirectory());
-                }
-
-                @Override
-                public void onItemRangeMoved(ObservableList<FSOViewModel> contactViewModels, int fromPosition, int toPosition, int itemCount) {
-                    notifyItemRangeRemoved(fromPosition, itemCount);
-                    notifyItemRangeInserted(toPosition, itemCount);
-                }
-
-                @Override
-                public void onItemRangeRemoved(ObservableList<FSOViewModel> contactViewModels, int positionStart, int itemCount) {
-                    notifyItemRangeRemoved(positionStart, itemCount);
-                    isEmptyFolder.set(contactViewModels.size() == 1 && contactViewModels.get(0).fso.isParentDirectory());
-                }
-            };
 
     @Override
     protected void bindItem(BaseDataBoundViewHolder holder, int position, List payloads) {
@@ -99,6 +70,15 @@ public class FSOViewModelAdapter extends BaseDataBoundAdapter {
         super.onDetachedFromRecyclerView(recyclerView);
         fsoViewModels.removeOnListChangedCallback(callback);
         fsoViewModels = null;
+        presenter = null;
+    }
+
+    @BindingAdapter({"bind:iconByFso"})
+    public static void loadIcon(ImageView view, FSOViewModel fsoViewModel) {
+        int iconResId = MimeTypeHelper.getIcon(view.getContext(), fsoViewModel.fso, true);
+        Drawable drawable = IconsHelper.getDrawable(iconResId);
+        IconsHelper.loadDrawable(view, fsoViewModel.fso, drawable);
+        view.setAlpha(fsoViewModel.fso.isHidden() ? 0.3f : 1.0f);
     }
 
     public void setList(ObservableList<FSOViewModel> list) {
@@ -109,7 +89,6 @@ public class FSOViewModelAdapter extends BaseDataBoundAdapter {
     public void setNavigationMode(@IFileManagerNavigationMode int newMode) {
         //Check that it is really necessary change the mode
         if (this.mCurrentNavigationMode == newMode) return;
-
         this.mCurrentNavigationMode = newMode;
         notifyDataSetChanged();
     }
@@ -118,4 +97,46 @@ public class FSOViewModelAdapter extends BaseDataBoundAdapter {
         this.presenter = presenter;
         notifyDataSetChanged();
     }
+
+
+    /**
+     *
+     */
+    private ObservableList.OnListChangedCallback<ObservableList<FSOViewModel>> callback =
+        new ObservableList.OnListChangedCallback<ObservableList<FSOViewModel>>() {
+            @Override
+            public void onChanged(ObservableList<FSOViewModel> contactViewModels) {
+
+                notifyDataSetChanged();
+            }
+
+            @Override
+            public void onItemRangeChanged(ObservableList<FSOViewModel> contactViewModels,
+                                           int positionStart, int itemCount) {
+
+                notifyItemRangeChanged(positionStart, itemCount);
+            }
+
+            @Override
+            public void onItemRangeInserted(ObservableList<FSOViewModel> contactViewModels,
+                                            int positionStart, int itemCount) {
+
+                notifyItemRangeInserted(positionStart, itemCount);
+            }
+
+            @Override
+            public void onItemRangeMoved(ObservableList<FSOViewModel> contactViewModels,
+                                         int fromPosition, int toPosition, int itemCount) {
+
+                notifyItemRangeRemoved(fromPosition, itemCount);
+            }
+
+            @Override
+            public void onItemRangeRemoved(ObservableList<FSOViewModel> contactViewModels,
+                                           int positionStart, int itemCount) {
+
+                notifyItemRangeRemoved(positionStart, itemCount);
+            }
+        };
+
 }
