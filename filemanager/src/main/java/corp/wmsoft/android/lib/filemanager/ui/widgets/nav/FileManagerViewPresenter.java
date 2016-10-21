@@ -6,7 +6,6 @@ import android.os.FileObserver;
 import android.os.Handler;
 import android.util.Log;
 
-import java.io.File;
 import java.util.List;
 
 import corp.wmsoft.android.lib.filemanager.IFileManagerEvent;
@@ -15,7 +14,7 @@ import corp.wmsoft.android.lib.filemanager.IFileManagerNavigationMode;
 import corp.wmsoft.android.lib.filemanager.IFileManagerSortMode;
 import corp.wmsoft.android.lib.filemanager.interactors.GetFSOList;
 import corp.wmsoft.android.lib.filemanager.interactors.GetMountPoints;
-import corp.wmsoft.android.lib.filemanager.models.FileSystemObject;
+import corp.wmsoft.android.lib.filemanager.interactors.UpdateListSummary;
 import corp.wmsoft.android.lib.filemanager.models.MountPoint;
 import corp.wmsoft.android.lib.filemanager.util.FileHelper;
 import corp.wmsoft.android.lib.filemanager.util.PreferencesHelper;
@@ -38,6 +37,7 @@ public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewCont
      */
     private final GetFSOList mGetFSOList;
     private final GetMountPoints mGetMountPoints;
+    private final UpdateListSummary mUpdateListSummary;
     /**/
     private static final int FILE_OBSERVER_MASK = FileObserver.CREATE
             | FileObserver.DELETE | FileObserver.DELETE_SELF
@@ -60,11 +60,13 @@ public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewCont
 
     public FileManagerViewPresenter(
             GetFSOList getFSOList,
-            GetMountPoints getMountPoints
+            GetMountPoints getMountPoints,
+            UpdateListSummary updateListSummary
     ) {
 
-        this.mGetFSOList     = getFSOList;
-        this.mGetMountPoints = getMountPoints;
+        this.mGetFSOList        = getFSOList;
+        this.mGetMountPoints    = getMountPoints;
+        this.mUpdateListSummary = updateListSummary;
 
         //Initialize variables
         mViewModel = new FileManagerViewModel();
@@ -136,8 +138,26 @@ public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewCont
             mCurrentMode == IFileManagerNavigationMode.SIMPLE)
             return;
 
-        FileHelper.sReloadDateTimeFormats = true;
-        getView().timeFormatChanged();
+        UpdateListSummary.RequestValues requestValues = new UpdateListSummary.RequestValues(mViewModel);
+        executeUseCase(mUpdateListSummary, requestValues, new Subscriber<Boolean>() {
+            @Override
+            public void onStart() {
+                FileHelper.sReloadDateTimeFormats = true;
+            }
+
+            @Override
+            public void onCompleted() {
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Log.d(TAG, "onError("+e+")");
+                // TODO - show error
+            }
+
+            @Override
+            public void onNext(Boolean isFinished) {}
+        });
     }
 
     @Override
@@ -181,7 +201,6 @@ public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewCont
     @Override
     public void setShowThumbs(boolean isThumbsVisible) {
         PreferencesHelper.setShowThumbs(isThumbsVisible);
-        loadFSOList();
     }
 
     @Override
@@ -232,7 +251,6 @@ public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewCont
      * @param newDir The new directory location
      */
     private void changeCurrentDir(final String newDir) {
-        Log.d(TAG, "changeCurrentDir("+newDir+")");
         this.mCurrentDir = newDir;
         loadFSOList();
     }
@@ -240,6 +258,7 @@ public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewCont
     private void loadMountPoints() {
 
         executeUseCase(mGetMountPoints, new GetMountPoints.RequestValues(true), new Subscriber<List<MountPoint>>() {
+
             @Override
             public void onCompleted() {
                 loadFSOList();
@@ -247,6 +266,7 @@ public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewCont
 
             @Override
             public void onError(Throwable e) {
+                Log.d(TAG, "loadMountPoints.onError("+e+")");
                 // TODO - show error
                 mCurrentDir = Environment.getExternalStorageDirectory().getAbsolutePath();
             }
@@ -275,7 +295,6 @@ public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewCont
 
             @Override
             public void onCompleted() {
-                Log.d(TAG, "onCompleted("+mCurrentDir+")");
 
                 setupFileObserver();
 
@@ -289,13 +308,12 @@ public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewCont
 
             @Override
             public void onError(Throwable e) {
-                Log.d(TAG, "onError("+e+")");
+                Log.d(TAG, "loadFSOList.onError("+e+")");
                 // TODO - show error
             }
 
             @Override
             public void onNext(List<FSOViewModel> fsoViewModelList) {
-                Log.d(TAG, "onNext()");
                 mViewModel.fsoViewModels.addAll(fsoViewModelList);
             }
         });
@@ -312,6 +330,8 @@ public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewCont
                 Log.d(TAG, "FileObserver -> onEvent("+event+", "+path+")");
 
                 int newEvent = event & FileObserver.ALL_EVENTS;
+
+                Log.d(TAG, "newEvent="+newEvent);
 
                 if (path != null && newEvent > 0)
                     mHandler.post(new Runnable() {

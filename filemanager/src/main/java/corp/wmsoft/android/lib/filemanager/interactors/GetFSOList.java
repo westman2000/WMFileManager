@@ -1,12 +1,9 @@
 package corp.wmsoft.android.lib.filemanager.interactors;
 
-import android.util.Log;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
-import java.util.concurrent.TimeUnit;
 
 import corp.wmsoft.android.lib.filemanager.mapper.FSOMapper;
 import corp.wmsoft.android.lib.filemanager.models.FileSystemObject;
@@ -16,6 +13,7 @@ import corp.wmsoft.android.lib.filemanager.util.FileHelper;
 import corp.wmsoft.android.lib.filemanager.util.rx.RxStorageHelper;
 import corp.wmsoft.android.lib.mvpcrx.interactor.MVPCUseCase;
 import corp.wmsoft.android.lib.mvpcrx.util.IMVPCSchedulerProvider;
+
 import rx.Observable;
 import rx.functions.Func1;
 
@@ -26,6 +24,7 @@ import rx.functions.Func1;
 public class GetFSOList extends MVPCUseCase<GetFSOList.RequestValues, List<FSOViewModel>> {
 
     /**/
+    @SuppressWarnings("unused")
     private static final String TAG = "wmfm::GetFSOList";
 
 
@@ -40,8 +39,6 @@ public class GetFSOList extends MVPCUseCase<GetFSOList.RequestValues, List<FSOVi
         return Observable.fromCallable(new Callable<List<FileSystemObject>>() {
                     @Override
                     public List<FileSystemObject> call() throws Exception {
-
-                        Log.d(TAG, "fromCallable() thread "+Thread.currentThread().getName());
 
                         File f = new File(requestValues.getSrc());
 
@@ -63,7 +60,6 @@ public class GetFSOList extends MVPCUseCase<GetFSOList.RequestValues, List<FSOVi
                             fsoList.add(0, new ParentDirectory(new File(requestValues.getSrc()).getParent()));
                         }
 
-
                         //Apply user preferences
                         return FileHelper.applyUserPreferences(fsoList);
                     }
@@ -71,7 +67,6 @@ public class GetFSOList extends MVPCUseCase<GetFSOList.RequestValues, List<FSOVi
                 .flatMap(new Func1<List<FileSystemObject>, Observable<List<FSOViewModel>>>() {
                     @Override
                     public Observable<List<FSOViewModel>> call(List<FileSystemObject> fileSystemObjects) {
-                        Log.d(TAG, "flatMap() thread "+Thread.currentThread().getName());
                         return FSOMapper.mapToViewModels(fileSystemObjects);
                     }
                 });

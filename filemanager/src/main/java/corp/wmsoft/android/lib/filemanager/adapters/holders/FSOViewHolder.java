@@ -56,13 +56,7 @@ public class FSOViewHolder extends RecyclerView.ViewHolder {
         // at android.text.StaticLayout.calculateEllipsis(StaticLayout.java:785)
         mTvName.setText(fso.getName());
 
-        if (mTvSummary != null) {
-            if (fso instanceof ParentDirectory) {
-                mTvSummary.setText(R.string.wm_fm_parent_dir);
-            } else {
-                mTvSummary.setText(FileHelper.formatFileTime(mTvSummary.getContext(), fso.getLastModifiedTime()));
-            }
-        }
+
 
         if (mTvSize != null)
             mTvSize.setText(FileHelper.getHumanReadableSize(mTvSize.getContext(), fso));

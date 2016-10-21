@@ -6,6 +6,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
 
 import corp.wmsoft.android.lib.filemanager.IFileManagerEvent;
 import corp.wmsoft.android.lib.filemanager.IFileManagerFileTimeFormat;
@@ -34,7 +35,10 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
 
     /**/
     @SuppressWarnings("unused")
-    private static final String TAG = "WMFM::FMViewInternal";
+    private static final String TAG = "wmfm::FMViewInternal";
+
+    /**/
+    private static final int ITEM_VIEW_CACHE_SIZE = 40;
 
     /**/
     private FileManagerViewLayoutBinding binding;
@@ -179,7 +183,7 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
 
     @Override
     public void timeFormatChanged() {
-        mAdapter.notifyDataSetChanged();
+        mAdapter.notifyDataPayloadChanged();
     }
 
     @Override
@@ -270,6 +274,7 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
      */
     public void setShowThumbs(boolean isShowThumbs) {
         getPresenter().setShowThumbs(isShowThumbs);
+        mAdapter.notifyDataPayloadChanged();
     }
 
     /**
@@ -341,6 +346,10 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
         binding.fsoList.setHasFixedSize(true);
+        // optimization for fast scroll, but maybe i will remove it if will be bug with selected state
+        binding.fsoList.setItemViewCacheSize(ITEM_VIEW_CACHE_SIZE);
+        binding.fsoList.setDrawingCacheEnabled(true);
+        binding.fsoList.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
 
         binding.setAdapter(mAdapter);
 

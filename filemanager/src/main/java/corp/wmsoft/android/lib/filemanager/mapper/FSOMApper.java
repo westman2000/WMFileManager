@@ -4,7 +4,6 @@ import android.content.Context;
 
 import java.util.List;
 
-import corp.wmsoft.android.lib.filemanager.R;
 import corp.wmsoft.android.lib.filemanager.WMFileManager;
 import corp.wmsoft.android.lib.filemanager.models.FileSystemObject;
 import corp.wmsoft.android.lib.filemanager.ui.widgets.nav.FSOViewModel;
@@ -28,17 +27,10 @@ public class FSOMapper {
 
         Context context = WMFileManager.getApplicationContext();
 
-        String summary;
-
-        if (fileSystemObject.isParentDirectory())
-            summary = WMFileManager.getApplicationContext().getString(R.string.wm_fm_parent_dir);
-        else
-            summary = FileHelper.formatFileTime(context, fileSystemObject.getLastModifiedTime());
-
         return new FSOViewModel(
                 fileSystemObject,
                 FileHelper.getHumanReadableSize(context, fileSystemObject),
-                summary);
+                FileHelper.getFsoSummary(context, fileSystemObject));
     }
 
     private static Observable<FSOViewModel> mapToViewModelObservable(FileSystemObject fileSystemObject) {

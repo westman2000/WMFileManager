@@ -15,6 +15,9 @@ public class Directory extends FileSystemObject {
     //Resource identifier for default icon
     private static final int RESOURCE_FOLDER_DEFAULT = R.drawable.ic_fso_folder_24dp;
 
+    /**/
+    private final int itemsCountInDirectory;
+
     /**
      * Constructor of <code>Directory</code>.
      *
@@ -23,8 +26,9 @@ public class Directory extends FileSystemObject {
      * @param lastModifiedTime The last time that the object was modified
      * @param lastChangedTime The last time that the object was changed
      */
-    public Directory(String name, String parent, Date lastModifiedTime, Date lastChangedTime) {
+    public Directory(String name, String parent, Date lastModifiedTime, Date lastChangedTime, int itemsCount) {
         super(name, parent, 0L, lastModifiedTime, lastChangedTime);
+        itemsCountInDirectory = itemsCount;
         setResourceIconId(RESOURCE_FOLDER_DEFAULT);
     }
 
@@ -46,4 +50,7 @@ public class Directory extends FileSystemObject {
         return "Directory [type=" + super.toString() + "]";
     }
 
+    public int getItemsCountInDirectory() {
+        return itemsCountInDirectory;
+    }
 }

@@ -1,5 +1,6 @@
 package corp.wmsoft.android.lib.filemanager.ui.widgets.nav;
 
+import android.databinding.ObservableField;
 import android.support.annotation.Keep;
 
 import corp.wmsoft.android.lib.filemanager.models.FileSystemObject;
@@ -18,13 +19,13 @@ public class FSOViewModel {
     public String itemSize;
 
     /**/
-    public String itemSummary;
+    public final ObservableField<String> itemSummary = new ObservableField<>();
 
 
     public FSOViewModel(FileSystemObject fso, String itemSize, String itemSummary) {
         this.fso = fso;
         this.itemSize = itemSize;
-        this.itemSummary = itemSummary;
+        this.itemSummary.set(itemSummary);
     }
 
 }

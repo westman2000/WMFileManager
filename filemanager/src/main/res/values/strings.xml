@@ -58,25 +58,17 @@
     <!-- Preferences - General - Display thumbs summary -->
     <string name="wm_fm_pref_display_thumbs_summary">Show a preview image for apps, music files, pictures and videos</string>
 
-    <!--  Filetime formats -->
-    <string name="wm_fm_filetime_format_mode_system">System-defined</string>
-    <string name="wm_fm_filetime_format_mode_locale">Locale-defined</string>
-    <string name="wm_fm_filetime_format_mode_ddMMyyyy_HHmmss">dd/mm/yyyy hh:mm:ss</string>
-    <string name="wm_fm_filetime_format_mode_MMddyyyy_HHmmss">mm/dd/yyyy hh:mm:ss</string>
-    <string name="wm_fm_filetime_format_mode_yyyyMMdd_HHmmss">yyyy-mm-dd hh:mm:ss</string>
-
-    <!-- Preferences - General - Filetime format mode title -->
-    <string name="wm_fm_pref_filetime_format_mode">Date/time format</string>
-
     <!-- Mime/Types - Folder -->
     <string name="wm_fm_mime_folder">Folder</string>
     <!-- Mime/Types - Unknown -->
     <string name="wm_fm_mime_unknown">Unknown</string>
 
     <!--  Filetime formats -->
-    <string name="wm_fm_filetime_format_mode_ddMMyyyy_HHmmss_internal" translatable="false">dd/MM/yyyy HH:mm:ss</string>
-    <string name="wm_fm_filetime_format_mode_MMddyyyy_HHmmss_internal" translatable="false">MM/dd/yyyy HH:mm:ss</string>
-    <string name="wm_fm_filetime_format_mode_yyyyMMdd_HHmmss_internal" translatable="false">yyyy-MM-dd HH:mm:ss</string>
+    <string name="wm_fm_filetime_format_mode_system">System-defined</string>
+    <string name="wm_fm_filetime_format_mode_locale">Locale-defined</string>
+    <string name="wm_fm_filetime_format_mode_ddMMyyyy_HHmmss">dd/mm/yyyy hh:mm:ss</string>
+    <string name="wm_fm_filetime_format_mode_MMddyyyy_HHmmss">mm/dd/yyyy hh:mm:ss</string>
+    <string name="wm_fm_filetime_format_mode_yyyyMMdd_HHmmss">yyyy-mm-dd hh:mm:ss</string>
 
     <!-- Category descriptions -->
     <string name="wm_fm_category_system">SYSTEM</string>
@@ -96,6 +88,25 @@
     <string name="wm_fm_category_security">SECURITY</string>
     <string name="wm_fm_category_all">ALL</string>
 
+    <!-- Preferences - General - Filetime format mode title -->
+    <string name="wm_fm_pref_filetime_format_mode">Date/time format</string>
+
+    <!-- empty hints -->
+    <string name="wm_fm_hint_empty_folder">Empty folder</string>
+
+    <!-- summary field for directory -->
+    <plurals name="itemsCountInDirectory">
+        <item quantity="zero">@string/wm_fm_hint_empty_folder</item>
+        <item quantity="one">%d item</item>
+        <item quantity="two">%d items</item>
+        <item quantity="few">%d items</item>
+        <item quantity="other">%d items</item>
+    </plurals>
+
+
+
+    <!-- internal use NOT TRANSLATABLE -->
+
     <!-- Strings related to Settings -->
     <string name="wm_fm_pref_key_filetime_format" translatable="false">wm_fm_pref_key_filetime_format</string>
     <string name="wm_fm_pref_key_navigation_mode" translatable="false">wm_fm_pref_key_navigation_mode</string>
@@ -105,7 +116,9 @@
     <string name="wm_fm_pref_key_case_sensitive" translatable="false">wm_fm_pref_key_case_sensitive</string>
     <string name="wm_fm_pref_key_show_thumbs" translatable="false">wm_fm_pref_key_show_thumbs</string>
 
-    <!-- empty hints -->
-    <string name="wm_fm_hint_empty_folder">Empty folder</string>
+    <!--  Filetime formats -->
+    <string name="wm_fm_filetime_format_mode_ddMMyyyy_HHmmss_internal" translatable="false">dd/MM/yyyy HH:mm:ss</string>
+    <string name="wm_fm_filetime_format_mode_MMddyyyy_HHmmss_internal" translatable="false">MM/dd/yyyy HH:mm:ss</string>
+    <string name="wm_fm_filetime_format_mode_yyyyMMdd_HHmmss_internal" translatable="false">yyyy-MM-dd HH:mm:ss</string>
 
 </resources>

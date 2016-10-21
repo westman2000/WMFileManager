@@ -30,7 +30,7 @@ import corp.wmsoft.android.lib.filemanager.models.RegularFile;
 public class FileHelper {
 
     /**/
-    private static final String TAG = "WMFM::FileHelper";
+    private static final String TAG = "wmfm::FileHelper";
 
 
     /**
@@ -89,12 +89,20 @@ public class FileHelper {
 
         // Build a directory?
         Date lastModified = new Date(file.lastModified());
+
         if (file.isDirectory()) {
+
+            int itemsCount = 0;
+            if (file.listFiles() != null)
+                itemsCount = file.listFiles().length;
+
             return
                     new Directory(
                             file.getName(),
                             file.getParent(),
-                            lastModified, lastModified); // The only date we have
+                            lastModified,
+                            lastModified,
+                            itemsCount); // The only date we have
         }
 
         // Build a regular file
@@ -170,15 +178,29 @@ public class FileHelper {
         return fso.getParent() == null || fso.getParent().compareTo(FileHelper.ROOT_DIRECTORY) == 0;
     }
 
+    public static String getFsoSummary(Context ctx, FileSystemObject fso) {
+
+        if (fso.isParentDirectory()) {
+            return ctx.getString(R.string.wm_fm_parent_dir);
+        }
+
+        if (fso.isDirectory()) {
+            int count = ((Directory)fso).getItemsCountInDirectory();
+            return  ctx.getResources().getQuantityString(R.plurals.itemsCountInDirectory, count, count);
+        }
+
+        return formatFileTime(ctx, fso.getLastModifiedTime());
+    }
+
     /**
      * Method that formats a filetime date with the specific system settings
      *
      * @param ctx The current context
-     * @param filetime The filetime date
+     * @param fileTime The filetime date
      * @return String The filetime date formatted
      */
     @SuppressLint("SimpleDateFormat")
-    public static String formatFileTime(Context ctx, Date filetime) {
+    public static String formatFileTime(Context ctx, Date fileTime) {
         if (sReloadDateTimeFormats) {
 
             sFileTimeFormat = PreferencesHelper.getFileManagerFileTimeFormat();
@@ -201,11 +223,11 @@ public class FileHelper {
 
         // Apply the user settings
         if (sFileTimeFormat == IFileManagerFileTimeFormat.SYSTEM) {
-            String date = sDateFormat.format(filetime);
-            String time = sTimeFormat.format(filetime);
+            String date = sDateFormat.format(fileTime);
+            String time = sTimeFormat.format(fileTime);
             return String.format(sDateTimeFormatOrder, date, time);
         } else {
-            return sDateFormat.format(filetime);
+            return sDateFormat.format(fileTime);
         }
     }
 

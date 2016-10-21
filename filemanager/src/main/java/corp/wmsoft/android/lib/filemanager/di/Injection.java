@@ -4,6 +4,7 @@ import corp.wmsoft.android.lib.filemanager.WMFileManager;
 import corp.wmsoft.android.lib.filemanager.interactors.GetFSOList;
 import corp.wmsoft.android.lib.filemanager.interactors.GetMountPoints;
 import corp.wmsoft.android.lib.filemanager.interactors.GetThumbDrawable;
+import corp.wmsoft.android.lib.filemanager.interactors.UpdateListSummary;
 import corp.wmsoft.android.lib.mvpcrx.util.IMVPCSchedulerProvider;
 import corp.wmsoft.android.lib.mvpcrx.util.MVPCSchedulerProvider;
 
@@ -32,6 +33,10 @@ public class Injection {
 
     public static GetThumbDrawable provideGetThumbDrawable() {
         return new GetThumbDrawable(provideMVPCSchedulerProvider(), WMFileManager.getApplicationContext());
+    }
+
+    public static UpdateListSummary provideUpdateListSummary() {
+        return new UpdateListSummary(provideMVPCSchedulerProvider(), WMFileManager.getApplicationContext());
     }
 
 }

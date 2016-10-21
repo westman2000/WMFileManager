@@ -91,4 +91,17 @@
     <!-- Preferences - General - Filetime format mode title -->
     <string name="wm_fm_pref_filetime_format_mode">Формат даты/времени</string>
 
+    <!-- empty hints -->
+    <string name="wm_fm_hint_empty_folder">Пустая папка</string>
+
+    <!-- summary field for directory -->
+    <plurals name="itemsCountInDirectory">
+        <item quantity="zero">@string/wm_fm_hint_empty_folder</item>
+        <item quantity="one">%d элемент</item>
+        <item quantity="two">%d элемента</item>
+        <item quantity="few">%d элемента</item>
+        <item quantity="many">%d элементов</item>
+        <item quantity="other">%d элементов</item>
+    </plurals>
+
 </resources>

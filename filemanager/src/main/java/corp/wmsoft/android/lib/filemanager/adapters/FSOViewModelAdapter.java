@@ -26,6 +26,9 @@ import corp.wmsoft.android.lib.filemanager.util.MimeTypeHelper;
 public class FSOViewModelAdapter extends BaseDataBoundAdapter {
 
     /**/
+    private static final String TAG = "wmfm::FMViewInternal";
+
+    /**/
     private ObservableList<FSOViewModel> fsoViewModels = new ObservableArrayList<>();
 
     /**/
@@ -96,6 +99,10 @@ public class FSOViewModelAdapter extends BaseDataBoundAdapter {
     public void setPresenter(IFileManagerViewContract.Presenter presenter) {
         this.presenter = presenter;
         notifyDataSetChanged();
+    }
+
+    public void notifyDataPayloadChanged() {
+        notifyItemRangeChanged(0, getItemCount(), new Object());
     }
 
 
