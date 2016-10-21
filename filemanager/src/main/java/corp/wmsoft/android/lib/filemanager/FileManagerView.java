@@ -1,7 +1,6 @@
 package corp.wmsoft.android.lib.filemanager;
 
 import android.content.Context;
-import android.support.annotation.Keep;
 import android.util.AttributeSet;
 import android.util.SparseArray;
 import android.widget.FrameLayout;
@@ -12,7 +11,6 @@ import corp.wmsoft.android.lib.filemanager.ui.widgets.nav.FileManagerViewInterna
 /**
  * Created by WestMan2000 on 9/4/16. <br/>
  */
-@Keep
 public class FileManagerView extends FrameLayout {
 
     /**/

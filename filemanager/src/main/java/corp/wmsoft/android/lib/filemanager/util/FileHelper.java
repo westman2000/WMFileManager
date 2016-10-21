@@ -21,7 +21,6 @@ import corp.wmsoft.android.lib.filemanager.R;
 import corp.wmsoft.android.lib.filemanager.WMFileManager;
 import corp.wmsoft.android.lib.filemanager.models.Directory;
 import corp.wmsoft.android.lib.filemanager.models.FileSystemObject;
-import corp.wmsoft.android.lib.filemanager.models.ParentDirectory;
 import corp.wmsoft.android.lib.filemanager.models.RegularFile;
 
 
@@ -40,6 +39,13 @@ public class FileHelper {
     private static final String[] COMPRESSED_TAR =
     {
         "tar.gz", "tar.bz2", "tar.lzma"
+    };
+    /**
+     * For search optimization, must be same as {@link FileHelper#COMPRESSED_TAR} but start with "."
+     */
+    private static final String[] COMPRESSED_TAR_WITH_DOT =
+    {
+        ".tar.gz", ".tar.bz2", ".tar.lzma"
     };
 
     /**
@@ -370,7 +376,7 @@ public class FileHelper {
         // Exceptions to the general extraction method
         int cc = COMPRESSED_TAR.length;
         for (int i = 0; i < cc; i++) {
-            if (name.endsWith("." + COMPRESSED_TAR[i])) { //$NON-NLS-1$
+            if (name.endsWith(COMPRESSED_TAR_WITH_DOT[i])) {
                 return COMPRESSED_TAR[i];
             }
         }
@@ -384,7 +390,10 @@ public class FileHelper {
      *
      * @param fso The file system object to check
      * @return boolean If file system object is a directory
+     *
+     * @deprecated use {@link FileSystemObject#isDirectory()}
      */
+    @Deprecated
     public static boolean isDirectory(FileSystemObject fso) {
         return fso.isDirectory();
     }

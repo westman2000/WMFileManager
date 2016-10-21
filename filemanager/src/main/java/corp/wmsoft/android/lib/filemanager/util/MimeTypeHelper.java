@@ -263,7 +263,7 @@ public final class MimeTypeHelper {
         }
 
         //Check if the argument is a folder
-        if (fso instanceof Directory) {
+        if (fso.isDirectory()) {
             return R.drawable.ic_fso_folder_24dp;
         }
 
@@ -347,7 +347,7 @@ public final class MimeTypeHelper {
         }
 
         //Check if the argument is a folder
-        if (fso instanceof Directory) {
+        if (fso.isDirectory()) {
             return res.getString(R.string.wm_fm_mime_folder);
         }
 

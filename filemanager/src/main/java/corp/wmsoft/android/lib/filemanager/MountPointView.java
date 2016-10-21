@@ -13,7 +13,6 @@ import corp.wmsoft.android.lib.filemanager.ui.widgets.mp.MountPointViewInternal;
 /**
  * <p>Created by WestMan2000 on 9/26/16. <p>
  */
-@Keep
 public class MountPointView extends LinearLayout {
 
     /**/

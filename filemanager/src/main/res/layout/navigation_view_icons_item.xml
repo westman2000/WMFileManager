@@ -1,15 +1,18 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
         <variable name="viewModel" type="corp.wmsoft.android.lib.filemanager.ui.widgets.nav.FSOViewModel"/>
         <variable name="presenter" type="corp.wmsoft.android.lib.filemanager.ui.widgets.nav.IFileManagerViewContract.Presenter"/>
     </data>
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/navigation_view_details_item"
         android:layout_width="@dimen/wm_fm_navigation_grid_width"
         android:layout_height="@dimen/wm_fm_navigation_grid_height"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
         android:onClick="@{() -> presenter.onFSOPicked(viewModel)}"
         android:background="?attr/selectableItemBackground">
 
@@ -18,22 +21,21 @@
             android:layout_width="@dimen/wm_fm_default_row_height"
             android:layout_height="@dimen/wm_fm_default_row_height"
             app:iconByFso="@{viewModel}"
-            android:contentDescription="@null"
-            android:gravity="center|center_vertical"
-            android:layout_centerHorizontal="true" />
+            tools:src="@drawable/ic_fso_default_24dp"
+            android:contentDescription="@null" />
 
         <TextView
             android:id="@+id/navigation_view_item_name"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="@{viewModel.fso.name}"
-            android:layout_below="@id/navigation_view_item_icon"
+            android:gravity="center"
+            tools:text="dsfg,nsdfgjdfsgfgfg"
             android:ellipsize="end"
-            android:gravity="center|center_vertical"
             android:maxLines="@integer/wm_fm_default_grid_item_text_max_lines"
             android:textAppearance="@style/wm_fm_secondary_text_appearance"
             android:textStyle="bold" />
 
-    </RelativeLayout>
+    </LinearLayout>
 
 </layout>

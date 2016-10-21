@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
         <variable name="viewModel" type="corp.wmsoft.android.lib.filemanager.ui.widgets.nav.FSOViewModel"/>
@@ -20,6 +21,7 @@
             android:layout_width="@dimen/wm_fm_default_row_height"
             android:layout_height="@dimen/wm_fm_default_row_height"
             app:iconByFso="@{viewModel}"
+            tools:src="@drawable/ic_fso_default_24dp"
             android:layout_gravity="center_vertical"
             android:contentDescription="@null" />
 
@@ -28,6 +30,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:text="@{viewModel.fso.name}"
+            tools:text="dsfg,nsdfgjdfsgfgdfghdfghdfghdfghdfgdfghdfghdfghdfghdfghdfghdghdfghdfghdfghhdfghdfghdfghdfghfg"
             android:layout_weight="1"
             android:layout_marginStart="@dimen/wm_fm_small_margin"
             android:layout_marginLeft="@dimen/wm_fm_small_margin"

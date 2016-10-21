@@ -32,30 +32,11 @@ abstract public class BaseDataBoundAdapter<T extends ViewDataBinding> extends Re
 
     /**/
     private static final Object DB_PAYLOAD = new Object();
+
     /**/
     @Nullable
     private RecyclerView mRecyclerView;
 
-
-    /**
-     * This is used to block items from updating themselves. RecyclerView wants to know when an
-     * item is invalidated and it prefers to refresh it via onRebind. It also helps with performance
-     * since data binding will not update views that are not changed.
-     */
-    private final OnRebindCallback mOnRebindCallback = new OnRebindCallback() {
-        @Override
-        public boolean onPreBind(ViewDataBinding binding) {
-            if (mRecyclerView == null || mRecyclerView.isComputingLayout()) {
-                return true;
-            }
-            int childAdapterPosition = mRecyclerView.getChildAdapterPosition(binding.getRoot());
-            if (childAdapterPosition == RecyclerView.NO_POSITION) {
-                return true;
-            }
-            notifyItemChanged(childAdapterPosition, DB_PAYLOAD);
-            return false;
-        }
-    };
 
     @Override
     @CallSuper
@@ -83,15 +64,6 @@ abstract public class BaseDataBoundAdapter<T extends ViewDataBinding> extends Re
      */
     protected abstract void bindItem(BaseDataBoundViewHolder<T> holder, int position, List<Object> payloads);
 
-    private boolean hasNonDataBindingInvalidate(List<Object> payloads) {
-        for (Object payload : payloads) {
-            if (payload != DB_PAYLOAD) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     @Override
     public final void onBindViewHolder(BaseDataBoundViewHolder<T> holder, int position) {
         throw new IllegalArgumentException("just overridden to make final.");
@@ -115,5 +87,34 @@ abstract public class BaseDataBoundAdapter<T extends ViewDataBinding> extends Re
     }
 
     @LayoutRes
-    abstract public int getItemLayoutId(int position);
+    public abstract int getItemLayoutId(int position);
+
+    /**
+     * This is used to block items from updating themselves. RecyclerView wants to know when an
+     * item is invalidated and it prefers to refresh it via onRebind. It also helps with performance
+     * since data binding will not update views that are not changed.
+     */
+    private final OnRebindCallback mOnRebindCallback = new OnRebindCallback() {
+        @Override
+        public boolean onPreBind(ViewDataBinding binding) {
+            if (mRecyclerView == null || mRecyclerView.isComputingLayout()) {
+                return true;
+            }
+            int childAdapterPosition = mRecyclerView.getChildAdapterPosition(binding.getRoot());
+            if (childAdapterPosition == RecyclerView.NO_POSITION) {
+                return true;
+            }
+            notifyItemChanged(childAdapterPosition, DB_PAYLOAD);
+            return false;
+        }
+    };
+
+    private boolean hasNonDataBindingInvalidate(List<Object> payloads) {
+        for (Object payload : payloads) {
+            if (payload != DB_PAYLOAD) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
