@@ -32,8 +32,8 @@ public class FileManagerView extends FrameLayout {
         init(context);
     }
 
-    public void openFilePath(String filePath) {
-        this.mFileManagerViewInternal.openFilePath(filePath);
+    public void showFilesInPath(String path) {
+        this.mFileManagerViewInternal.showFilesInPath(path);
     }
 
     /**

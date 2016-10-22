@@ -182,11 +182,6 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
     }
 
     @Override
-    public void timeFormatChanged() {
-        mAdapter.notifyDataPayloadChanged();
-    }
-
-    @Override
     public void filePicked(String file) {
         if (mOnFilePickedListener != null)
             mOnFilePickedListener.onFilePicked(file);
@@ -199,9 +194,8 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
     }
 
     @Override
-    public void openFilePath(String filePath) {
-        // TODO - убрать эти сложности и передавать строку в презентер
-        getPresenter().onFSOPicked(FileSystemObjectMapper.mapToViewModel(FileHelper.createFileSystemObject(filePath)));
+    public void showFilesInPath(String path) {
+        getPresenter().showFilesInPath(path);
     }
 
     /**

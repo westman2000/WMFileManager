@@ -1,7 +1,5 @@
 package corp.wmsoft.android.lib.filemanager.ui.widgets.nav;
 
-import android.support.annotation.Keep;
-
 import corp.wmsoft.android.lib.filemanager.IFileManagerEvent;
 import corp.wmsoft.android.lib.filemanager.IFileManagerFileTimeFormat;
 import corp.wmsoft.android.lib.filemanager.IFileManagerNavigationMode;
@@ -31,13 +29,11 @@ public interface IFileManagerViewContract {
 
         void setNavigationModeInternal(@IFileManagerNavigationMode int mode);
 
-        void timeFormatChanged();
-
         void filePicked(String file);
 
         void directoryChanged(String dir);
 
-        void openFilePath(String filePath);
+        void showFilesInPath(String path);
     }
 
     interface Presenter extends IMVPCPresenter<View> {
@@ -50,8 +46,9 @@ public interface IFileManagerViewContract {
 
         void                            onExternalStoragePermissionsGranted();
 
-        @Keep
         void                            onFSOPicked(FSOViewModel fsoViewModel);
+
+        void                            showFilesInPath(String path);
 
         void                            onSetTimeFormat(@IFileManagerFileTimeFormat int format);
 

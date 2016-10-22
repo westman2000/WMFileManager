@@ -1,6 +1,7 @@
 package corp.wmsoft.android.lib.filemanager.ui.widgets.nav;
 
 import android.annotation.SuppressLint;
+import android.databinding.ObservableList;
 import android.os.Environment;
 import android.os.FileObserver;
 import android.util.Log;
@@ -57,6 +58,37 @@ public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewCont
     private int mCurrentMode = IFileManagerNavigationMode.UNDEFINED;
     /**/
     private String mCurrentDir;
+    /**/
+    private ObservableList.OnListChangedCallback<ObservableList<FSOViewModel>> mViewModelListener =
+            new ObservableList.OnListChangedCallback<ObservableList<FSOViewModel>>() {
+                @Override
+                public void onChanged(ObservableList<FSOViewModel> fsoViewModels) {
+                    mViewModel.isEmptyFolder.set(fsoViewModels.size() == 1 && fsoViewModels.get(0).fso.isParentDirectory());
+
+                }
+
+                @Override
+                public void onItemRangeChanged(ObservableList<FSOViewModel> fsoViewModels,
+                                               int positionStart, int itemCount) {
+                }
+
+                @Override
+                public void onItemRangeInserted(ObservableList<FSOViewModel> fsoViewModels,
+                                                int positionStart, int itemCount) {
+                    mViewModel.isEmptyFolder.set(fsoViewModels.size() == 1 && fsoViewModels.get(0).fso.isParentDirectory());
+                }
+
+                @Override
+                public void onItemRangeMoved(ObservableList<FSOViewModel> fsoViewModels,
+                                             int fromPosition, int toPosition, int itemCount) {
+                }
+
+                @Override
+                public void onItemRangeRemoved(ObservableList<FSOViewModel> fsoViewModels,
+                                               int positionStart, int itemCount) {
+                    mViewModel.isEmptyFolder.set(fsoViewModels.size() == 1 && fsoViewModels.get(0).fso.isParentDirectory());
+                }
+            };
 
 
     public FileManagerViewPresenter(
@@ -73,6 +105,7 @@ public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewCont
 
         //Initialize variables
         mViewModel = new FileManagerViewModel();
+        mViewModel.fsoViewModels.addOnListChangedCallback(mViewModelListener);
     }
 
     @Override
@@ -86,6 +119,7 @@ public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewCont
     public void onDestroyed() {
         super.onDestroyed();
         releaseFileObserver();
+        mViewModel.fsoViewModels.removeOnListChangedCallback(mViewModelListener);
     }
 
     @IFileManagerNavigationMode
@@ -129,6 +163,11 @@ public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewCont
         } else {
             getView().filePicked(fsoViewModel.fso.getFullPath());
         }
+    }
+
+    @Override
+    public void showFilesInPath(String path) {
+        changeCurrentDir(path);
     }
 
     @Override
@@ -292,7 +331,6 @@ public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewCont
             public void onStart() {
                 mViewModel.fsoViewModels.clear();
                 mViewModel.isLoading.set(true);
-                mViewModel.isEmptyFolder.set(false);
             }
 
             @Override
@@ -305,7 +343,6 @@ public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewCont
                     getView().directoryChanged(mCurrentDir);
 
                 mViewModel.isLoading.set(false);
-                mViewModel.isEmptyFolder.set(mViewModel.fsoViewModels.size() == 1 && mViewModel.fsoViewModels.get(0).fso.isParentDirectory());
             }
 
             @Override
@@ -360,4 +397,5 @@ public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewCont
             mFileObserver = null;
         }
     }
+
 }

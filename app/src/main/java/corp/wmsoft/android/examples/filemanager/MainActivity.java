@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mMountPointView.setOnMountPointSelected(new IOnMountPointSelected() {
             @Override
             public void onMountPointSelected(String mountPointPath) {
-                mFileManagerView.openFilePath(mountPointPath);
+                mFileManagerView.showFilesInPath(mountPointPath);
             }
         });
 

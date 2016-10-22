@@ -118,28 +118,28 @@ public class FSOViewModelAdapter extends BaseDataBoundAdapter {
             }
 
             @Override
-            public void onItemRangeChanged(ObservableList<FSOViewModel> contactViewModels,
+            public void onItemRangeChanged(ObservableList<FSOViewModel> fsoViewModels,
                                            int positionStart, int itemCount) {
 
                 notifyItemRangeChanged(positionStart, itemCount);
             }
 
             @Override
-            public void onItemRangeInserted(ObservableList<FSOViewModel> contactViewModels,
+            public void onItemRangeInserted(ObservableList<FSOViewModel> fsoViewModels,
                                             int positionStart, int itemCount) {
 
                 notifyItemRangeInserted(positionStart, itemCount);
             }
 
             @Override
-            public void onItemRangeMoved(ObservableList<FSOViewModel> contactViewModels,
+            public void onItemRangeMoved(ObservableList<FSOViewModel> fsoViewModels,
                                          int fromPosition, int toPosition, int itemCount) {
 
                 notifyItemRangeRemoved(fromPosition, itemCount);
             }
 
             @Override
-            public void onItemRangeRemoved(ObservableList<FSOViewModel> contactViewModels,
+            public void onItemRangeRemoved(ObservableList<FSOViewModel> fsoViewModels,
                                            int positionStart, int itemCount) {
 
                 notifyItemRangeRemoved(positionStart, itemCount);
