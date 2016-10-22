@@ -28,7 +28,7 @@ import rx.Subscriber;
  * <br/>Created by WestMan2000 on 8/31/16 at 3:49 PM.<br/>
  */
 @SuppressLint("LongLogTag")
-public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewContract.View> implements IFileManagerViewContract.Presenter {
+class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewContract.View> implements IFileManagerViewContract.Presenter {
 
     /**/
     private final static String TAG = "wmfm::FileManagerViewP";
@@ -64,13 +64,11 @@ public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewCont
                 @Override
                 public void onChanged(ObservableList<FSOViewModel> fsoViewModels) {
                     mViewModel.isEmptyFolder.set(fsoViewModels.size() == 1 && fsoViewModels.get(0).fso.isParentDirectory());
-
                 }
 
                 @Override
                 public void onItemRangeChanged(ObservableList<FSOViewModel> fsoViewModels,
-                                               int positionStart, int itemCount) {
-                }
+                                               int positionStart, int itemCount) {}
 
                 @Override
                 public void onItemRangeInserted(ObservableList<FSOViewModel> fsoViewModels,
@@ -80,8 +78,7 @@ public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewCont
 
                 @Override
                 public void onItemRangeMoved(ObservableList<FSOViewModel> fsoViewModels,
-                                             int fromPosition, int toPosition, int itemCount) {
-                }
+                                             int fromPosition, int toPosition, int itemCount) {}
 
                 @Override
                 public void onItemRangeRemoved(ObservableList<FSOViewModel> fsoViewModels,
@@ -91,7 +88,7 @@ public class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewCont
             };
 
 
-    public FileManagerViewPresenter(
+    FileManagerViewPresenter(
             GetFSOList getFSOList,
             GetMountPoints getMountPoints,
             UpdateListSummary updateListSummary,
