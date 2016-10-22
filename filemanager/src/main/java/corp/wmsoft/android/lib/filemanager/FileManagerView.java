@@ -5,6 +5,7 @@ import android.util.AttributeSet;
 import android.util.SparseArray;
 import android.widget.FrameLayout;
 
+import corp.wmsoft.android.lib.filemanager.models.MountPoint;
 import corp.wmsoft.android.lib.filemanager.ui.widgets.nav.FileManagerViewInternal;
 
 
@@ -32,8 +33,8 @@ public class FileManagerView extends FrameLayout {
         init(context);
     }
 
-    public void showFilesInPath(String path) {
-        this.mFileManagerViewInternal.showFilesInPath(path);
+    public void openMountPoint(MountPoint mountPoint) {
+        this.mFileManagerViewInternal.openMountPoint(mountPoint);
     }
 
     /**
@@ -176,6 +177,10 @@ public class FileManagerView extends FrameLayout {
      */
     public void setOnDirectoryChangedListener(IOnDirectoryChangedListener onDirectoryChangedListener) {
         mFileManagerViewInternal.setOnDirectoryChangedListener(onDirectoryChangedListener);
+    }
+
+    public boolean goBack() {
+        return mFileManagerViewInternal.goBack();
     }
 
     private void init(Context context) {

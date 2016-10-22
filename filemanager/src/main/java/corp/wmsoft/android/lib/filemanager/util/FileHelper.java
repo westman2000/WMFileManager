@@ -408,19 +408,6 @@ public class FileHelper {
     }
 
     /**
-     * Method that checks if a file system object is a directory (real o symlink).
-     *
-     * @param fso The file system object to check
-     * @return boolean If file system object is a directory
-     *
-     * @deprecated use {@link FileSystemObject#isDirectory()}
-     */
-    @Deprecated
-    public static boolean isDirectory(FileSystemObject fso) {
-        return fso.isDirectory();
-    }
-
-    /**
      * Method that check if a file should be displayed according to the restrictions
      *
      * @param fso The file system object to check
@@ -486,7 +473,7 @@ public class FileHelper {
                 case IFileManagerDisplayRestrictions.DIRECTORY_ONLY_RESTRICTION:
                     if (value instanceof Boolean) {
                         Boolean directoryOnly = (Boolean) value;
-                        if (directoryOnly && !FileHelper.isDirectory(fso)) {
+                        if (directoryOnly && !fso.isDirectory()) {
                             return false;
                         }
                     }

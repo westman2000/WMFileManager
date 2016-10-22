@@ -1,7 +1,6 @@
 package corp.wmsoft.android.lib.filemanager.models;
 
-
-import android.support.annotation.Keep;
+import android.support.annotation.NonNull;
 
 import java.io.File;
 import java.util.Date;
@@ -79,7 +78,6 @@ public abstract class FileSystemObject implements IMVPCViewModel, Comparable<Fil
      *
      * @return String The name of the object
      */
-    @Keep
     public String getName() {
         return this.mName;
     }
@@ -139,33 +137,6 @@ public abstract class FileSystemObject implements IMVPCViewModel, Comparable<Fil
     }
 
     /**
-     * Method that sets the last time that the object was modified.
-     *
-     * @param lastModifiedTime The last time that the object was modified
-     */
-    public void setLastModifiedTime(Date lastModifiedTime) {
-        this.mLastModifiedTime = lastModifiedTime;
-    }
-
-    /**
-     * Method that returns the last time that the object was changed.
-     *
-     * @return Date The last time that the object was changed
-     */
-    public Date getLastChangedTime() {
-        return this.mLastChangedTime;
-    }
-
-    /**
-     * Method that sets the last time that the object was changed.
-     *
-     * @param lastChangedTime The last time that the object was changed
-     */
-    public void setLastChangedTime(Date lastChangedTime) {
-        this.mLastChangedTime = lastChangedTime;
-    }
-
-    /**
      * Method that returns if the object is hidden object.
      *
      * @return boolean If the object is hidden object
@@ -175,24 +146,13 @@ public abstract class FileSystemObject implements IMVPCViewModel, Comparable<Fil
     }
 
     /**
-     * Method that returns the identifier of the drawable icon associated
-     * to the object.
-     *
-     * @return int The identifier of the drawable icon
-     * @hide
-     */
-    public int getResourceIconId() {
-        return this.mResourceIconId;
-    }
-
-    /**
      * Method that sets the identifier of the drawable icon associated
      * to the object.
      *
      * @param resourceIconId The identifier of the drawable icon
      * @hide
      */
-    protected void setResourceIconId(int resourceIconId) {
+    void setResourceIconId(int resourceIconId) {
         this.mResourceIconId = resourceIconId;
     }
 
@@ -217,7 +177,7 @@ public abstract class FileSystemObject implements IMVPCViewModel, Comparable<Fil
      * {@inheritDoc}
      */
     @Override
-    public int compareTo(FileSystemObject another) {
+    public int compareTo(@NonNull FileSystemObject another) {
         String o1 = this.getFullPath();
         String o2 = another.getFullPath();
         return o1.compareTo(o2);
@@ -240,10 +200,12 @@ public abstract class FileSystemObject implements IMVPCViewModel, Comparable<Fil
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
         if (obj == null)
             return false;
+        if (getClass() != obj.getClass())
+            return false;
+        if (this == obj)
+            return true;
         FileSystemObject other = (FileSystemObject) obj;
         if (this.mName == null) {
             if (other.mName != null)

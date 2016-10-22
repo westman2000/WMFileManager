@@ -19,6 +19,7 @@ import corp.wmsoft.android.lib.filemanager.R;
 import corp.wmsoft.android.lib.filemanager.adapters.FSOViewModelAdapter;
 import corp.wmsoft.android.lib.filemanager.databinding.FileManagerViewLayoutBinding;
 import corp.wmsoft.android.lib.filemanager.mapper.FileSystemObjectMapper;
+import corp.wmsoft.android.lib.filemanager.models.MountPoint;
 import corp.wmsoft.android.lib.filemanager.util.FileHelper;
 import corp.wmsoft.android.lib.mvpcrx.predefined.MVPCFrameLayout;
 import corp.wmsoft.android.lib.mvpcrx.presenter.factory.IMVPCPresenterFactory;
@@ -29,7 +30,7 @@ import corp.wmsoft.android.lib.mvpcrx.presenter.factory.IMVPCPresenterFactory;
  *
  * @hide
  */
-// TODO - add History
+// TODO - add BreadCrumb
 // TODO - after history - add back action
 public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewContract.View, IFileManagerViewContract.Presenter> implements IFileManagerViewContract.View {
 
@@ -194,8 +195,13 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
     }
 
     @Override
-    public void showFilesInPath(String path) {
-        getPresenter().showFilesInPath(path);
+    public void openMountPoint(MountPoint mountPoint) {
+        getPresenter().openMountPoint(mountPoint);
+    }
+
+    @Override
+    public boolean goBack() {
+        return getPresenter().onGoBack();
     }
 
     /**

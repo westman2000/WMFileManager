@@ -30,6 +30,7 @@ import corp.wmsoft.android.lib.filemanager.IOnFileManagerEventListener;
 import corp.wmsoft.android.lib.filemanager.IOnMountPointSelected;
 import corp.wmsoft.android.lib.filemanager.IOnDirectoryChangedListener;
 import corp.wmsoft.android.lib.filemanager.IOnFilePickedListener;
+import corp.wmsoft.android.lib.filemanager.models.MountPoint;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -64,8 +65,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
         mMountPointView.setOnMountPointSelected(new IOnMountPointSelected() {
             @Override
-            public void onMountPointSelected(String mountPointPath) {
-                mFileManagerView.showFilesInPath(mountPointPath);
+            public void onMountPointSelected(MountPoint mountPoint) {
+                mFileManagerView.openMountPoint(mountPoint);
             }
         });
 
@@ -116,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
+        } else if (!mFileManagerView.goBack()) {
             super.onBackPressed();
         }
     }

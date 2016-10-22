@@ -2,10 +2,10 @@ package corp.wmsoft.android.lib.filemanager.ui.widgets.nav;
 
 import android.annotation.SuppressLint;
 import android.databinding.ObservableList;
-import android.os.Environment;
 import android.os.FileObserver;
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import corp.wmsoft.android.lib.filemanager.IFileManagerEvent;
@@ -16,6 +16,7 @@ import corp.wmsoft.android.lib.filemanager.interactors.GetFSOList;
 import corp.wmsoft.android.lib.filemanager.interactors.GetMountPoints;
 import corp.wmsoft.android.lib.filemanager.interactors.OnFileObserverEvent;
 import corp.wmsoft.android.lib.filemanager.interactors.UpdateListSummary;
+import corp.wmsoft.android.lib.filemanager.models.BreadCrumb;
 import corp.wmsoft.android.lib.filemanager.models.MountPoint;
 import corp.wmsoft.android.lib.filemanager.util.FileHelper;
 import corp.wmsoft.android.lib.filemanager.util.PreferencesHelper;
@@ -59,6 +60,8 @@ class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewContract.Vi
     /**/
     private String mCurrentDir;
     /**/
+    private List<BreadCrumb> breadCrumbsList;
+    /**/
     private ObservableList.OnListChangedCallback<ObservableList<FSOViewModel>> mViewModelListener =
             new ObservableList.OnListChangedCallback<ObservableList<FSOViewModel>>() {
                 @Override
@@ -101,6 +104,7 @@ class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewContract.Vi
         this.mOnFileObserverEvent = onFileObserverEvent;
 
         //Initialize variables
+        breadCrumbsList = new ArrayList<>();
         mViewModel = new FileManagerViewModel();
         mViewModel.fsoViewModels.addOnListChangedCallback(mViewModelListener);
     }
@@ -143,7 +147,7 @@ class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewContract.Vi
             loadMountPoints();
         } else {
             if (mViewModel.fsoViewModels.isEmpty() && !mViewModel.isLoading.get())
-                changeCurrentDir(mCurrentDir);
+                changeCurrentDir(mCurrentDir, true);
         }
     }
 
@@ -154,17 +158,19 @@ class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewContract.Vi
     @Override
     public void onFSOPicked(FSOViewModel fsoViewModel) {
         if (fsoViewModel.fso.isParentDirectory()) {
-            changeCurrentDir(fsoViewModel.fso.getParent());
+            onGoBack();
         } else if (fsoViewModel.fso.isDirectory()) {
-            changeCurrentDir(fsoViewModel.fso.getFullPath());
+            changeCurrentDir(fsoViewModel.fso.getFullPath(), true);
         } else {
-            getView().filePicked(fsoViewModel.fso.getFullPath());
+            if (isViewAttached())
+                getView().filePicked(fsoViewModel.fso.getFullPath());
         }
     }
 
     @Override
-    public void showFilesInPath(String path) {
-        changeCurrentDir(path);
+    public void openMountPoint(MountPoint mountPoint) {
+        breadCrumbsList.clear();
+        changeCurrentDir(mountPoint.getPath(), true);
     }
 
     @Override
@@ -206,7 +212,8 @@ class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewContract.Vi
     @Override
     public void setShowHidden(boolean isVisible) {
         PreferencesHelper.setShowHidden(isVisible);
-        loadFSOList();
+        // TODO - не делать перезагрузку, а скрывать и показывать
+        changeCurrentDir(mCurrentDir, false);
     }
 
     @Override
@@ -217,13 +224,15 @@ class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewContract.Vi
     @Override
     public void setShowDirsFirst(boolean isDirsFirst) {
         PreferencesHelper.setShowDirsFirst(isDirsFirst);
-        loadFSOList();
+        // TODO - не делать перезагрузку, а просто сортировать
+        changeCurrentDir(mCurrentDir, false);
     }
 
     @Override
     public void setSortMode(@IFileManagerSortMode int mode) {
         PreferencesHelper.setFileManagerSortMode(mode);
-        loadFSOList();
+        // TODO - не делать перезагрузку, а просто сортировать
+        changeCurrentDir(mCurrentDir, false);
     }
 
     @Override
@@ -244,6 +253,16 @@ class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewContract.Vi
     @Override
     public String getCurrentDir() {
         return mCurrentDir;
+    }
+
+    @Override
+    public boolean onGoBack() {
+        if (breadCrumbsList.size() > 1) {
+            breadCrumbsList.remove(breadCrumbsList.size() - 1);
+            changeCurrentDir(breadCrumbsList.get(breadCrumbsList.size() - 1).getCurrentDirectory(), false);
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -288,9 +307,9 @@ class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewContract.Vi
      *
      * @param newDir The new directory location
      */
-    private void changeCurrentDir(final String newDir) {
+    private void changeCurrentDir(final String newDir, final boolean addToBreadCrumb) {
         this.mCurrentDir = newDir;
-        loadFSOList();
+        loadFSOList(addToBreadCrumb);
     }
 
     private void loadMountPoints() {
@@ -298,30 +317,24 @@ class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewContract.Vi
         executeUseCase(mGetMountPoints, new GetMountPoints.RequestValues(true), new Subscriber<List<MountPoint>>() {
 
             @Override
-            public void onCompleted() {
-                loadFSOList();
-            }
+            public void onCompleted() {}
 
             @Override
             public void onError(Throwable e) {
                 Log.d(TAG, "loadMountPoints.onError("+e+")");
                 // TODO - show error
-                mCurrentDir = Environment.getExternalStorageDirectory().getAbsolutePath();
             }
 
             @Override
             public void onNext(List<MountPoint> mountPoints) {
-                if (mountPoints.size() == 0) {
-                    mCurrentDir = Environment.getExternalStorageDirectory().getAbsolutePath();
-                    return;
-                }
                 // get first available mount point
-                mCurrentDir = mountPoints.get(0).getPath();
+                MountPoint mountPoint = mountPoints.get(0);
+                openMountPoint(mountPoint);
             }
         });
     }
 
-    private void loadFSOList() {
+    private void loadFSOList(final boolean addToBreadCrumb) {
 
         executeUseCase(mGetFSOList, new GetFSOList.RequestValues(mCurrentDir), new Subscriber<List<FSOViewModel>>() {
             @Override
@@ -332,14 +345,7 @@ class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewContract.Vi
 
             @Override
             public void onCompleted() {
-
-                setupFileObserver();
-
-                // send event to view
-                if (isViewAttached())
-                    getView().directoryChanged(mCurrentDir);
-
-                mViewModel.isLoading.set(false);
+                setupFileObserver(addToBreadCrumb);
             }
 
             @Override
@@ -355,7 +361,7 @@ class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewContract.Vi
         });
     }
 
-    private void setupFileObserver() {
+    private void setupFileObserver(final boolean addToBreadCrumb) {
 
         releaseFileObserver();
 
@@ -371,7 +377,7 @@ class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewContract.Vi
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.d(TAG, "loadFSOList.onError("+e+")");
+                        Log.d(TAG, "setupFileObserver.onError("+e+")");
                         // TODO - show error
                     }
 
@@ -384,8 +390,14 @@ class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewContract.Vi
 
         mFileObserver.startWatching();
 
-        // TODO - Add to history?
-        // TODO - Change the breadcrumb
+        // send event to view
+        if (isViewAttached())
+            getView().directoryChanged(mCurrentDir);
+
+        if (addToBreadCrumb)
+            breadCrumbsList.add(new BreadCrumb(mCurrentDir));
+
+        mViewModel.isLoading.set(false);
     }
 
     private void releaseFileObserver() {

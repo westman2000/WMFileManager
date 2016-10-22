@@ -4,6 +4,7 @@ import corp.wmsoft.android.lib.filemanager.IFileManagerEvent;
 import corp.wmsoft.android.lib.filemanager.IFileManagerFileTimeFormat;
 import corp.wmsoft.android.lib.filemanager.IFileManagerNavigationMode;
 import corp.wmsoft.android.lib.filemanager.IFileManagerSortMode;
+import corp.wmsoft.android.lib.filemanager.models.MountPoint;
 import corp.wmsoft.android.lib.mvpcrx.presenter.IMVPCPresenter;
 import corp.wmsoft.android.lib.mvpcrx.view.IMVPCView;
 
@@ -33,7 +34,9 @@ public interface IFileManagerViewContract {
 
         void directoryChanged(String dir);
 
-        void showFilesInPath(String path);
+        void openMountPoint(MountPoint mountPoint);
+
+        boolean goBack();
     }
 
     interface Presenter extends IMVPCPresenter<View> {
@@ -48,7 +51,7 @@ public interface IFileManagerViewContract {
 
         void                            onFSOPicked(FSOViewModel fsoViewModel);
 
-        void                            showFilesInPath(String path);
+        void                            openMountPoint(MountPoint mountPoint);
 
         void                            onSetTimeFormat(@IFileManagerFileTimeFormat int format);
 
@@ -69,5 +72,7 @@ public interface IFileManagerViewContract {
         void                            setShowThumbs(boolean isThumbsVisible);
 
         String                          getCurrentDir();
+
+        boolean                         onGoBack();
     }
 }
