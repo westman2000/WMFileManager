@@ -4,7 +4,6 @@ import android.databinding.BindingAdapter;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableList;
 import android.graphics.drawable.Drawable;
-import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
 
 import java.util.List;
@@ -26,6 +25,7 @@ import corp.wmsoft.android.lib.filemanager.util.MimeTypeHelper;
 public class FSOViewModelAdapter extends BaseDataBoundAdapter {
 
     /**/
+    @SuppressWarnings("unused")
     private static final String TAG = "wmfm::FMViewInternal";
 
     /**/
@@ -58,13 +58,13 @@ public class FSOViewModelAdapter extends BaseDataBoundAdapter {
     public int getItemLayoutId(int position) {
         switch (mCurrentNavigationMode) {
             case IFileManagerNavigationMode.ICONS:
-                return R.layout.navigation_view_icons_item;
+                return R.layout.wm_fm_navigation_view_icons_item;
             case IFileManagerNavigationMode.SIMPLE:
-                return R.layout.navigation_view_simple_item;
+                return R.layout.wm_fm_navigation_view_simple_item;
             case IFileManagerNavigationMode.DETAILS:
             case IFileManagerNavigationMode.UNDEFINED:
             default:
-                return R.layout.navigation_view_details_item;
+                return R.layout.wm_fm_navigation_view_details_item;
         }
     }
 
@@ -109,37 +109,29 @@ public class FSOViewModelAdapter extends BaseDataBoundAdapter {
      */
     private ObservableList.OnListChangedCallback<ObservableList<FSOViewModel>> callback =
         new ObservableList.OnListChangedCallback<ObservableList<FSOViewModel>>() {
+
             @Override
             public void onChanged(ObservableList<FSOViewModel> contactViewModels) {
-
                 notifyDataSetChanged();
             }
 
             @Override
-            public void onItemRangeChanged(ObservableList<FSOViewModel> fsoViewModels,
-                                           int positionStart, int itemCount) {
-
+            public void onItemRangeChanged(ObservableList<FSOViewModel> fsoViewModels, int positionStart, int itemCount) {
                 notifyItemRangeChanged(positionStart, itemCount);
             }
 
             @Override
-            public void onItemRangeInserted(ObservableList<FSOViewModel> fsoViewModels,
-                                            int positionStart, int itemCount) {
-
+            public void onItemRangeInserted(ObservableList<FSOViewModel> fsoViewModels, int positionStart, int itemCount) {
                 notifyItemRangeInserted(positionStart, itemCount);
             }
 
             @Override
-            public void onItemRangeMoved(ObservableList<FSOViewModel> fsoViewModels,
-                                         int fromPosition, int toPosition, int itemCount) {
-
+            public void onItemRangeMoved(ObservableList<FSOViewModel> fsoViewModels, int fromPosition, int toPosition, int itemCount) {
                 notifyItemRangeRemoved(fromPosition, itemCount);
             }
 
             @Override
-            public void onItemRangeRemoved(ObservableList<FSOViewModel> fsoViewModels,
-                                           int positionStart, int itemCount) {
-
+            public void onItemRangeRemoved(ObservableList<FSOViewModel> fsoViewModels, int positionStart, int itemCount) {
                 notifyItemRangeRemoved(positionStart, itemCount);
             }
         };

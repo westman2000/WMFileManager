@@ -24,4 +24,9 @@
     <dimen name="wm_fm_easy_mode_type_icon_wh">40dp</dimen>
     <dimen name="wm_fm_easy_mode_type_icon_margin_lr">16dp</dimen>
 
+    <!-- The breadcrumb item margin space -->
+    <dimen name="wm_fm_breadcrumb_item_margin_space">3dp</dimen>
+    <!-- The breadcrumb item minimal size -->
+    <dimen name="wm_fm_breadcrumb_item_min_size">32dp</dimen>
+
 </resources>

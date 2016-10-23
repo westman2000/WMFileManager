@@ -4,6 +4,7 @@ import corp.wmsoft.android.lib.filemanager.IFileManagerEvent;
 import corp.wmsoft.android.lib.filemanager.IFileManagerFileTimeFormat;
 import corp.wmsoft.android.lib.filemanager.IFileManagerNavigationMode;
 import corp.wmsoft.android.lib.filemanager.IFileManagerSortMode;
+import corp.wmsoft.android.lib.filemanager.models.BreadCrumb;
 import corp.wmsoft.android.lib.filemanager.models.MountPoint;
 import corp.wmsoft.android.lib.mvpcrx.presenter.IMVPCPresenter;
 import corp.wmsoft.android.lib.mvpcrx.view.IMVPCView;
@@ -74,5 +75,7 @@ public interface IFileManagerViewContract {
         String                          getCurrentDir();
 
         boolean                         onGoBack();
+
+        void                            onBreadCrumbClick(BreadCrumb breadCrumb);
     }
 }

@@ -1,12 +1,14 @@
 package corp.wmsoft.android.lib.filemanager.ui.widgets.nav;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Toast;
 
 import corp.wmsoft.android.lib.filemanager.IFileManagerEvent;
 import corp.wmsoft.android.lib.filemanager.IFileManagerFileTimeFormat;
@@ -16,8 +18,10 @@ import corp.wmsoft.android.lib.filemanager.IOnDirectoryChangedListener;
 import corp.wmsoft.android.lib.filemanager.IOnFileManagerEventListener;
 import corp.wmsoft.android.lib.filemanager.IOnFilePickedListener;
 import corp.wmsoft.android.lib.filemanager.R;
+import corp.wmsoft.android.lib.filemanager.adapters.BreadCrumbAdapter;
 import corp.wmsoft.android.lib.filemanager.adapters.FSOViewModelAdapter;
-import corp.wmsoft.android.lib.filemanager.databinding.FileManagerViewLayoutBinding;
+import corp.wmsoft.android.lib.filemanager.databinding.WmFmFileManagerViewLayoutBinding;
+import corp.wmsoft.android.lib.filemanager.models.BreadCrumb;
 import corp.wmsoft.android.lib.filemanager.models.MountPoint;
 import corp.wmsoft.android.lib.mvpcrx.predefined.MVPCFrameLayout;
 import corp.wmsoft.android.lib.mvpcrx.presenter.factory.IMVPCPresenterFactory;
@@ -38,16 +42,18 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
     private static final int ITEM_VIEW_CACHE_SIZE = 40;
 
     /**/
-    private FileManagerViewLayoutBinding binding;
+    private WmFmFileManagerViewLayoutBinding binding;
 
     /**/
-    private LinearLayoutManager mLinearLayoutManager;
+    private LinearLayoutManager mVerticalLinearLayoutManager;
     /**/
     private GridLayoutManager mGridLayoutManager;
     /**/
     private DividerItemDecoration mDividerItemDecoration;
     /**/
-    private FSOViewModelAdapter mAdapter;
+    private FSOViewModelAdapter fsoViewModelAdapter;
+    /**/
+    private BreadCrumbAdapter breadCrumbAdapter;
     /**/
     private IOnFileManagerEventListener mOnFileManagerEventListener;
     /**/
@@ -96,7 +102,8 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
 
     @Override
     public void onInitializePresenter(IFileManagerViewContract.Presenter presenter) {
-        mAdapter.setPresenter(presenter);
+        fsoViewModelAdapter.setPresenter(presenter);
+        breadCrumbAdapter.setPresenter(presenter);
     }
 
     @Override
@@ -115,13 +122,15 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
         mOnFilePickedListener = null;
         mOnDirectoryChangedListener = null;
 
-        mAdapter.onDestroy();
+        fsoViewModelAdapter.onDestroy();
+        breadCrumbAdapter.onDestroy();
     }
 
     @Override
     public void setViewModel(FileManagerViewModel viewModel) {
         binding.setViewModel(viewModel);
-        mAdapter.setList(viewModel.fsoViewModels);
+        fsoViewModelAdapter.setList(viewModel.fsoViewModels);
+        breadCrumbAdapter.setList(viewModel.breadCrumbs);
     }
 
     /**
@@ -148,14 +157,7 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
     @Override
     public void showAsList() {
         // use a linear layout manager for simple and details mode
-        if (mLinearLayoutManager == null)
-            mLinearLayoutManager = new LinearLayoutManager(getContext());
-
-        binding.fsoList.setLayoutManager(mLinearLayoutManager);
-
-        if (mDividerItemDecoration == null)
-            mDividerItemDecoration = new DividerItemDecoration(binding.fsoList.getContext(), LinearLayoutManager.VERTICAL);
-
+        binding.fsoList.setLayoutManager(mVerticalLinearLayoutManager);
         binding.fsoList.addItemDecoration(mDividerItemDecoration);
     }
 
@@ -164,11 +166,7 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
      */
     @Override
     public void showAsGrid() {
-        if (mGridLayoutManager == null)
-            mGridLayoutManager = new GridLayoutManager(getContext(), getResources().getInteger(R.integer.wm_fm_default_grid_columns));
-
         binding.fsoList.setLayoutManager(mGridLayoutManager);
-
         binding.fsoList.removeItemDecoration(mDividerItemDecoration);
     }
 
@@ -177,7 +175,7 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
      */
     @Override
     public void setNavigationModeInternal(@IFileManagerNavigationMode int mode) {
-        mAdapter.setNavigationMode(mode);
+        fsoViewModelAdapter.setNavigationMode(mode);
     }
 
     @Override
@@ -272,7 +270,7 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
      */
     public void setShowThumbs(boolean isShowThumbs) {
         getPresenter().setShowThumbs(isShowThumbs);
-        mAdapter.notifyDataPayloadChanged();
+        fsoViewModelAdapter.notifyDataPayloadChanged();
     }
 
     /**
@@ -336,20 +334,41 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
      */
     private void init() {
 
-        // Create data binding for file_manager_view_layout.xml
-        binding = FileManagerViewLayoutBinding.inflate(LayoutInflater.from(getContext()));
+        // Create data binding for wm_fm_file_manager_view_layout.xmlut.xml
+        binding = WmFmFileManagerViewLayoutBinding.inflate(LayoutInflater.from(getContext()));
 
-        mAdapter = new FSOViewModelAdapter();
+        mVerticalLinearLayoutManager = new LinearLayoutManager(getContext());
+        mGridLayoutManager = new GridLayoutManager(getContext(), getResources().getInteger(R.integer.wm_fm_default_grid_columns));
+        mDividerItemDecoration = new DividerItemDecoration(binding.fsoList.getContext(), LinearLayoutManager.VERTICAL);
+
+        fsoViewModelAdapter = new FSOViewModelAdapter();
+        breadCrumbAdapter = new BreadCrumbAdapter(R.layout.wm_fm_breadcrumb_item);
+        breadCrumbAdapter.setOnLongClickListener(new IBreadCrumbListener() {
+            @Override
+            public boolean onBreadCrumbLongClick(BreadCrumb breadCrumb) {
+                Toast.makeText(getContext(), breadCrumb.fullPath(), Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        });
 
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
         binding.fsoList.setHasFixedSize(true);
+        binding.breadCrumbList.setHasFixedSize(true);
+
+        // init breadcrumbs list
+        binding.breadCrumbList.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(binding.fsoList.getContext(), LinearLayoutManager.HORIZONTAL);
+        dividerItemDecoration.setDrawable(ContextCompat.getDrawable(getContext(), R.drawable.wm_fm_ic_chevron_right_24dp));
+        binding.breadCrumbList.addItemDecoration(dividerItemDecoration);
+
         // optimization for fast scroll, but maybe i will remove it if will be bug with selected state
         binding.fsoList.setItemViewCacheSize(ITEM_VIEW_CACHE_SIZE);
         binding.fsoList.setDrawingCacheEnabled(true);
         binding.fsoList.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
 
-        binding.setAdapter(mAdapter);
+        binding.setFsoAdapter(fsoViewModelAdapter);
+        binding.setBreadCrumbAdapter(breadCrumbAdapter);
 
         addView(binding.getRoot());
     }

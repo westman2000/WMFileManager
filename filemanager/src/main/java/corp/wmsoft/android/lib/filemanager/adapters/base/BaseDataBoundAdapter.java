@@ -89,6 +89,11 @@ abstract public class BaseDataBoundAdapter<T extends ViewDataBinding> extends Re
     @LayoutRes
     public abstract int getItemLayoutId(int position);
 
+    @Nullable
+    public RecyclerView getRecyclerView() {
+        return mRecyclerView;
+    }
+
     /**
      * This is used to block items from updating themselves. RecyclerView wants to know when an
      * item is invalidated and it prefers to refresh it via onRebind. It also helps with performance

@@ -1,0 +1,26 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable name="viewModel" type="corp.wmsoft.android.lib.filemanager.models.BreadCrumb"/>
+        <variable name="presenter" type="corp.wmsoft.android.lib.filemanager.ui.widgets.nav.IFileManagerViewContract.Presenter"/>
+        <variable name="listener" type="corp.wmsoft.android.lib.filemanager.ui.widgets.nav.IBreadCrumbListener"/>
+    </data>
+
+    <TextView
+        android:textAppearance="@style/wm_fm_primary_text_appearance"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="@{viewModel.title}"
+        android:onClick="@{() -> presenter.onBreadCrumbClick(viewModel)}"
+        android:onLongClick="@{() -> listener.onBreadCrumbLongClick(viewModel)}"
+        android:background="?attr/selectableItemBackground"
+        android:gravity="center_vertical"
+        android:minWidth="@dimen/wm_fm_breadcrumb_item_min_size"
+        android:paddingStart="@dimen/wm_fm_breadcrumb_item_margin_space"
+        android:paddingLeft="@dimen/wm_fm_breadcrumb_item_margin_space"
+        android:paddingEnd="@dimen/wm_fm_breadcrumb_item_margin_space"
+        android:paddingRight="@dimen/wm_fm_breadcrumb_item_margin_space"
+        android:maxLines="1"
+        android:clickable="true" />
+
+</layout>

@@ -1,11 +1,9 @@
 package corp.wmsoft.android.lib.filemanager.ui.widgets.nav;
 
-import android.annotation.SuppressLint;
 import android.databinding.ObservableList;
 import android.os.FileObserver;
 import android.util.Log;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import corp.wmsoft.android.lib.filemanager.IFileManagerEvent;
@@ -28,7 +26,7 @@ import rx.Subscriber;
 /**
  * <br/>Created by WestMan2000 on 8/31/16 at 3:49 PM.<br/>
  */
-@SuppressLint("LongLogTag")
+// TODO
 class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewContract.View> implements IFileManagerViewContract.Presenter {
 
     /**/
@@ -59,8 +57,6 @@ class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewContract.Vi
     private int mCurrentMode = IFileManagerNavigationMode.UNDEFINED;
     /**/
     private String mCurrentDir;
-    /**/
-    private List<BreadCrumb> breadCrumbsList;
     /**/
     private ObservableList.OnListChangedCallback<ObservableList<FSOViewModel>> mViewModelListener =
             new ObservableList.OnListChangedCallback<ObservableList<FSOViewModel>>() {
@@ -104,7 +100,6 @@ class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewContract.Vi
         this.mOnFileObserverEvent = onFileObserverEvent;
 
         //Initialize variables
-        breadCrumbsList = new ArrayList<>();
         mViewModel = new FileManagerViewModel();
         mViewModel.fsoViewModels.addOnListChangedCallback(mViewModelListener);
     }
@@ -169,7 +164,7 @@ class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewContract.Vi
 
     @Override
     public void openMountPoint(MountPoint mountPoint) {
-        breadCrumbsList.clear();
+        mViewModel.breadCrumbs.clear();
         changeCurrentDir(mountPoint.getPath(), true);
     }
 
@@ -257,12 +252,29 @@ class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewContract.Vi
 
     @Override
     public boolean onGoBack() {
-        if (breadCrumbsList.size() > 1) {
-            breadCrumbsList.remove(breadCrumbsList.size() - 1);
-            changeCurrentDir(breadCrumbsList.get(breadCrumbsList.size() - 1).fullPath(), false);
+        if (mViewModel.breadCrumbs.size() > 1) {
+            mViewModel.breadCrumbs.remove(mViewModel.breadCrumbs.size() - 1);
+            changeCurrentDir(mViewModel.breadCrumbs.get(mViewModel.breadCrumbs.size() - 1).fullPath(), false);
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void onBreadCrumbClick(BreadCrumb breadCrumb) {
+
+        // do not reload for same
+        if (breadCrumb.fullPath().equals(mViewModel.breadCrumbs.get(mViewModel.breadCrumbs.size() - 1).fullPath()))
+            return;
+
+        for (int i = 0; i < mViewModel.breadCrumbs.size(); i++) {
+            BreadCrumb bc = mViewModel.breadCrumbs.get(i);
+            if (breadCrumb.fullPath().equals(bc.fullPath())) {
+                mViewModel.breadCrumbs.subList(i+1, mViewModel.breadCrumbs.size()).clear();
+            }
+        }
+
+        changeCurrentDir(mViewModel.breadCrumbs.get(mViewModel.breadCrumbs.size() - 1).fullPath(), false);
     }
 
     /**
@@ -395,9 +407,7 @@ class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewContract.Vi
             getView().directoryChanged(mCurrentDir);
 
         if (addToBreadCrumb)
-            breadCrumbsList.add(BreadCrumb.create(mCurrentDir));
-
-        Log.d(TAG, String.valueOf(breadCrumbsList));
+            mViewModel.breadCrumbs.add(BreadCrumb.create(mCurrentDir));
 
         mViewModel.isLoading.set(false);
     }

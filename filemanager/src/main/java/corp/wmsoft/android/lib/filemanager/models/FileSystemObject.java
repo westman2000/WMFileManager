@@ -1,6 +1,5 @@
 package corp.wmsoft.android.lib.filemanager.models;
 
-import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -10,7 +9,6 @@ import java.io.File;
 import java.util.Date;
 
 import corp.wmsoft.android.lib.filemanager.util.FileHelper;
-import corp.wmsoft.android.lib.filemanager.R;
 
 
 /**
@@ -20,30 +18,14 @@ import corp.wmsoft.android.lib.filemanager.R;
 @AutoValue
 public abstract class FileSystemObject implements Comparable<FileSystemObject> {
 
-    //Resource identifier for default icon
-    private static final int DIRECTORY_DEFAULT_ICON    = R.drawable.ic_fso_folder_24dp;
-    private static final int REGULAR_FILE_DEFAULT_ICON = R.drawable.ic_fso_default_24dp;
-
 
     /**
-     * To prevent always ask
-     * <pre>
-     *      if (fso instanceof Directory) {
-     *          ...
-     *      }
-     * </pre>
      * @return is fso a directory
      */
     public abstract boolean isDirectory();
 
     /**
-     * To prevent always ask
-     * <pre>
-     *      if (fso instanceof ParentDirectory) {
-     *          ...
-     *      }
-     * </pre>
-     * @return is fso a directory
+     * @return is fso a ParentDirectory
      */
     public abstract boolean isParentDirectory();
 
@@ -84,14 +66,6 @@ public abstract class FileSystemObject implements Comparable<FileSystemObject> {
     @Nullable
     public abstract String fullPath(); //this.mParent + File.separator + this.mName
 
-    /**
-     * Method that sets the identifier of the drawable icon associated
-     * to the object.
-     *
-     * @return identifier of the drawable icon
-     */
-    public abstract @DrawableRes int resourceIconId();
-
     /**/
     public abstract int itemsCountInDirectory();
 
@@ -130,7 +104,6 @@ public abstract class FileSystemObject implements Comparable<FileSystemObject> {
         abstract Builder setSize(long size);
         abstract Builder setLastModifiedTime(@Nullable Date lastModifiedTime);
         abstract Builder setFullPath(@Nullable String fullPath);
-        abstract Builder setResourceIconId(@DrawableRes int resourceIconId);
         abstract Builder setItemsCountInDirectory(int itemsCountInDirectory);
         abstract Builder setIsHidden(boolean isHidden);
         abstract FileSystemObject build();
@@ -149,7 +122,6 @@ public abstract class FileSystemObject implements Comparable<FileSystemObject> {
                 .setSize(0)
                 .setLastModifiedTime(lastModifiedTime)
                 .setFullPath(parent + File.separator + name)
-                .setResourceIconId(DIRECTORY_DEFAULT_ICON)
                 .setItemsCountInDirectory(itemsCountInDirectory)
                 .setIsHidden(name.startsWith("."))
                 .build();
@@ -165,7 +137,6 @@ public abstract class FileSystemObject implements Comparable<FileSystemObject> {
                 .setSize(0)
                 .setLastModifiedTime(null)
                 .setFullPath(parent + File.separator + FileHelper.PARENT_DIRECTORY)
-                .setResourceIconId(DIRECTORY_DEFAULT_ICON)
                 .setItemsCountInDirectory(0)
                 .setIsHidden(false)
                 .build();
@@ -181,7 +152,6 @@ public abstract class FileSystemObject implements Comparable<FileSystemObject> {
                 .setSize(size)
                 .setLastModifiedTime(lastModifiedTime)
                 .setFullPath(parent + File.separator + name)
-                .setResourceIconId(REGULAR_FILE_DEFAULT_ICON)
                 .setItemsCountInDirectory(0)
                 .setIsHidden(name.startsWith("."))
                 .build();
