@@ -33,10 +33,6 @@ public class FileManagerView extends FrameLayout {
         init(context);
     }
 
-    public void openMountPoint(MountPoint mountPoint) {
-        this.mFileManagerViewInternal.openMountPoint(mountPoint);
-    }
-
     /**
      *
      */

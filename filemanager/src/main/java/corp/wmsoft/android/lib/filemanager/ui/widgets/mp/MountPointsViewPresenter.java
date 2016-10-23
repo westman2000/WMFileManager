@@ -19,6 +19,7 @@ import rx.Subscriber;
 /**
  * Created by WestMan2000 on 9/11/16. <br/>
  */
+@Deprecated
 class MountPointsViewPresenter extends MVPCPresenter<IMountPointsViewContract.View> implements IMountPointsViewContract.Presenter {
 
     /**/
@@ -97,7 +98,7 @@ class MountPointsViewPresenter extends MVPCPresenter<IMountPointsViewContract.Vi
             // get Primary mount point and select it
             for (MountPoint mp : mMountPoints) {
                 if (mp.isPrimary()) {
-                    mSelectedMountPointId = mp.getId();
+                    mSelectedMountPointId = mp.id();
                     break;
                 }
             }
@@ -108,7 +109,7 @@ class MountPointsViewPresenter extends MVPCPresenter<IMountPointsViewContract.Vi
 
     private void selectMountPoint(boolean fireEvent) {
         for (MountPoint mp : mMountPoints) {
-            if (mp.getId() == mSelectedMountPointId) {
+            if (mp.id() == mSelectedMountPointId) {
                 getView().selectMountPoint(mp, fireEvent);
                 return;
             }

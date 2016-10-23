@@ -110,7 +110,6 @@ public abstract class FileSystemObject implements Comparable<FileSystemObject> {
     }
 
 
-    // TODO - переделать на билдер
     @NonNull
     public static FileSystemObject createDirectory(String name, String parent, Date lastModifiedTime, int itemsCountInDirectory) {
         return FileSystemObject.builder()

@@ -143,6 +143,9 @@ class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewContract.Vi
         } else {
             if (mViewModel.fsoViewModels.isEmpty() && !mViewModel.isLoading.get())
                 changeCurrentDir(mCurrentDir, true);
+
+            if (mViewModel.selectedMountPoint != null)
+                getView().selectMountPoint(mViewModel.selectedMountPoint);
         }
     }
 
@@ -163,9 +166,14 @@ class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewContract.Vi
     }
 
     @Override
-    public void openMountPoint(MountPoint mountPoint) {
-        mViewModel.breadCrumbs.clear();
-        changeCurrentDir(mountPoint.getPath(), true);
+    public void onMountPointSelect(MountPoint mountPoint) {
+        Log.d(TAG, "onMountPointSelect("+mountPoint+")");
+
+        // do not select i already selected
+        if (mountPoint == mViewModel.selectedMountPoint)
+            return;
+
+        selectMountPoint(mountPoint, false);
     }
 
     @Override
@@ -339,9 +347,11 @@ class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewContract.Vi
 
             @Override
             public void onNext(List<MountPoint> mountPoints) {
+
+                mViewModel.mountPoints.addAll(mountPoints);
+
                 // get first available mount point
-                MountPoint mountPoint = mountPoints.get(0);
-                openMountPoint(mountPoint);
+                selectMountPoint(mountPoints.get(0), true);
             }
         });
     }
@@ -417,6 +427,18 @@ class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewContract.Vi
             mFileObserver.stopWatching();
             mFileObserver = null;
         }
+    }
+
+    private void selectMountPoint(MountPoint mountPoint, boolean isSendSelectEventToView) {
+        Log.d(TAG, "selectMountPoint("+mountPoint+", "+isSendSelectEventToView+")");
+
+        mViewModel.selectedMountPoint = mountPoint;
+
+        mViewModel.breadCrumbs.clear();
+        changeCurrentDir(mountPoint.fullPath(), true);
+
+        if (isSendSelectEventToView)
+            getView().selectMountPoint(mountPoint);
     }
 
 }

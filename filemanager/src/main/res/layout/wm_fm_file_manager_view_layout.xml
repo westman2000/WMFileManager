@@ -9,30 +9,38 @@
         <variable name="viewModel" type="corp.wmsoft.android.lib.filemanager.ui.widgets.nav.FileManagerViewModel"/>
     </data>
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <LinearLayout
+        <android.support.design.widget.TabLayout
+            android:id="@+id/mountPoints"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            app:tabGravity="fill"
+            app:tabMode="fixed"
+            app:tabIndicatorColor="@color/wm_fm_colorAccent"/>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:background="?android:attr/listDivider"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="?android:attr/listDivider"/>
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/breadCrumbList"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/wm_fm_breadcrumb_item_min_size"
-                app:adapter="@{breadCrumbAdapter}"/>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/breadCrumbList"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/wm_fm_breadcrumb_item_min_size"
+            app:adapter="@{breadCrumbAdapter}"/>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:background="?android:attr/listDivider"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="?android:attr/listDivider"/>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/fsoList"
@@ -40,21 +48,21 @@
                 android:layout_height="match_parent"
                 app:adapter="@{fsoAdapter}"/>
 
-        </LinearLayout>
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="@{viewModel.isLoading ? View.VISIBLE : View.GONE}"
+                android:layout_gravity="center"/>
 
-        <ProgressBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="@{viewModel.isLoading ? View.VISIBLE : View.GONE}"
-            android:layout_gravity="center"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="@{viewModel.isEmptyFolder ? View.VISIBLE : View.GONE}"
+                android:layout_gravity="center"
+                android:text="@string/wm_fm_hint_empty_folder"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="@{viewModel.isEmptyFolder ? View.VISIBLE : View.GONE}"
-            android:layout_gravity="center"
-            android:text="@string/wm_fm_hint_empty_folder"/>
+        </FrameLayout>
 
-    </FrameLayout>
+    </LinearLayout>
 
 </layout>

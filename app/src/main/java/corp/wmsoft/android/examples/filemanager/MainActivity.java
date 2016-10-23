@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mMountPointView.setOnMountPointSelected(new IOnMountPointSelected() {
             @Override
             public void onMountPointSelected(MountPoint mountPoint) {
-                mFileManagerView.openMountPoint(mountPoint);
+//                mFileManagerView.openMountPoint(mountPoint);
             }
         });
 
@@ -93,15 +93,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onFilePicked(String file) {
 //                Snackbar.make(findViewById(R.id.fab), "file: ["+file+"]", Snackbar.LENGTH_LONG).show();
-            }
-        });
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
             }
         });
 
@@ -291,7 +282,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 // sees the explanation, try again to request the permission.
 
                 // Display a SnackBar with an explanation and a button to trigger the request.
-                Snackbar.make(findViewById(R.id.fab), "To browse files, need access to file system", Snackbar.LENGTH_INDEFINITE)
+                Snackbar.make(findViewById(R.id.coordinator), "To browse files, need access to file system", Snackbar.LENGTH_INDEFINITE)
                         .setAction(android.R.string.ok, new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
@@ -332,7 +323,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 // sees the explanation, try again to request the permission.
 
                 // Display a SnackBar with an explanation and a button to trigger the request.
-                Snackbar.make(findViewById(R.id.fab), "To browse files, need access to file system", Snackbar.LENGTH_INDEFINITE)
+                Snackbar.make(findViewById(R.id.coordinator), "To browse files, need access to file system", Snackbar.LENGTH_INDEFINITE)
                         .setAction(android.R.string.ok, new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {

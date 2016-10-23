@@ -6,6 +6,7 @@
         <variable name="listener" type="corp.wmsoft.android.lib.filemanager.ui.widgets.nav.IBreadCrumbListener"/>
     </data>
 
+    <!--suppress AndroidUnknownAttribute -->
     <TextView
         android:textAppearance="@style/wm_fm_primary_text_appearance"
         android:layout_width="wrap_content"

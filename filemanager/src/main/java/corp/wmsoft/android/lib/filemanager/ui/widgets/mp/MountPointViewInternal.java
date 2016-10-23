@@ -16,10 +16,11 @@ import corp.wmsoft.android.lib.filemanager.IOnFileManagerEventListener;
 import corp.wmsoft.android.lib.mvpcrx.predefined.MVPCLinearLayout;
 import corp.wmsoft.android.lib.mvpcrx.presenter.factory.IMVPCPresenterFactory;
 
+
 /**
  * <p>Created by WestMan2000 on 9/26/16. <p>
  */
-
+@Deprecated
 public class MountPointViewInternal extends MVPCLinearLayout<IMountPointsViewContract.View, IMountPointsViewContract.Presenter> implements IMountPointsViewContract.View {
 
     /**/
@@ -80,7 +81,7 @@ public class MountPointViewInternal extends MVPCLinearLayout<IMountPointsViewCon
         for (int i=0; i<childCount; i++) {
             AppCompatImageButton imageButton = (AppCompatImageButton) getChildAt(i);
             int mountPointId = (int) imageButton.getTag();
-            if (mountPointId == mountPoint.getId()) {
+            if (mountPointId == mountPoint.id()) {
                 // select it
                 imageButton.setColorFilter(ContextCompat.getColor(getContext(), R.color.wm_fm_colorAccent));
 
@@ -107,8 +108,7 @@ public class MountPointViewInternal extends MVPCLinearLayout<IMountPointsViewCon
 
         for (MountPoint mountPoint : data) {
             AppCompatImageButton imageButton = new AppCompatImageButton(getContext());
-            imageButton.setImageResource(mountPoint.getIconResId());
-            imageButton.setTag(mountPoint.getId());
+            imageButton.setTag(mountPoint.id());
             imageButton.setColorFilter(ContextCompat.getColor(getContext(), R.color.wm_fm_colorPrimary));
             imageButton.setEnabled(mountPoint.isMounted());
             imageButton.setOnClickListener(new OnClickListener() {

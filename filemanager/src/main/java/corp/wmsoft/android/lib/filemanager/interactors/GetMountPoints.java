@@ -5,6 +5,7 @@ import android.os.Environment;
 import android.os.storage.StorageVolume;
 import android.support.annotation.NonNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import corp.wmsoft.android.lib.filemanager.mapper.Mapper;
@@ -43,10 +44,26 @@ public class GetMountPoints extends MVPCUseCase<GetMountPoints.RequestValues, Li
                 .filter(new Func1<MountPoint, Boolean>() {
                     @Override
                     public Boolean call(MountPoint mountPoint) {
-                        return mountPoint.getState().equals(Environment.MEDIA_MOUNTED);
+                        return mountPoint.isMounted();
                     }
                 })
-                .toList();
+                .toList()
+                .map(new Func1<List<MountPoint>, List<MountPoint>>() {
+                    @Override
+                    public List<MountPoint> call(List<MountPoint> mountPoints) {
+                        if (mountPoints.size() == 0) {
+                            List<MountPoint> mountPointList = new ArrayList<>();
+                            mountPointList.add(
+                                    MountPoint.create(
+                                            Environment.getExternalStorageDirectory().getPath(),
+                                            Environment.getExternalStorageState())
+                            );
+                            return mountPointList;
+                        }
+
+                        return mountPoints;
+                    }
+                });
     }
 
     public static class RequestValues extends MVPCUseCase.RequestValues {

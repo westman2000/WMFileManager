@@ -35,7 +35,7 @@ public interface IFileManagerViewContract {
 
         void directoryChanged(String dir);
 
-        void openMountPoint(MountPoint mountPoint);
+        void selectMountPoint(MountPoint mountPoint);
 
         boolean goBack();
     }
@@ -52,7 +52,7 @@ public interface IFileManagerViewContract {
 
         void                            onFSOPicked(FSOViewModel fsoViewModel);
 
-        void                            openMountPoint(MountPoint mountPoint);
+        void                            onMountPointSelect(MountPoint mountPoint);
 
         void                            onSetTimeFormat(@IFileManagerFileTimeFormat int format);
 

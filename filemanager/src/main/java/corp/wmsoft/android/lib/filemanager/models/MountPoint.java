@@ -1,144 +1,122 @@
 package corp.wmsoft.android.lib.filemanager.models;
 
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.StateListDrawable;
 import android.os.Environment;
 
-import java.io.File;
+import com.google.auto.value.AutoValue;
+
 import java.util.Locale;
 import java.util.Random;
 
 import corp.wmsoft.android.lib.filemanager.R;
+import corp.wmsoft.android.lib.filemanager.WMFileManager;
+import corp.wmsoft.android.lib.filemanager.util.IconsHelper;
 import corp.wmsoft.android.lib.mvpcrx.viewmodel.IMVPCViewModel;
+
 
 /**
  * <br/>Created by WestMan2000 on 9/2/16 at 2:04 PM.<br/>
  */
-public class MountPoint implements IMVPCViewModel {
+@AutoValue
+public abstract class MountPoint implements IMVPCViewModel {
 
     //Resource identifier for icon
-    private static final int RESOURCE_ICON_SD_CARD  = R.drawable.ic_sd_storage_24dp;
-    private static final int RESOURCE_ICON_INTERNAL = R.drawable.ic_storage_24dp;
-    private static final int RESOURCE_ICON_USB      = R.drawable.ic_usb_24dp;
+    private static final int RESOURCE_ICON_SD_CARD_SELECTED    = R.drawable.ic_sd_storage_selected_24dp;
+    private static final int RESOURCE_ICON_SD_CARD_UNSELECTED  = R.drawable.ic_sd_storage_unselected_24dp;
+    private static final int RESOURCE_ICON_INTERNAL_SELECTED   = R.drawable.ic_storage_selected_24dp;
+    private static final int RESOURCE_ICON_INTERNAL_UNSELECTED = R.drawable.ic_storage_unselected_24dp;
+    private static final int RESOURCE_ICON_USB_SELECTED        = R.drawable.ic_usb_selected_24dp;
+    private static final int RESOURCE_ICON_USB_UNSELECTED      = R.drawable.ic_usb_unselected_24dp;
 
     /**/
-    private int     mId;
+    public abstract int      id();
     /**/
-    private String  mPath;
+    public abstract String   fullPath();
     /**/
-    private String  mDescription;
+    public abstract String   description();
     /**/
-    private int     mIconResId;
+    public abstract StateListDrawable icon();
     /**/
-    private boolean isRemovable;
+    public abstract boolean  isRemovable();
     /**/
-    private boolean isPrimary;
+    public abstract boolean  isPrimary();
     /**/
-    private String  mState;
-    /**/
-    private boolean isReadable;
-    /**/
-    private boolean isWritable;
-
-
-    public MountPoint(String path, String description, boolean isRemovable, boolean isPrimary, String state) {
-        Random random = new Random();
-        this.mId          = random.nextInt();
-        this.mPath        = path;
-        this.mDescription = description;
-        this.isRemovable  = isRemovable;
-        this.isPrimary    = isPrimary;
-        this.mState       = state;
-
-        setupVariables();
-        setupIconResId();
-    }
-
-    public int getId() {
-        return mId;
-    }
-
-    public String getPath() {
-        return mPath;
-    }
-
-    public String getDescription() {
-        return mDescription;
-    }
-
-    public int getIconResId() {
-        return mIconResId;
-    }
-
-    public boolean isPrimary() {
-        return isPrimary;
-    }
-
+    public abstract String   state();
+    /**
+     * Is mount point mounted
+     * @return true if mounted, false otherwise
+     *
+     * @see Environment#MEDIA_MOUNTED
+     * @see Environment#MEDIA_UNMOUNTED
+     */
     public boolean isMounted() {
-        return mState.equals(Environment.MEDIA_MOUNTED);
+        return state().equals(Environment.MEDIA_MOUNTED);
     }
 
-    public String getState() {
-        return mState;
+    private static MountPoint.Builder builder() {
+        return new AutoValue_MountPoint.Builder();
     }
 
-    public boolean isReadable() {
-        return isReadable;
+    @AutoValue.Builder
+    abstract static class Builder {
+
+        abstract Builder setId(int id);
+        abstract Builder setFullPath(String fullPath);
+        abstract Builder setDescription(String fullPath);
+        abstract Builder setIcon(StateListDrawable icon);
+        abstract Builder setIsRemovable(boolean isRemovable);
+        abstract Builder setIsPrimary(boolean isPrimary);
+        abstract Builder setState(String state);
+
+        abstract MountPoint build();
     }
 
-    public boolean isWritable() {
-        return isWritable;
+    public static MountPoint create(String path, String description, boolean isRemovable, boolean isPrimary, String state) {
+        Random random = new Random();
+        return MountPoint.builder()
+                .setId(random.nextInt())
+                .setFullPath(path)
+                .setDescription(description)
+                .setIsRemovable(isRemovable)
+                .setIsPrimary(isPrimary)
+                .setState(state)
+                .setIcon(getIconStateListDrawable(path, isRemovable))
+                .build();
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-
-        if (obj == null)
-            return false;
-
-        if (getClass() != obj.getClass())
-            return false;
-
-        MountPoint other = (MountPoint) obj;
-
-        return other.getPath() != null && mPath.equals(other.getPath());
-
+    public static MountPoint create(String path, String state) {
+        Random random = new Random();
+        return MountPoint.builder()
+                .setId(random.nextInt())
+                .setFullPath(path)
+                .setDescription(WMFileManager.getApplicationContext().getString(R.string.wm_fm_external_storage))
+                .setIsRemovable(false)
+                .setIsPrimary(true)
+                .setState(state)
+                .setIcon(getIconStateListDrawable(path, false))
+                .build();
     }
 
-    private void setupVariables() {
+    private static StateListDrawable getIconStateListDrawable(String path, boolean isRemovable) {
 
-        if (mPath == null) return;
+        int selectedIconResId = isRemovable ? RESOURCE_ICON_SD_CARD_SELECTED : RESOURCE_ICON_INTERNAL_SELECTED;
+        int unselectedIconResId = isRemovable ? RESOURCE_ICON_SD_CARD_UNSELECTED : RESOURCE_ICON_INTERNAL_UNSELECTED;
 
-        File file = new File(mPath);
-        this.isReadable = file.canRead();
-        this.isWritable = file.canWrite();
-    }
-
-    private void setupIconResId() {
-
-        mIconResId = isRemovable ? RESOURCE_ICON_SD_CARD : RESOURCE_ICON_INTERNAL;
-
-        if (mPath == null) return;
-
-        //noinspection IndexOfReplaceableByContains
-        if (mPath.toLowerCase(Locale.ROOT).indexOf("usb") != -1) {
-            mIconResId = RESOURCE_ICON_USB;
+        if (path.toLowerCase(Locale.ROOT).contains("usb")) {
+            selectedIconResId = RESOURCE_ICON_USB_SELECTED;
+            unselectedIconResId = RESOURCE_ICON_USB_UNSELECTED;
         }
 
+        Drawable selectedDrawable = IconsHelper.getDrawable(selectedIconResId);
+        Drawable unselectedDrawable = IconsHelper.getDrawable(unselectedIconResId);
+
+        StateListDrawable stateList = new StateListDrawable();
+        stateList.addState(new int[]{android.R.attr.state_selected}, selectedDrawable);
+        stateList.addState(new int[]{-android.R.attr.state_selected}, unselectedDrawable);
+        stateList.addState(new int[]{}, unselectedDrawable);
+
+        return stateList;
     }
 
-    @Override
-    public String toString() {
-        return "MountPoint{" +
-                "mId=" + mId +
-                ", mPath='" + mPath + '\'' +
-                ", mDescription='" + mDescription + '\'' +
-                ", mIconResId=" + mIconResId +
-                ", isRemovable=" + isRemovable +
-                ", isPrimary=" + isPrimary +
-                ", mState='" + mState + '\'' +
-                ", isReadable=" + isReadable +
-                ", isWritable=" + isWritable +
-                '}';
-    }
 }

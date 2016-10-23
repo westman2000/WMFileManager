@@ -13,6 +13,7 @@ import corp.wmsoft.android.lib.mvpcrx.view.IMVPCDelayedDataView;
 /**
  * This specifies the contract between the view and the presenter.
  */
+@Deprecated
 interface IMountPointsViewContract {
 
     @Keep

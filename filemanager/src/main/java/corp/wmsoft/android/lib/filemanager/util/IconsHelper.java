@@ -1,9 +1,11 @@
 package corp.wmsoft.android.lib.filemanager.util;
 
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.StateListDrawable;
 import android.support.annotation.DrawableRes;
 import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.util.Log;
 import android.util.LruCache;
 import android.util.Pair;
@@ -60,12 +62,7 @@ public class IconsHelper {
             return drawable;
         }
 
-        if (android.os.Build.VERSION.SDK_INT >= 21) {
-            drawable = ContextCompat.getDrawable(WMFileManager.getApplicationContext(), drawableResId);
-        } else {
-//            drawable = AppCompatDrawableManager.get().getDrawable(WMFileManager.getApplicationContext(), drawableResId);
-            drawable = VectorDrawableCompat.create(WMFileManager.getApplicationContext().getResources(), drawableResId, WMFileManager.getApplicationContext().getTheme());
-        }
+        drawable = AndroidHelper.getVectorDrawable(WMFileManager.getApplicationContext(), drawableResId);
 
         addDrawableToIconsCache(drawableResId, drawable);
 

@@ -5,6 +5,7 @@ import android.databinding.ObservableBoolean;
 import android.databinding.ObservableList;
 
 import corp.wmsoft.android.lib.filemanager.models.BreadCrumb;
+import corp.wmsoft.android.lib.filemanager.models.MountPoint;
 
 
 /**
@@ -17,6 +18,12 @@ public class FileManagerViewModel {
 
     /**/
     public final ObservableList<BreadCrumb> breadCrumbs = new ObservableArrayList<>();
+
+    /**/
+    public final ObservableList<MountPoint> mountPoints = new ObservableArrayList<>();
+
+    /**/
+    public MountPoint selectedMountPoint;
 
     // показывать ли процесс загрузки
     public final ObservableBoolean isLoading = new ObservableBoolean(true);

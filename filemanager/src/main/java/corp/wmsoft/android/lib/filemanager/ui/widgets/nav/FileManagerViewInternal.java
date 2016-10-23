@@ -1,14 +1,22 @@
 package corp.wmsoft.android.lib.filemanager.ui.widgets.nav;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.databinding.ObservableList;
+import android.graphics.drawable.Drawable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
+
+import java.util.List;
 
 import corp.wmsoft.android.lib.filemanager.IFileManagerEvent;
 import corp.wmsoft.android.lib.filemanager.IFileManagerFileTimeFormat;
@@ -23,6 +31,7 @@ import corp.wmsoft.android.lib.filemanager.adapters.FSOViewModelAdapter;
 import corp.wmsoft.android.lib.filemanager.databinding.WmFmFileManagerViewLayoutBinding;
 import corp.wmsoft.android.lib.filemanager.models.BreadCrumb;
 import corp.wmsoft.android.lib.filemanager.models.MountPoint;
+import corp.wmsoft.android.lib.filemanager.util.AndroidHelper;
 import corp.wmsoft.android.lib.mvpcrx.predefined.MVPCFrameLayout;
 import corp.wmsoft.android.lib.mvpcrx.presenter.factory.IMVPCPresenterFactory;
 
@@ -61,6 +70,37 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
     /**/
     private IOnDirectoryChangedListener mOnDirectoryChangedListener;
 
+    /**/
+    private ObservableList<MountPoint> mountPoints;
+    /**/
+    private ObservableList.OnListChangedCallback<ObservableList<MountPoint>> mountPointsListCallback =
+            new ObservableList.OnListChangedCallback<ObservableList<MountPoint>>() {
+
+                @Override
+                public void onChanged(ObservableList<MountPoint> mountPoints) {
+                    Log.d(TAG, "onChanged("+mountPoints+")");
+                }
+
+                @Override
+                public void onItemRangeChanged(ObservableList<MountPoint> mountPoints, int positionStart, int itemCount) {
+                    Log.d(TAG, "onItemRangeChanged("+mountPoints+", "+positionStart+", "+itemCount+")");
+                }
+
+                @Override
+                public void onItemRangeInserted(ObservableList<MountPoint> mountPoints, int positionStart, int itemCount) {
+                    addMountPointTabItems(mountPoints, positionStart, itemCount);
+                }
+
+                @Override
+                public void onItemRangeMoved(ObservableList<MountPoint> mountPoints, int fromPosition, int toPosition, int itemCount) {
+                    Log.d(TAG, "onItemRangeMoved("+mountPoints+", "+fromPosition+", "+toPosition+", "+itemCount+")");
+                }
+
+                @Override
+                public void onItemRangeRemoved(ObservableList<MountPoint> mountPoints, int positionStart, int itemCount) {
+                    Log.d(TAG, "onItemRangeRemoved("+mountPoints+", "+positionStart+", "+itemCount+")");
+                }
+            };
 
 
     public FileManagerViewInternal(Context context) {
@@ -124,6 +164,9 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
 
         fsoViewModelAdapter.onDestroy();
         breadCrumbAdapter.onDestroy();
+
+        mountPoints.removeOnListChangedCallback(mountPointsListCallback);
+        mountPoints = null;
     }
 
     @Override
@@ -131,6 +174,10 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
         binding.setViewModel(viewModel);
         fsoViewModelAdapter.setList(viewModel.fsoViewModels);
         breadCrumbAdapter.setList(viewModel.breadCrumbs);
+
+        mountPoints = viewModel.mountPoints;
+        mountPoints.addOnListChangedCallback(mountPointsListCallback);
+        addMountPointTabItems(mountPoints, 0, mountPoints.size());
     }
 
     /**
@@ -191,8 +238,18 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
     }
 
     @Override
-    public void openMountPoint(MountPoint mountPoint) {
-        getPresenter().openMountPoint(mountPoint);
+    public void selectMountPoint(MountPoint mountPoint) {
+        for (int i=0; i<binding.mountPoints.getTabCount(); i++) {
+            TabLayout.Tab tab = binding.mountPoints.getTabAt(i);
+            MountPoint mp;
+            if (tab != null) {
+                mp = (MountPoint) tab.getTag();
+                if (mp != null && mp.id() == mountPoint.id()) {
+                    tab.select();
+                    return;
+                }
+            }
+        }
     }
 
     @Override
@@ -337,10 +394,13 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
         // Create data binding for wm_fm_file_manager_view_layout.xmlut.xml
         binding = WmFmFileManagerViewLayoutBinding.inflate(LayoutInflater.from(getContext()));
 
+        // prepare LayoutManager's
         mVerticalLinearLayoutManager = new LinearLayoutManager(getContext());
         mGridLayoutManager = new GridLayoutManager(getContext(), getResources().getInteger(R.integer.wm_fm_default_grid_columns));
+        // create item decoration for fso list
         mDividerItemDecoration = new DividerItemDecoration(binding.fsoList.getContext(), LinearLayoutManager.VERTICAL);
 
+        // create adapters
         fsoViewModelAdapter = new FSOViewModelAdapter();
         breadCrumbAdapter = new BreadCrumbAdapter(R.layout.wm_fm_breadcrumb_item);
         breadCrumbAdapter.setOnLongClickListener(new IBreadCrumbListener() {
@@ -359,7 +419,7 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
         // init breadcrumbs list
         binding.breadCrumbList.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(binding.fsoList.getContext(), LinearLayoutManager.HORIZONTAL);
-        dividerItemDecoration.setDrawable(ContextCompat.getDrawable(getContext(), R.drawable.wm_fm_ic_chevron_right_24dp));
+        dividerItemDecoration.setDrawable(AndroidHelper.getVectorDrawable(getContext(), R.drawable.wm_fm_ic_chevron_right_24dp));
         binding.breadCrumbList.addItemDecoration(dividerItemDecoration);
 
         // optimization for fast scroll, but maybe i will remove it if will be bug with selected state
@@ -370,7 +430,23 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
         binding.setFsoAdapter(fsoViewModelAdapter);
         binding.setBreadCrumbAdapter(breadCrumbAdapter);
 
+        binding.mountPoints.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                getPresenter().onMountPointSelect((MountPoint) tab.getTag());
+            }
+            @Override public void onTabUnselected(TabLayout.Tab tab) {}
+            @Override public void onTabReselected(TabLayout.Tab tab) {}
+        });
+
         addView(binding.getRoot());
     }
 
+    private void addMountPointTabItems(List<MountPoint> mountPointList, int positionStart, int itemCount) {
+        for (int i=positionStart; i<itemCount; i++) {
+            TabLayout.Tab tab = binding.mountPoints.newTab().setIcon(mountPointList.get(i).icon());
+            tab.setTag(mountPointList.get(i));
+            binding.mountPoints.addTab(tab, false);
+        }
+    }
 }

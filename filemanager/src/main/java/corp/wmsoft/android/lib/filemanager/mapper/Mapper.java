@@ -20,7 +20,7 @@ public class Mapper {
         return Observable.fromCallable(new Callable<MountPoint>() {
             @Override
             public MountPoint call() throws Exception {
-                return new MountPoint(
+                return MountPoint.create(
                         RxStorageHelper.getStorageVolumePath(storageVolume),
                         RxStorageHelper.getStorageVolumeDescription(WMFileManager.getApplicationContext(), storageVolume),
                         RxStorageHelper.isStorageVolumeRemovable(storageVolume),

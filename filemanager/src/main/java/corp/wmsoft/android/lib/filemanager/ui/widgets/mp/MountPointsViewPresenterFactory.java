@@ -7,6 +7,7 @@ import corp.wmsoft.android.lib.mvpcrx.presenter.factory.IMVPCPresenterFactory;
 /**
  * Created by WestMan2000 on 9/11/16. <br/>
  */
+@Deprecated
 class MountPointsViewPresenterFactory implements IMVPCPresenterFactory<IMountPointsViewContract.View, IMountPointsViewContract.Presenter> {
 
 
