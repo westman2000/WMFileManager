@@ -27,7 +27,7 @@ public class OnFileObserverEvent extends MVPCUseCase<OnFileObserverEvent.Request
 
     /**/
     @SuppressWarnings("unused")
-    private static final String TAG = "wmfm::OnFileObserverEvent";
+    private static final String TAG = "wmfm::OnFileObserver";
 
 
     public OnFileObserverEvent(IMVPCSchedulerProvider schedulerProvider) {
@@ -101,7 +101,7 @@ public class OnFileObserverEvent extends MVPCUseCase<OnFileObserverEvent.Request
 
         for (int i=size-1; i>=0; i--) {
             FSOViewModel fsoViewModel = viewModel.fsoViewModels.get(i);
-            if (eventPath.equals(fsoViewModel.fso.getName())) {
+            if (eventPath.equals(fsoViewModel.fso.name())) {
                 viewModel.fsoViewModels.remove(i);
                 return;
             }

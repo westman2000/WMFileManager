@@ -7,7 +7,6 @@ import java.util.concurrent.Callable;
 
 import corp.wmsoft.android.lib.filemanager.mapper.FileSystemObjectMapper;
 import corp.wmsoft.android.lib.filemanager.models.FileSystemObject;
-import corp.wmsoft.android.lib.filemanager.models.ParentDirectory;
 import corp.wmsoft.android.lib.filemanager.ui.widgets.nav.FSOViewModel;
 import corp.wmsoft.android.lib.filemanager.util.FileHelper;
 import corp.wmsoft.android.lib.filemanager.util.rx.RxStorageHelper;
@@ -57,7 +56,8 @@ public class GetFSOList extends MVPCUseCase<GetFSOList.RequestValues, List<FSOVi
 
                         //Now if not is the root directory
                         if (!RxStorageHelper.isStorageVolume(requestValues.getSrc())) {
-                            fsoList.add(0, new ParentDirectory(new File(requestValues.getSrc()).getParent()));
+                            fsoList.add(0, FileSystemObject.createParentDirectory(new File(requestValues.getSrc()).getParent())
+                            );
                         }
 
                         //Apply user preferences

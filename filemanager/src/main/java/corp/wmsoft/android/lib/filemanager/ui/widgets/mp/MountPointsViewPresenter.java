@@ -1,13 +1,10 @@
 package corp.wmsoft.android.lib.filemanager.ui.widgets.mp;
 
-import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.util.Log;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,11 +19,10 @@ import rx.Subscriber;
 /**
  * Created by WestMan2000 on 9/11/16. <br/>
  */
-@SuppressLint("LongLogTag")
-public class MountPointsViewPresenter extends MVPCPresenter<IMountPointsViewContract.View> implements IMountPointsViewContract.Presenter {
+class MountPointsViewPresenter extends MVPCPresenter<IMountPointsViewContract.View> implements IMountPointsViewContract.Presenter {
 
     /**/
-    private final static String TAG = "MountPointsViewPresenter";
+    private final static String TAG = "wmfm::MountPointsViewP";
 
     /**
      * Use cases
@@ -40,22 +36,14 @@ public class MountPointsViewPresenter extends MVPCPresenter<IMountPointsViewCont
     private BroadcastReceiver mUnMountReceiver = null;
 
 
-    public MountPointsViewPresenter(
-            GetMountPoints getMountPoints) {
-
-        Log.d(TAG, "MountPointsViewPresenter()");
-
+    MountPointsViewPresenter(GetMountPoints getMountPoints) {
         this.mGetMountPoints = getMountPoints;
-
         registerExternalStorageListener();
     }
 
     @Override
     public void attachView(IMountPointsViewContract.View mvpView) {
         super.attachView(mvpView);
-
-        Log.d(TAG, "attachView()");
-
         getView().showLoading();
         getView().sendEvent(IFileManagerEvent.NEED_EXTERNAL_STORAGE_PERMISSION);
     }

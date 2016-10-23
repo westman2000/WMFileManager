@@ -3,6 +3,7 @@ package corp.wmsoft.android.lib.filemanager.util;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
+import android.support.annotation.Nullable;
 import android.util.SparseArray;
 
 import java.io.File;
@@ -19,9 +20,7 @@ import corp.wmsoft.android.lib.filemanager.IFileManagerFileTimeFormat;
 import corp.wmsoft.android.lib.filemanager.IFileManagerSortMode;
 import corp.wmsoft.android.lib.filemanager.R;
 import corp.wmsoft.android.lib.filemanager.WMFileManager;
-import corp.wmsoft.android.lib.filemanager.models.Directory;
 import corp.wmsoft.android.lib.filemanager.models.FileSystemObject;
-import corp.wmsoft.android.lib.filemanager.models.RegularFile;
 
 
 /**
@@ -96,22 +95,21 @@ public class FileHelper {
             if (file.listFiles() != null)
                 itemsCount = file.listFiles().length;
 
-            return
-                    new Directory(
-                            file.getName(),
-                            file.getParent(),
-                            lastModified,
-                            lastModified,
-                            itemsCount); // The only date we have
+            return FileSystemObject.createDirectory(
+                    file.getName(),
+                    file.getParent(),
+                    lastModified,
+                    itemsCount
+            );
         }
 
         // Build a regular file
-        return
-                new RegularFile(
-                        file.getName(),
-                        file.getParent(),
-                        file.length(),
-                        lastModified, lastModified); // The only date we have
+        return FileSystemObject.createRegularFile(
+                file.getName(),
+                file.getParent(),
+                file.length(),
+                lastModified
+        );
 
     }
 
@@ -122,12 +120,13 @@ public class FileHelper {
      * @param fso File system object
      * @return String The human readable size (void if fso don't supports size)
      */
+    @Nullable
     public static String getHumanReadableSize(Context context, FileSystemObject fso) {
         //Only if has size
         if (fso.isDirectory()) {
-            return "";
+            return null;
         }
-        return getHumanReadableSize(context, fso.getSize());
+        return getHumanReadableSize(context, fso.size());
     }
 
     /**
@@ -158,26 +157,6 @@ public class FileHelper {
         return Double.toString(cleanSize / 100) + " " + res.getString(magnitude[magnitude.length - 1]);
     }
 
-    /**
-     * Method that returns if the file system object if the root directory.
-     *
-     * @param fso The file system object to check
-     * @return boolean if the file system object if the root directory
-     */
-    public static boolean isRootDirectory(FileSystemObject fso) {
-        return fso.getName() == null || fso.getName().compareTo(FileHelper.ROOT_DIRECTORY) == 0;
-    }
-
-    /**
-     * Method that returns if the parent file system object if the root directory.
-     *
-     * @param fso The parent file system object to check
-     * @return boolean if the parent file system object if the root directory
-     */
-    public static boolean isParentRootDirectory(FileSystemObject fso) {
-        return fso.getParent() == null || fso.getParent().compareTo(FileHelper.ROOT_DIRECTORY) == 0;
-    }
-
     public static String getFsoSummary(Context ctx, FileSystemObject fso) {
 
         if (fso.isParentDirectory()) {
@@ -185,11 +164,11 @@ public class FileHelper {
         }
 
         if (fso.isDirectory()) {
-            int count = ((Directory)fso).getItemsCountInDirectory();
+            int count = fso.itemsCountInDirectory();
             return  ctx.getResources().getQuantityString(R.plurals.itemsCountInDirectory, count, count);
         }
 
-        return formatFileTime(ctx, fso.getLastModifiedTime());
+        return formatFileTime(ctx, fso.lastModifiedTime());
     }
 
     /**
@@ -325,34 +304,34 @@ public class FileHelper {
         //Name (ascending)
         if (mode == IFileManagerSortMode.NAME_ASC) {
             if (!caseSensitive) {
-                return fso1.getName().compareToIgnoreCase(fso2.getName());
+                return fso1.name().compareToIgnoreCase(fso2.name());
             }
-            return fso1.getName().compareTo(fso2.getName());
+            return fso1.name().compareTo(fso2.name());
         }
         //Name (descending)
         if (mode == IFileManagerSortMode.NAME_DESC) {
             if (!caseSensitive) {
-                return fso1.getName().compareToIgnoreCase(fso2.getName()) * -1;
+                return fso1.name().compareToIgnoreCase(fso2.name()) * -1;
             }
-            return fso1.getName().compareTo(fso2.getName()) * -1;
+            return fso1.name().compareTo(fso2.name()) * -1;
         }
 
         //Date (ascending)
         if (mode == IFileManagerSortMode.DATE_ASC) {
-            return fso1.getLastModifiedTime().compareTo(fso2.getLastModifiedTime());
+            return fso1.lastModifiedTime().compareTo(fso2.lastModifiedTime());
         }
         //Date (descending)
         if (mode == IFileManagerSortMode.DATE_DESC) {
-            return fso1.getLastModifiedTime().compareTo(fso2.getLastModifiedTime()) * -1;
+            return fso1.lastModifiedTime().compareTo(fso2.lastModifiedTime()) * -1;
         }
 
         //Size (ascending)
         if (mode == IFileManagerSortMode.SIZE_ASC) {
-            return Long.valueOf(fso1.getSize()).compareTo(fso2.getSize());
+            return Long.valueOf(fso1.size()).compareTo(fso2.size());
         }
         //Size (descending)
         if (mode == IFileManagerSortMode.SIZE_DESC) {
-            return Long.valueOf(fso1.getSize()).compareTo(fso2.getSize()) * -1;
+            return Long.valueOf(fso1.size()).compareTo(fso2.size()) * -1;
         }
 
         //Type (ascending)
@@ -378,7 +357,7 @@ public class FileHelper {
      * if <code>fso</code> has no extension.
      */
     public static String getExtension(FileSystemObject fso) {
-        return getExtension(fso.getName());
+        return getExtension(fso.name());
     }
 
     /**
@@ -464,7 +443,7 @@ public class FileHelper {
                 case IFileManagerDisplayRestrictions.SIZE_RESTRICTION:
                     if (value instanceof Long) {
                         Long maxSize = (Long)value;
-                        if (fso.getSize() > maxSize) {
+                        if (fso.size() > maxSize) {
                             return false;
                         }
                     }

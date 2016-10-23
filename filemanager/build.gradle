@@ -1,4 +1,14 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+    }
+}
+
 apply plugin: 'com.android.library'
+apply plugin: 'com.neenbedankt.android-apt'
 
 android {
 
@@ -40,6 +50,10 @@ dependencies {
 
     // mvp-clean-rx
     compile "corp.wmsoft.android.lib:mvpc_rx:$mvpcrxLibVer"
+
+    // AutoValue
+    provided "com.google.auto.value:auto-value:$autoValueLibVer"
+    apt      "com.google.auto.value:auto-value:$autoValueLibVer"
 }
 
 // TODO - for bread crumbs - https://developer.android.com/samples/SlidingTabsBasic/src/com.example.android.common/view/SlidingTabLayout.html

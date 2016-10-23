@@ -387,13 +387,13 @@ public final class MimeTypeHelper {
      * @return The MimeTypeInfo object that describes this file, or null if it cannot be retrieved.
      */
     private static MimeTypeInfo getMimeTypeInternal(FileSystemObject fso, String ext) {
-        return getMimeTypeInternal(fso.getFullPath(), ext);
+        return getMimeTypeInternal(fso.fullPath(), ext);
     }
 
     private static MimeTypeInfo getMimeTypeInternal(FileSystemObject fso,
                                                           String ext,
                                                           boolean firstFound) {
-        return getMimeTypeInternal(fso.getFullPath(), ext, firstFound);
+        return getMimeTypeInternal(fso.fullPath(), ext, firstFound);
     }
 
     /**
@@ -435,7 +435,7 @@ public final class MimeTypeHelper {
         }
 
         // If this extension is ambiguous, attempt to resolve it.
-        String mimeType = getAmbiguousExtensionMimeType(fso.getFullPath(), ext);
+        String mimeType = getAmbiguousExtensionMimeType(fso.fullPath(), ext);
         if (mimeType != null) {
             return mimeType;
         }
@@ -534,7 +534,7 @@ public final class MimeTypeHelper {
 
         //Get the extension and delivery
         final MimeTypeCategory category = getCategoryFromExt(context,
-                FileHelper.getExtension(fso), fso.getFullPath());
+                FileHelper.getExtension(fso), fso.fullPath());
 
         // Check  system file
         if (category == MimeTypeCategory.NONE) {

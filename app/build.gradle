@@ -39,4 +39,8 @@ dependencies {
     // android widgets
     compile "com.android.support:design:$supportLibVer"
 
+    // A memory leak detection library for Android and Java.
+    debugCompile "com.squareup.leakcanary:leakcanary-android:$leakcanaryLibVer"
+    releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:$leakcanaryLibVer"
+    testCompile "com.squareup.leakcanary:leakcanary-android-no-op:$leakcanaryLibVer"
 }

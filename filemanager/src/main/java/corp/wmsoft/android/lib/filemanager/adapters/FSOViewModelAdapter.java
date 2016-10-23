@@ -68,14 +68,6 @@ public class FSOViewModelAdapter extends BaseDataBoundAdapter {
         }
     }
 
-    @Override
-    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
-        super.onDetachedFromRecyclerView(recyclerView);
-        fsoViewModels.removeOnListChangedCallback(callback);
-        fsoViewModels = null;
-        presenter = null;
-    }
-
     @BindingAdapter({"iconByFso"})
     public static void loadIcon(ImageView view, FSOViewModel fsoViewModel) {
         int iconResId = MimeTypeHelper.getIcon(view.getContext(), fsoViewModel.fso, true);
@@ -87,6 +79,12 @@ public class FSOViewModelAdapter extends BaseDataBoundAdapter {
     public void setList(ObservableList<FSOViewModel> list) {
         fsoViewModels = list;
         fsoViewModels.addOnListChangedCallback(callback);
+    }
+
+    public void onDestroy() {
+        fsoViewModels.removeOnListChangedCallback(callback);
+        fsoViewModels = null;
+        presenter = null;
     }
 
     public void setNavigationMode(@IFileManagerNavigationMode int newMode) {

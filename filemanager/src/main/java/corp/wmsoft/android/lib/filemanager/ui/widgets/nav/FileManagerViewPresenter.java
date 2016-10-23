@@ -160,10 +160,10 @@ class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewContract.Vi
         if (fsoViewModel.fso.isParentDirectory()) {
             onGoBack();
         } else if (fsoViewModel.fso.isDirectory()) {
-            changeCurrentDir(fsoViewModel.fso.getFullPath(), true);
+            changeCurrentDir(fsoViewModel.fso.fullPath(), true);
         } else {
             if (isViewAttached())
-                getView().filePicked(fsoViewModel.fso.getFullPath());
+                getView().filePicked(fsoViewModel.fso.fullPath());
         }
     }
 
@@ -259,7 +259,7 @@ class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewContract.Vi
     public boolean onGoBack() {
         if (breadCrumbsList.size() > 1) {
             breadCrumbsList.remove(breadCrumbsList.size() - 1);
-            changeCurrentDir(breadCrumbsList.get(breadCrumbsList.size() - 1).getCurrentDirectory(), false);
+            changeCurrentDir(breadCrumbsList.get(breadCrumbsList.size() - 1).fullPath(), false);
             return true;
         }
         return false;
@@ -395,7 +395,9 @@ class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewContract.Vi
             getView().directoryChanged(mCurrentDir);
 
         if (addToBreadCrumb)
-            breadCrumbsList.add(new BreadCrumb(mCurrentDir));
+            breadCrumbsList.add(BreadCrumb.create(mCurrentDir));
+
+        Log.d(TAG, String.valueOf(breadCrumbsList));
 
         mViewModel.isLoading.set(false);
     }

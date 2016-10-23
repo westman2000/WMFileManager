@@ -47,14 +47,14 @@ public class GetThumbDrawable extends MVPCUseCase<GetThumbDrawable.RequestValues
             @Override
             public GetThumbDrawable.ResponseValues call() throws Exception {
                 Drawable drawable = loadDrawable(requestValues.getFileSystemObject());
-                return new ResponseValues(requestValues.getWeakImageView(), requestValues.getFileSystemObject().getFullPath(), drawable);
+                return new ResponseValues(requestValues.getWeakImageView(), requestValues.getFileSystemObject().fullPath(), drawable);
             }
         });
     }
 
     private Drawable loadDrawable(FileSystemObject fso) {
 
-        final String filePath = fso.getFullPath();
+        final String filePath = fso.fullPath();
 
         if (MimeTypeHelper.KnownMimeTypeResolver.isAndroidApp(mContext, fso)) {
             return getAppDrawable(fso);
@@ -74,7 +74,7 @@ public class GetThumbDrawable extends MVPCUseCase<GetThumbDrawable.RequestValues
      * @return Drawable The drawable or null if cannot be extracted
      */
     private Drawable getAppDrawable(FileSystemObject fso) {
-        final String filepath = fso.getFullPath();
+        final String filepath = fso.fullPath();
         PackageManager pm = mContext.getPackageManager();
         PackageInfo packageInfo = pm.getPackageArchiveInfo(filepath, PackageManager.GET_ACTIVITIES);
         if (packageInfo != null) {

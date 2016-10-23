@@ -4,6 +4,7 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.DrawableRes;
 import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.util.LruCache;
 import android.util.Pair;
 import android.widget.ImageView;
@@ -24,6 +25,9 @@ import rx.functions.Action1;
  * A class that holds icons for a more efficient access.
  */
 public class IconsHelper {
+
+    /**/
+    private static final String TAG = "wmfm::IconsHelper";
 
     /**/
     private static final int INITIAL_CAPACITY = 500;
@@ -76,12 +80,20 @@ public class IconsHelper {
      * @param defaultIcon Drawable to be used in case no specific one could be found
      */
     public static void loadDrawable(ImageView iconView, FileSystemObject fso, Drawable defaultIcon) {
+
         if (!PreferencesHelper.isShowThumbs()) {
             iconView.setImageDrawable(defaultIcon);
             return;
         }
 
-        final String filePath = fso.getFullPath();
+        // small optimization, skip folders
+        if (fso.isDirectory()) {
+            iconView.setImageDrawable(defaultIcon);
+            return;
+        }
+
+
+        final String filePath = fso.fullPath();
 
         final Drawable drawable = getDrawableFromThumbsCache(filePath);
 
@@ -138,7 +150,7 @@ public class IconsHelper {
     /**
      * Free any resources used by this instance
      */
-    public static void cleanup() {
+    static void cleanup() {
         if (mIconsCache != null)
             mIconsCache.evictAll();
         mIconsCache = null;

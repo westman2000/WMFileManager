@@ -8,10 +8,10 @@ import corp.wmsoft.android.lib.mvpcrx.presenter.factory.IMVPCPresenterFactory;
  * Created by admin on 8/8/16 at 3:53 PM
  *
  */
-public class FileManagerViewPresenterFactory implements IMVPCPresenterFactory<IFileManagerViewContract.View, IFileManagerViewContract.Presenter> {
+class FileManagerViewPresenterFactory implements IMVPCPresenterFactory<IFileManagerViewContract.View, IFileManagerViewContract.Presenter> {
 
 
-    public FileManagerViewPresenterFactory() {
+    FileManagerViewPresenterFactory() {
     }
 
     @Override
