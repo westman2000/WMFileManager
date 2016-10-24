@@ -85,13 +85,13 @@ public abstract class MountPoint implements IMVPCViewModel {
                 .build();
     }
 
-    public static MountPoint create(String path, String state) {
+    public static MountPoint create(String path, String state,  boolean isRemovable) {
         Random random = new Random();
         return MountPoint.builder()
                 .setId(random.nextInt())
                 .setFullPath(path)
                 .setDescription(WMFileManager.getApplicationContext().getString(R.string.wm_fm_external_storage))
-                .setIsRemovable(false)
+                .setIsRemovable(isRemovable)
                 .setIsPrimary(true)
                 .setState(state)
                 .setIcon(getIconStateListDrawable(path, false))

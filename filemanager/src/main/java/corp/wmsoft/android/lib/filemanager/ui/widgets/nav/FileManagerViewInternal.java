@@ -88,6 +88,7 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
 
                 @Override
                 public void onItemRangeInserted(ObservableList<MountPoint> mountPoints, int positionStart, int itemCount) {
+                    Log.d(TAG, "onItemRangeInserted("+mountPoints+", "+positionStart+", "+itemCount+")");
                     addMountPointTabItems(mountPoints, positionStart, itemCount);
                 }
 
@@ -99,6 +100,7 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
                 @Override
                 public void onItemRangeRemoved(ObservableList<MountPoint> mountPoints, int positionStart, int itemCount) {
                     Log.d(TAG, "onItemRangeRemoved("+mountPoints+", "+positionStart+", "+itemCount+")");
+                    removeMountPointTabItems(mountPoints, positionStart, itemCount);
                 }
             };
 
@@ -443,10 +445,18 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
     }
 
     private void addMountPointTabItems(List<MountPoint> mountPointList, int positionStart, int itemCount) {
-        for (int i=positionStart; i<itemCount; i++) {
+        for (int i=positionStart; i<itemCount + positionStart; i++) {
             TabLayout.Tab tab = binding.mountPoints.newTab().setIcon(mountPointList.get(i).icon());
             tab.setTag(mountPointList.get(i));
             binding.mountPoints.addTab(tab, false);
         }
+    }
+
+    private void removeMountPointTabItems(List<MountPoint> mountPointList, int positionStart, int itemCount) {
+
+        for (int i=positionStart; i<(positionStart + itemCount); i++) {
+            binding.mountPoints.removeTabAt(positionStart);
+        }
+
     }
 }

@@ -56,7 +56,9 @@ public class GetMountPoints extends MVPCUseCase<GetMountPoints.RequestValues, Li
                             mountPointList.add(
                                     MountPoint.create(
                                             Environment.getExternalStorageDirectory().getPath(),
-                                            Environment.getExternalStorageState())
+                                            Environment.getExternalStorageState(),
+                                            Environment.isExternalStorageRemovable()
+                                    )
                             );
                             return mountPointList;
                         }

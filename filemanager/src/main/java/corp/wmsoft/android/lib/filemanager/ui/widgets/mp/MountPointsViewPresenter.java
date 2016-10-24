@@ -39,7 +39,6 @@ class MountPointsViewPresenter extends MVPCPresenter<IMountPointsViewContract.Vi
 
     MountPointsViewPresenter(GetMountPoints getMountPoints) {
         this.mGetMountPoints = getMountPoints;
-        registerExternalStorageListener();
     }
 
     @Override
@@ -52,7 +51,7 @@ class MountPointsViewPresenter extends MVPCPresenter<IMountPointsViewContract.Vi
     @Override
     public void onDestroyed() {
         super.onDestroyed();
-        unRegisterExternalStorageListener();
+
     }
 
     @Override
@@ -124,37 +123,5 @@ class MountPointsViewPresenter extends MVPCPresenter<IMountPointsViewContract.Vi
         loadMountPoints();
     }
 
-    /**
-     * Registers an intent to listen for ACTION_MEDIA_EJECT notifications.
-     * The intent will call closeExternalStorageFiles() if the external media
-     * is going to be ejected, so applications can clean up any files they have open.
-     */
-    private void registerExternalStorageListener() {
-        if (mUnMountReceiver == null) {
-            mUnMountReceiver = new BroadcastReceiver() {
-                @Override
-                public void onReceive(Context context, Intent intent) {
-                    String action = intent.getAction();
-                    if (action.equals(Intent.ACTION_MEDIA_EJECT)) {
-                        onStorageVolumeUnMounted(intent.getData().getPath());
-                    } else if (action.equals(Intent.ACTION_MEDIA_MOUNTED)) {
-                        onStorageVolumeMounted(intent.getData().getPath());
-                    }
-                }
-            };
-            IntentFilter iFilter = new IntentFilter();
-            iFilter.addAction(Intent.ACTION_MEDIA_EJECT);
-            iFilter.addAction(Intent.ACTION_MEDIA_MOUNTED);
-            iFilter.addDataScheme("file");
-            // TODO - to read - https://developer.android.com/guide/topics/connectivity/usb/host.html
-            WMFileManager.getApplicationContext().registerReceiver(mUnMountReceiver, iFilter);
-        }
-    }
 
-    private void unRegisterExternalStorageListener() {
-        if (mUnMountReceiver != null) {
-            WMFileManager.getApplicationContext().unregisterReceiver(mUnMountReceiver);
-            mUnMountReceiver = null;
-        }
-    }
 }

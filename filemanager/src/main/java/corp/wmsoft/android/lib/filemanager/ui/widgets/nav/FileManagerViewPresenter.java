@@ -1,5 +1,9 @@
 package corp.wmsoft.android.lib.filemanager.ui.widgets.nav;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.databinding.ObservableList;
 import android.os.FileObserver;
 import android.util.Log;
@@ -10,6 +14,7 @@ import corp.wmsoft.android.lib.filemanager.IFileManagerEvent;
 import corp.wmsoft.android.lib.filemanager.IFileManagerFileTimeFormat;
 import corp.wmsoft.android.lib.filemanager.IFileManagerNavigationMode;
 import corp.wmsoft.android.lib.filemanager.IFileManagerSortMode;
+import corp.wmsoft.android.lib.filemanager.WMFileManager;
 import corp.wmsoft.android.lib.filemanager.interactors.GetFSOList;
 import corp.wmsoft.android.lib.filemanager.interactors.GetMountPoints;
 import corp.wmsoft.android.lib.filemanager.interactors.OnFileObserverEvent;
@@ -26,7 +31,6 @@ import rx.Subscriber;
 /**
  * <br/>Created by WestMan2000 on 8/31/16 at 3:49 PM.<br/>
  */
-// TODO
 class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewContract.View> implements IFileManagerViewContract.Presenter {
 
     /**/
@@ -52,6 +56,8 @@ class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewContract.Vi
     private FileObserver mFileObserver;
     /**/
     private final FileManagerViewModel mViewModel;
+    /**/
+    private BroadcastReceiver mUnMountReceiver = null;
     /**/
     @IFileManagerNavigationMode
     private int mCurrentMode = IFileManagerNavigationMode.UNDEFINED;
@@ -102,6 +108,8 @@ class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewContract.Vi
         //Initialize variables
         mViewModel = new FileManagerViewModel();
         mViewModel.fsoViewModels.addOnListChangedCallback(mViewModelListener);
+
+        registerExternalStorageListener();
     }
 
     @Override
@@ -116,6 +124,7 @@ class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewContract.Vi
         super.onDestroyed();
         releaseFileObserver();
         mViewModel.fsoViewModels.removeOnListChangedCallback(mViewModelListener);
+        unRegisterExternalStorageListener();
     }
 
     @IFileManagerNavigationMode
@@ -167,7 +176,6 @@ class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewContract.Vi
 
     @Override
     public void onMountPointSelect(MountPoint mountPoint) {
-        Log.d(TAG, "onMountPointSelect("+mountPoint+")");
 
         // do not select i already selected
         if (mountPoint == mViewModel.selectedMountPoint)
@@ -429,8 +437,12 @@ class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewContract.Vi
         }
     }
 
+    /**
+     * Select mount point and show respectively directory list of files
+     * @param mountPoint mount point
+     * @param isSendSelectEventToView is send event to view, so view show selected state for mount point
+     */
     private void selectMountPoint(MountPoint mountPoint, boolean isSendSelectEventToView) {
-        Log.d(TAG, "selectMountPoint("+mountPoint+", "+isSendSelectEventToView+")");
 
         mViewModel.selectedMountPoint = mountPoint;
 
@@ -441,4 +453,75 @@ class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewContract.Vi
             getView().selectMountPoint(mountPoint);
     }
 
+    /**
+     * Registers an intent to listen for ACTION_MEDIA_EJECT notifications.
+     * The intent will call closeExternalStorageFiles() if the external media
+     * is going to be ejected, so applications can clean up any files they have open.
+     */
+    private void registerExternalStorageListener() {
+        if (mUnMountReceiver == null) {
+            mUnMountReceiver = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    String action = intent.getAction();
+                    if (action.equals(Intent.ACTION_MEDIA_EJECT)) {
+
+                        // remove MountPoint
+                        removeMountPointByPath(intent.getData().getPath());
+
+                    } else if (action.equals(Intent.ACTION_MEDIA_MOUNTED)) {
+
+                        // add mount point
+                        addMountPointByPath(intent.getData().getPath());
+                    }
+                }
+            };
+            IntentFilter iFilter = new IntentFilter();
+            iFilter.addAction(Intent.ACTION_MEDIA_EJECT);
+            iFilter.addAction(Intent.ACTION_MEDIA_MOUNTED);
+            iFilter.addDataScheme("file");
+            // TODO - to read - https://developer.android.com/guide/topics/connectivity/usb/host.html
+            WMFileManager.getApplicationContext().registerReceiver(mUnMountReceiver, iFilter);
+        }
+    }
+
+    private void unRegisterExternalStorageListener() {
+        if (mUnMountReceiver != null) {
+            WMFileManager.getApplicationContext().unregisterReceiver(mUnMountReceiver);
+            mUnMountReceiver = null;
+        }
+    }
+
+    private void removeMountPointByPath(String path) {
+        for (MountPoint mountPoint : mViewModel.mountPoints) {
+            if (mountPoint.fullPath().contains(path)) {
+                mViewModel.mountPoints.remove(mountPoint);
+                return;
+            }
+        }
+    }
+
+    private void addMountPointByPath(final String path) {
+        executeUseCase(mGetMountPoints, new GetMountPoints.RequestValues(true), new Subscriber<List<MountPoint>>() {
+
+            @Override
+            public void onCompleted() {}
+
+            @Override
+            public void onError(Throwable e) {
+                Log.d(TAG, "addMountPointByPath.onError("+e+")");
+                // TODO - show error
+            }
+
+            @Override
+            public void onNext(List<MountPoint> mountPoints) {
+                for (MountPoint mp : mountPoints) {
+                    if (mp.fullPath().equals(path)) {
+                        mViewModel.mountPoints.add(mp);
+                        return;
+                    }
+                }
+            }
+        });
+    }
 }
