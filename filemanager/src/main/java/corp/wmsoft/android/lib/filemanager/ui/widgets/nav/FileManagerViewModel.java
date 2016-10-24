@@ -17,13 +17,13 @@ public class FileManagerViewModel {
     public final ObservableList<FSOViewModel> fsoViewModels = new ObservableArrayList<>();
 
     /**/
-    public final ObservableList<BreadCrumb> breadCrumbs = new ObservableArrayList<>();
+    final ObservableList<BreadCrumb> breadCrumbs = new ObservableArrayList<>();
 
     /**/
     public final ObservableList<MountPoint> mountPoints = new ObservableArrayList<>();
 
     /**/
-    public MountPoint selectedMountPoint;
+    MountPoint selectedMountPoint;
 
     // показывать ли процесс загрузки
     public final ObservableBoolean isLoading = new ObservableBoolean(true);

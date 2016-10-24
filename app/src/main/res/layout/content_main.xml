@@ -10,16 +10,9 @@
     tools:context="corp.wmsoft.android.examples.filemanager.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
-    <corp.wmsoft.android.lib.filemanager.MountPointView
-        android:id="@+id/mount_points_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"/>
-
     <corp.wmsoft.android.lib.filemanager.FileManagerView
         android:id="@+id/file_manager_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/mount_points_view"/>
+        android:layout_height="match_parent"/>
 
 </RelativeLayout>

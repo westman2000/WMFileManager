@@ -6,7 +6,6 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -25,22 +24,17 @@ import corp.wmsoft.android.lib.filemanager.IFileManagerEvent;
 import corp.wmsoft.android.lib.filemanager.IFileManagerFileTimeFormat;
 import corp.wmsoft.android.lib.filemanager.IFileManagerNavigationMode;
 import corp.wmsoft.android.lib.filemanager.IFileManagerSortMode;
-import corp.wmsoft.android.lib.filemanager.MountPointView;
 import corp.wmsoft.android.lib.filemanager.IOnFileManagerEventListener;
-import corp.wmsoft.android.lib.filemanager.IOnMountPointSelected;
 import corp.wmsoft.android.lib.filemanager.IOnDirectoryChangedListener;
 import corp.wmsoft.android.lib.filemanager.IOnFilePickedListener;
-import corp.wmsoft.android.lib.filemanager.models.MountPoint;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     /**/
     private static final int FM_PERMISSIONS_REQUEST = 123;
-    private static final int MP_PERMISSIONS_REQUEST = 456;
     /**/
     private FileManagerView mFileManagerView;
-    private MountPointView mMountPointView;
 
 
     @Override
@@ -53,22 +47,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-        mMountPointView = (MountPointView) findViewById(R.id.mount_points_view);
-        mMountPointView.setOnFileManagerEventListener(new IOnFileManagerEventListener() {
-            @Override
-            public void onFileManagerEvent(@IFileManagerEvent int event) {
-                if (event == IFileManagerEvent.NEED_EXTERNAL_STORAGE_PERMISSION) {
-                    mpAskExternalStoragePermission();
-                }
-            }
-        });
-        mMountPointView.setOnMountPointSelected(new IOnMountPointSelected() {
-            @Override
-            public void onMountPointSelected(MountPoint mountPoint) {
-//                mFileManagerView.openMountPoint(mountPoint);
-            }
-        });
 
         mFileManagerView = (FileManagerView) findViewById(R.id.file_manager_view);
         mFileManagerView.setOnFileManagerEventListener(new IOnFileManagerEventListener() {
@@ -240,7 +218,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
-        int id = item.getItemId();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -255,13 +232,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 mFileManagerView.onExternalStoragePermissionsGranted();
             } else {
                 mFileManagerView.onExternalStoragePermissionsNotGranted();
-            }
-        } else if (requestCode == MP_PERMISSIONS_REQUEST) {
-            // We have requested multiple permissions for storage, so all of them need to be checked.
-            if (verifyPermissions(grantResults)) {
-                mMountPointView.onExternalStoragePermissionsGranted();
-            } else {
-                mMountPointView.onExternalStoragePermissionsNotGranted();
             }
         } else {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -307,47 +277,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         } else {
             mFileManagerView.onExternalStoragePermissionsGranted();
-        }
-    }
-
-    private void mpAskExternalStoragePermission() {
-        // Here, thisActivity is the current activity
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED &&
-                ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-
-            // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE) ||
-                    ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                // Show an expanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
-
-                // Display a SnackBar with an explanation and a button to trigger the request.
-                Snackbar.make(findViewById(R.id.coordinator), "To browse files, need access to file system", Snackbar.LENGTH_INDEFINITE)
-                        .setAction(android.R.string.ok, new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                ActivityCompat.requestPermissions(MainActivity.this,
-                                        new String[]{
-                                                Manifest.permission.READ_EXTERNAL_STORAGE,
-                                                Manifest.permission.WRITE_EXTERNAL_STORAGE
-                                        },
-                                        MP_PERMISSIONS_REQUEST);
-                            }
-                        })
-                        .show();
-
-            } else {
-                // No explanation needed, we can request the permission.
-                ActivityCompat.requestPermissions(this,
-                        new String[]{
-                                Manifest.permission.READ_EXTERNAL_STORAGE,
-                                Manifest.permission.WRITE_EXTERNAL_STORAGE
-                        },
-                        MP_PERMISSIONS_REQUEST);
-            }
-        } else {
-            mMountPointView.onExternalStoragePermissionsGranted();
         }
     }
 

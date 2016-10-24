@@ -95,7 +95,7 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
                 @Override
                 public void onItemRangeRemoved(ObservableList<MountPoint> mountPoints, int positionStart, int itemCount) {
 //                    Log.d(TAG, "onItemRangeRemoved("+mountPoints+", "+positionStart+", "+itemCount+")");
-                    removeMountPointTabItems(mountPoints, positionStart, itemCount);
+                    removeMountPointTabItems(positionStart, itemCount);
                 }
             };
 
@@ -112,12 +112,6 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
 
     public FileManagerViewInternal(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init();
-    }
-
-    @SuppressWarnings("unused")
-    public FileManagerViewInternal(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
         init();
     }
 
@@ -388,6 +382,10 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
      */
     private void init() {
 
+        // create adapters
+        fsoViewModelAdapter = new FSOViewModelAdapter();
+        breadCrumbAdapter = new BreadCrumbAdapter(R.layout.wm_fm_breadcrumb_item);
+
         // Create data binding for wm_fm_file_manager_view_layout.xmlut.xml
         binding = WmFmFileManagerViewLayoutBinding.inflate(LayoutInflater.from(getContext()));
 
@@ -397,9 +395,7 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
         // create item decoration for fso list
         mDividerItemDecoration = new DividerItemDecoration(binding.fsoList.getContext(), LinearLayoutManager.VERTICAL);
 
-        // create adapters
-        fsoViewModelAdapter = new FSOViewModelAdapter();
-        breadCrumbAdapter = new BreadCrumbAdapter(R.layout.wm_fm_breadcrumb_item);
+        // добавляем листенер, что бы при долгом нажатии показывать хинт
         breadCrumbAdapter.setOnLongClickListener(new IBreadCrumbListener() {
             @Override
             public boolean onBreadCrumbLongClick(BreadCrumb breadCrumb) {
@@ -415,6 +411,7 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
 
         // init breadcrumbs list
         binding.breadCrumbList.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        // создаем кастомный разделитель из картинки в виде стрелочки
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(binding.fsoList.getContext(), LinearLayoutManager.HORIZONTAL);
         dividerItemDecoration.setDrawable(AndroidHelper.getVectorDrawable(getContext(), R.drawable.wm_fm_ic_chevron_right_24dp));
         binding.breadCrumbList.addItemDecoration(dividerItemDecoration);
@@ -424,6 +421,7 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
         binding.fsoList.setDrawingCacheEnabled(true);
         binding.fsoList.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
 
+        // передаем адаптеры в биндинг
         binding.setFsoAdapter(fsoViewModelAdapter);
         binding.setBreadCrumbAdapter(breadCrumbAdapter);
 
@@ -439,15 +437,34 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
         addView(binding.getRoot());
     }
 
+    /**
+     * Add a tab to this layout. The tab will be added in order as their came in list
+     * <p>
+     * Но не выделяем ни какой таб, это сделает презентер
+     *
+     * @param mountPointList список из которого берем табя для добавления
+     * @param positionStart с какой позиции списка начинаем выбирать табы для добавления
+     * @param itemCount кол-во табов для добавления
+     */
     private void addMountPointTabItems(List<MountPoint> mountPointList, int positionStart, int itemCount) {
-        for (int i=positionStart; i<itemCount + positionStart; i++) {
+        for (int i = positionStart; i<itemCount + positionStart; i++) {
             TabLayout.Tab tab = binding.mountPoints.newTab().setIcon(mountPointList.get(i).icon());
             tab.setTag(mountPointList.get(i));
             binding.mountPoints.addTab(tab, false);
         }
     }
 
-    private void removeMountPointTabItems(List<MountPoint> mountPointList, int positionStart, int itemCount) {
+    /**
+     * Remove a tab from the layout. Т.к. они расположены в соответствии с их позициями в
+     * {@link FileManagerViewInternal#mountPoints} то достаточно знать positionStart и itemCount
+     * <p>
+     * If the removed tab was selected it will be deselected and another tab will be selected
+     * if present.
+     *
+     * @param positionStart начальная позиция для удаления
+     * @param itemCount кол-во для удаления
+     */
+    private void removeMountPointTabItems(int positionStart, int itemCount) {
 
         for (int i=positionStart; i<(positionStart + itemCount); i++) {
             binding.mountPoints.removeTabAt(positionStart);

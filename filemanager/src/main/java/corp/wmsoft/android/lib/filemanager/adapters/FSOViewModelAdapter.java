@@ -3,8 +3,6 @@ package corp.wmsoft.android.lib.filemanager.adapters;
 import android.databinding.BindingAdapter;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableList;
-import android.graphics.drawable.Drawable;
-import android.widget.ImageView;
 
 import java.util.List;
 
@@ -13,10 +11,9 @@ import corp.wmsoft.android.lib.filemanager.IFileManagerNavigationMode;
 import corp.wmsoft.android.lib.filemanager.R;
 import corp.wmsoft.android.lib.filemanager.adapters.base.BaseDataBoundAdapter;
 import corp.wmsoft.android.lib.filemanager.adapters.base.BaseDataBoundViewHolder;
+import corp.wmsoft.android.lib.filemanager.ui.widgets.FixedSizeImageView;
 import corp.wmsoft.android.lib.filemanager.ui.widgets.nav.FSOViewModel;
 import corp.wmsoft.android.lib.filemanager.ui.widgets.nav.IFileManagerViewContract;
-import corp.wmsoft.android.lib.filemanager.util.IconsHelper;
-import corp.wmsoft.android.lib.filemanager.util.MimeTypeHelper;
 
 
 /**
@@ -37,7 +34,6 @@ public class FSOViewModelAdapter extends BaseDataBoundAdapter {
     /**/
     @IFileManagerNavigationMode
     private int mCurrentNavigationMode;
-
 
     public FSOViewModelAdapter() {
         mCurrentNavigationMode = IFileManagerNavigationMode.DETAILS;
@@ -68,12 +64,9 @@ public class FSOViewModelAdapter extends BaseDataBoundAdapter {
         }
     }
 
-    @BindingAdapter({"iconByFso"})
-    public static void loadIcon(ImageView view, FSOViewModel fsoViewModel) {
-        int iconResId = MimeTypeHelper.getIcon(view.getContext(), fsoViewModel.fso, true);
-        Drawable drawable = IconsHelper.getDrawable(iconResId);
-        IconsHelper.loadDrawable(view, fsoViewModel.fso, drawable);
-        view.setAlpha(fsoViewModel.fso.isHidden() ? 0.3f : 1.0f);
+    @BindingAdapter({"app:iconByFso"})
+    public static void iconByFso(FixedSizeImageView view, FSOViewModel fsoViewModel) {
+        view.setImageByFso(fsoViewModel);
     }
 
     public void setList(ObservableList<FSOViewModel> list) {
