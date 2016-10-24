@@ -9,68 +9,90 @@
         <variable name="viewModel" type="corp.wmsoft.android.lib.filemanager.ui.widgets.nav.FileManagerViewModel"/>
     </data>
 
-    <LinearLayout
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <LinearLayout
-            android:id="@+id/topPanel"
+        <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:background="?android:attr/windowBackground">
 
-            <android.support.design.widget.TabLayout
-                android:id="@+id/mountPoints"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:tabGravity="fill"
-                app:tabMode="scrollable"
-                app:tabIndicatorColor="@color/wm_fm_colorAccent"/>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:background="?android:attr/listDivider"/>
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/breadCrumbList"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/wm_fm_breadcrumb_item_min_size"
-                app:adapter="@{breadCrumbAdapter}"/>
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="?android:attr/listDivider"/>
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/fsoList"
+            <android.support.design.widget.CollapsingToolbarLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:adapter="@{fsoAdapter}"/>
+                app:contentScrim="?android:attr/windowBackground"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-            <ProgressBar
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="@{viewModel.isLoading ? View.VISIBLE : View.GONE}"
-                android:layout_gravity="center"/>
+                <android.support.v7.widget.Toolbar
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/wm_fm_breadcrumb_item_max_size"
+                    android:layout_gravity="bottom"
+                    app:contentInsetStart="0dp"
+                    app:contentInsetLeft="0dp"
+                    app:layout_scrollFlags="scroll|enterAlways">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="@{viewModel.isEmptyFolder ? View.VISIBLE : View.GONE}"
-                android:layout_gravity="center"
-                android:text="@string/wm_fm_hint_empty_folder"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
 
-        </FrameLayout>
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1px"
+                            android:background="?android:attr/listDivider"/>
 
-    </LinearLayout>
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/breadCrumbList"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/wm_fm_breadcrumb_item_min_size"
+                            app:adapter="@{breadCrumbAdapter}"/>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1px"
+                            android:background="?android:attr/listDivider"/>
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.Toolbar>
+
+                <android.support.design.widget.TabLayout
+                    android:id="@+id/mountPoints"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top"
+                    android:layout_marginBottom="@dimen/wm_fm_breadcrumb_item_max_size"
+                    app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"
+                    app:layout_collapseMode="pin"
+                    app:tabGravity="fill"
+                    app:tabMode="scrollable"
+                    app:tabIndicatorColor="@color/wm_fm_colorAccent"/>
+
+            </android.support.design.widget.CollapsingToolbarLayout>
+
+        </android.support.design.widget.AppBarLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/fsoList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            app:adapter="@{fsoAdapter}"/>
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="@{viewModel.isLoading ? View.VISIBLE : View.GONE}"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="@{viewModel.isEmptyFolder ? View.VISIBLE : View.GONE}"
+            android:layout_gravity="center"
+            android:text="@string/wm_fm_hint_empty_folder"/>
+
+    </android.support.design.widget.CoordinatorLayout>
 
 </layout>

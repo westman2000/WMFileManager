@@ -1,18 +1,12 @@
 package corp.wmsoft.android.lib.filemanager.ui.widgets.nav;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.databinding.ObservableList;
-import android.graphics.drawable.Drawable;
 import android.support.design.widget.TabLayout;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
@@ -79,28 +73,28 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
 
                 @Override
                 public void onChanged(ObservableList<MountPoint> mountPoints) {
-                    Log.d(TAG, "onChanged("+mountPoints+")");
+//                    Log.d(TAG, "onChanged("+mountPoints+")");
                 }
 
                 @Override
                 public void onItemRangeChanged(ObservableList<MountPoint> mountPoints, int positionStart, int itemCount) {
-                    Log.d(TAG, "onItemRangeChanged("+mountPoints+", "+positionStart+", "+itemCount+")");
+//                    Log.d(TAG, "onItemRangeChanged("+mountPoints+", "+positionStart+", "+itemCount+")");
                 }
 
                 @Override
                 public void onItemRangeInserted(ObservableList<MountPoint> mountPoints, int positionStart, int itemCount) {
-                    Log.d(TAG, "onItemRangeInserted("+mountPoints+", "+positionStart+", "+itemCount+")");
+//                    Log.d(TAG, "onItemRangeInserted("+mountPoints+", "+positionStart+", "+itemCount+")");
                     addMountPointTabItems(mountPoints, positionStart, itemCount);
                 }
 
                 @Override
                 public void onItemRangeMoved(ObservableList<MountPoint> mountPoints, int fromPosition, int toPosition, int itemCount) {
-                    Log.d(TAG, "onItemRangeMoved("+mountPoints+", "+fromPosition+", "+toPosition+", "+itemCount+")");
+//                    Log.d(TAG, "onItemRangeMoved("+mountPoints+", "+fromPosition+", "+toPosition+", "+itemCount+")");
                 }
 
                 @Override
                 public void onItemRangeRemoved(ObservableList<MountPoint> mountPoints, int positionStart, int itemCount) {
-                    Log.d(TAG, "onItemRangeRemoved("+mountPoints+", "+positionStart+", "+itemCount+")");
+//                    Log.d(TAG, "onItemRangeRemoved("+mountPoints+", "+positionStart+", "+itemCount+")");
                     removeMountPointTabItems(mountPoints, positionStart, itemCount);
                 }
             };
@@ -442,36 +436,8 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
             @Override public void onTabReselected(TabLayout.Tab tab) {}
         });
 
-        // http://stackoverflow.com/questions/34190748/view-flicking-while-hiding-showing-on-scroll-in-recycler-view
-        // https://medium.com/@bherbst/quick-return-with-recyclerview-e70c8da9b4c1#.gs3z6kogk
-        // https://rylexr.tinbytes.com/2015/04/27/how-to-hideshow-android-toolbar-when-scrolling-google-play-musics-behavior/
-        binding.fsoList.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-            }
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                mTotalDy += dy;
-                if (dy > 0 && mTotalDy >= binding.topPanel.getHeight()) {
-
-                    binding.topPanel.setVisibility(View.GONE);
-
-                } else if(recyclerView.getScrollState() == RecyclerView.SCROLL_STATE_DRAGGING && binding.topPanel.getVisibility() == View.GONE) {
-
-                    binding.topPanel.setVisibility(View.VISIBLE);
-
-                    mTotalDy = 0;
-                }
-            }
-        });
-
         addView(binding.getRoot());
     }
-
-    int mTotalDy;
 
     private void addMountPointTabItems(List<MountPoint> mountPointList, int positionStart, int itemCount) {
         for (int i=positionStart; i<itemCount + positionStart; i++) {
