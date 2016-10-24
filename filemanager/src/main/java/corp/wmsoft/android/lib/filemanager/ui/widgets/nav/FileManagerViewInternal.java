@@ -7,6 +7,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
@@ -133,8 +134,11 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
 
     @Override
     public void onInitializePresenter(IFileManagerViewContract.Presenter presenter) {
-        fsoViewModelAdapter.setPresenter(presenter);
-        breadCrumbAdapter.setPresenter(presenter);
+        Log.d(TAG, "onInitializePresenter() ["+fsoViewModelAdapter+"] ["+breadCrumbAdapter+"]");
+        if (fsoViewModelAdapter != null)
+            fsoViewModelAdapter.setPresenter(presenter);
+        if (breadCrumbAdapter != null)
+            breadCrumbAdapter.setPresenter(presenter);
     }
 
     @Override
@@ -382,6 +386,8 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
      */
     private void init() {
 
+        Log.d(TAG, "init()");
+
         // create adapters
         fsoViewModelAdapter = new FSOViewModelAdapter();
         breadCrumbAdapter = new BreadCrumbAdapter(R.layout.wm_fm_breadcrumb_item);
@@ -417,9 +423,9 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
         binding.breadCrumbList.addItemDecoration(dividerItemDecoration);
 
         // optimization for fast scroll, but maybe i will remove it if will be bug with selected state
-        binding.fsoList.setItemViewCacheSize(ITEM_VIEW_CACHE_SIZE);
-        binding.fsoList.setDrawingCacheEnabled(true);
-        binding.fsoList.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
+//        binding.fsoList.setItemViewCacheSize(ITEM_VIEW_CACHE_SIZE);
+//        binding.fsoList.setDrawingCacheEnabled(true);
+//        binding.fsoList.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
 
         // передаем адаптеры в биндинг
         binding.setFsoAdapter(fsoViewModelAdapter);
@@ -435,6 +441,15 @@ public class FileManagerViewInternal extends MVPCFrameLayout<IFileManagerViewCon
         });
 
         addView(binding.getRoot());
+
+        // TODO - мега баг, почему то если это вью в алерт диалоге, то инициализация презентера раньше чем конструктор, поэтому пришлось тут вставить это
+        try {
+            if (getPresenter() != null) {
+                fsoViewModelAdapter.setPresenter(getPresenter());
+                breadCrumbAdapter.setPresenter(getPresenter());
+            }
+        } catch (NullPointerException ignored) {}
+
     }
 
     /**

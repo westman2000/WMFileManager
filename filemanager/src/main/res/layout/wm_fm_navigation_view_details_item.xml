@@ -8,11 +8,10 @@
         <variable name="presenter" type="corp.wmsoft.android.lib.filemanager.ui.widgets.nav.IFileManagerViewContract.Presenter"/>
     </data>
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/navigation_view_details_item"
         android:layout_width="match_parent"
         android:layout_height="@dimen/wm_fm_default_row_height"
-        android:orientation="horizontal"
         android:onClick="@{() -> presenter.onFSOPicked(viewModel)}"
         android:background="?attr/selectableItemBackground">
 
@@ -25,67 +24,61 @@
             android:layout_gravity="center_vertical"
             android:contentDescription="@null" />
 
-        <FrameLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical"
+        <TextView
+            android:id="@+id/navigation_view_item_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_toRightOf="@+id/navigation_view_item_icon"
+            android:layout_toEndOf="@+id/navigation_view_item_icon"
+            android:text="@{viewModel.fso.name}"
+            tools:text="dsfg,ngsdfgsdfdfgsdfgsdfgsdfgsdfgsdfgsdfggfg"
+            android:layout_marginStart="@dimen/wm_fm_default_margin"
+            android:layout_marginLeft="@dimen/wm_fm_default_margin"
+            android:layout_marginTop="@dimen/wm_fm_default_margin"
             android:layout_marginEnd="@dimen/wm_fm_extra_margin"
-            android:layout_marginRight="@dimen/wm_fm_extra_margin">
+            android:layout_marginRight="@dimen/wm_fm_extra_margin"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textAppearance="@style/wm_fm_primary_text_appearance"/>
 
-            <TextView
-                android:id="@+id/navigation_view_item_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="top"
-                android:text="@{viewModel.fso.name}"
-                tools:text="dsfg,ngsdfgsdfdfgsdfgsdfgsdfgsdfgsdfgsdfggfg"
-                android:layout_marginStart="@dimen/wm_fm_default_margin"
-                android:layout_marginLeft="@dimen/wm_fm_default_margin"
-                android:layout_marginTop="@dimen/wm_fm_default_margin"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:textAppearance="@style/wm_fm_primary_text_appearance"/>
+        <TextView
+            android:id="@+id/navigation_view_item_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:text="@{viewModel.itemSize}"
+            tools:text="88888.88 GB"
+            android:layout_marginBottom="@dimen/wm_fm_default_margin"
+            android:gravity="end"
+            android:maxLines="1"
+            android:textAppearance="@style/wm_fm_secondary_text_appearance"
+            android:textStyle="bold" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/navigation_view_item_summary"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@{viewModel.itemSummary}"
-                    tools:text="dsfg,nsdfgjdfsgfgsdfgsdfgsdfgsdsdfgsdfgfgsdfgsdfgsdfgsdfgfg"
-                    android:layout_marginBottom="@dimen/wm_fm_default_margin"
-                    android:layout_marginStart="@dimen/wm_fm_default_margin"
-                    android:layout_marginLeft="@dimen/wm_fm_default_margin"
-                    android:gravity="start"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:textAppearance="@style/wm_fm_secondary_text_appearance" />
-
-                <TextView
-                    android:id="@+id/navigation_view_item_size"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.5"
-                    android:text="@{viewModel.itemSize}"
-                    tools:text="88888.88 GB"
-                    android:layout_marginBottom="@dimen/wm_fm_default_margin"
-                    android:gravity="end"
-                    android:maxLines="1"
-                    android:textAppearance="@style/wm_fm_secondary_text_appearance"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
-
-        </FrameLayout>
+        <TextView
+            android:id="@+id/navigation_view_item_summary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/navigation_view_item_icon"
+            android:layout_toEndOf="@+id/navigation_view_item_icon"
+            android:layout_toLeftOf="@id/navigation_view_item_size"
+            android:layout_toStartOf="@id/navigation_view_item_size"
+            android:layout_alignParentBottom="true"
+            android:text="@{viewModel.itemSummary}"
+            tools:text="dsfg,nsdfgjdfsgfgsdfgsdfgsdfgsdsdfgsdfgfgssdturtuygsdfgsdfg sdfgsdfgsdfgdfgsdfgsdfgsdfgfg"
+            android:layout_marginBottom="@dimen/wm_fm_default_margin"
+            android:layout_marginStart="@dimen/wm_fm_default_margin"
+            android:layout_marginLeft="@dimen/wm_fm_default_margin"
+            android:gravity="start"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textAppearance="@style/wm_fm_secondary_text_appearance" />
 
 
-    </LinearLayout>
+
+    </RelativeLayout>
 
 </layout>

@@ -27,11 +27,10 @@
 
         <TextView
             android:id="@+id/navigation_view_item_name"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="@{viewModel.fso.name}"
             tools:text="dsfg,nsdfgjdfsgfgdfghdfghdfghdfghdfgdfghdfghdfghdfghdfghdfghdghdfghdfghdfghhdfghdfghdfghdfghfg"
-            android:layout_weight="1"
             android:layout_marginStart="@dimen/wm_fm_small_margin"
             android:layout_marginLeft="@dimen/wm_fm_small_margin"
             android:layout_marginEnd="@dimen/wm_fm_extra_margin"

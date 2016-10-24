@@ -15,4 +15,8 @@
         <item name="android:textStyle">normal</item>
     </style>
 
+    <style name="wm_fm_top_panel">
+        <item name="android:background">?android:attr/windowBackground</item>
+    </style>
+
 </resources>

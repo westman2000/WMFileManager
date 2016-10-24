@@ -3,6 +3,7 @@ package corp.wmsoft.android.lib.filemanager.adapters;
 import android.databinding.BindingAdapter;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableList;
+import android.util.Log;
 
 import java.util.List;
 
@@ -93,6 +94,7 @@ public class FSOViewModelAdapter extends BaseDataBoundAdapter {
     }
 
     public void notifyDataPayloadChanged() {
+        Log.d(TAG, "notifyDataPayloadChanged()");
         notifyItemRangeChanged(0, getItemCount(), new Object());
     }
 
