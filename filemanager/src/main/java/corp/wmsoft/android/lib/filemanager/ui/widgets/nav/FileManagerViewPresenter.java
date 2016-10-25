@@ -10,7 +10,6 @@ import android.util.Log;
 
 import java.util.List;
 
-import corp.wmsoft.android.lib.filemanager.IFileManagerEvent;
 import corp.wmsoft.android.lib.filemanager.IFileManagerFileTimeFormat;
 import corp.wmsoft.android.lib.filemanager.IFileManagerNavigationMode;
 import corp.wmsoft.android.lib.filemanager.IFileManagerSortMode;
@@ -116,7 +115,7 @@ class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewContract.Vi
     public void attachView(IFileManagerViewContract.View mvpView) {
         super.attachView(mvpView);
         getView().setViewModel(mViewModel);
-        getView().sendEvent(IFileManagerEvent.NEED_EXTERNAL_STORAGE_PERMISSION);
+        getView().askForExternalStoragePermission();
     }
 
     @Override
@@ -156,6 +155,11 @@ class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewContract.Vi
             if (mViewModel.selectedMountPoint != null)
                 getView().selectMountPoint(mViewModel.selectedMountPoint);
         }
+    }
+
+    @Override
+    public void onExternalStoragePermissionsNotGranted() {
+
     }
 
     /**

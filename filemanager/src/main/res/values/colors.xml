@@ -7,4 +7,6 @@
     <color name="wm_fm_colorPrimary">#ff015360</color>
     <color name="wm_fm_colorAccent">#ff33bc14</color>
 
+    <color name="wm_fm_dialog_top_panel_color">@android:color/transparent</color>
+
 </resources>

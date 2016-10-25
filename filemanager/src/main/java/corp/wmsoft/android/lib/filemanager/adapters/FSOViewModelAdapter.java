@@ -65,7 +65,7 @@ public class FSOViewModelAdapter extends BaseDataBoundAdapter {
         }
     }
 
-    @BindingAdapter({"app:iconByFso"})
+    @BindingAdapter("iconByFso")
     public static void iconByFso(FixedSizeImageView view, FSOViewModel fsoViewModel) {
         view.setImageByFso(fsoViewModel);
     }

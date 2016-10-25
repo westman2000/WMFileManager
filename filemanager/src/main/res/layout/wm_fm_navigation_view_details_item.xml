@@ -33,6 +33,7 @@
             android:layout_toRightOf="@+id/navigation_view_item_icon"
             android:layout_toEndOf="@+id/navigation_view_item_icon"
             android:text="@{viewModel.fso.name}"
+            android:gravity="start"
             tools:text="dsfg,ngsdfgsdfdfgsdfgsdfgsdfgsdfgsdfgsdfggfg"
             android:layout_marginStart="@dimen/wm_fm_default_margin"
             android:layout_marginLeft="@dimen/wm_fm_default_margin"

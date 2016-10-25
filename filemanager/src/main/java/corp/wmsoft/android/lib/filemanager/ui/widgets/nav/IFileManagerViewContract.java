@@ -1,6 +1,5 @@
 package corp.wmsoft.android.lib.filemanager.ui.widgets.nav;
 
-import corp.wmsoft.android.lib.filemanager.IFileManagerEvent;
 import corp.wmsoft.android.lib.filemanager.IFileManagerFileTimeFormat;
 import corp.wmsoft.android.lib.filemanager.IFileManagerNavigationMode;
 import corp.wmsoft.android.lib.filemanager.IFileManagerSortMode;
@@ -17,9 +16,12 @@ public interface IFileManagerViewContract {
 
     interface View extends IMVPCView {
 
-        void setViewModel(FileManagerViewModel viewModel);
+        /**
+         * will fire this event to check permission to external storage
+         */
+        void askForExternalStoragePermission();
 
-        void sendEvent(@IFileManagerEvent int event);
+        void setViewModel(FileManagerViewModel viewModel);
 
         void onExternalStoragePermissionsGranted();
 
@@ -49,6 +51,8 @@ public interface IFileManagerViewContract {
         @IFileManagerFileTimeFormat int getCurrentFileTimeFormat();
 
         void                            onExternalStoragePermissionsGranted();
+
+        void                            onExternalStoragePermissionsNotGranted();
 
         void                            onFSOPicked(FSOViewModel fsoViewModel);
 

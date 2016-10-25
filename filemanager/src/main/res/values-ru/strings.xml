@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="wm_fm_app_name">FileManager</string>
+    <string name="wm_fm_app_name">Файловый менеджер</string>
 
     <!-- Date/time format order (%1$s: date; %2$s: time) -->
     <string name="wm_fm_datetime_format_order">%1$s %2$s</string>
