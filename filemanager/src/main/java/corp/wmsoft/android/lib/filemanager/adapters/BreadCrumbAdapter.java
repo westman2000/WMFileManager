@@ -37,10 +37,10 @@ public class BreadCrumbAdapter extends SingleTypeDataBoundAdapter<WmFmBreadcrumb
      *
      * @param layoutId The layout to be used for items. It must use data binding.
      */
-    public BreadCrumbAdapter(@LayoutRes int layoutId) {
+    public BreadCrumbAdapter(@LayoutRes int layoutId, IBreadCrumbListener listener) {
         super(layoutId);
+        onBreadCrumbLongClickListener = listener;
     }
-
 
     @Override
     public int getItemCount() {
@@ -51,7 +51,8 @@ public class BreadCrumbAdapter extends SingleTypeDataBoundAdapter<WmFmBreadcrumb
     protected void bindItem(BaseDataBoundViewHolder<WmFmBreadcrumbItemBinding> holder, int position, List<Object> payloads) {
         holder.binding.setViewModel(breadCrumbs.get(position));
         holder.binding.setPresenter(presenter);
-        holder.binding.setListener(onBreadCrumbLongClickListener);
+        if (onBreadCrumbLongClickListener != null)
+            holder.binding.setListener(onBreadCrumbLongClickListener);
     }
 
     public void setList(ObservableList<BreadCrumb> list) {
@@ -59,20 +60,16 @@ public class BreadCrumbAdapter extends SingleTypeDataBoundAdapter<WmFmBreadcrumb
         breadCrumbs.addOnListChangedCallback(callback);
     }
 
+    public void setPresenter(IFileManagerViewContract.Presenter presenter) {
+        this.presenter = presenter;
+        notifyDataSetChanged();
+    }
+
     public void onDestroy() {
         onBreadCrumbLongClickListener = null;
         breadCrumbs.removeOnListChangedCallback(callback);
         breadCrumbs = null;
         presenter = null;
-    }
-
-    public void setOnLongClickListener(IBreadCrumbListener listener) {
-        onBreadCrumbLongClickListener = listener;
-    }
-
-    public void setPresenter(IFileManagerViewContract.Presenter presenter) {
-        this.presenter = presenter;
-        notifyDataSetChanged();
     }
 
     private void smoothScrollToEnd() {

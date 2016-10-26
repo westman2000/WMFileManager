@@ -4,6 +4,8 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.databinding.ObservableList;
 import android.graphics.Color;
@@ -37,6 +39,7 @@ import java.util.List;
 import corp.wmsoft.android.lib.filemanager.IFileManagerFileTimeFormat;
 import corp.wmsoft.android.lib.filemanager.IFileManagerNavigationMode;
 import corp.wmsoft.android.lib.filemanager.IFileManagerSortMode;
+import corp.wmsoft.android.lib.filemanager.IOnChooseDirectoryListener;
 import corp.wmsoft.android.lib.filemanager.IOnDirectoryChangedListener;
 import corp.wmsoft.android.lib.filemanager.IOnFilePickedListener;
 import corp.wmsoft.android.lib.filemanager.R;
@@ -55,7 +58,7 @@ import corp.wmsoft.android.lib.mvpcrx.presenter.factory.IMVPCPresenterFactory;
  * <br/>Created by WestMan2000 on 8/31/16 at 2:42 PM.<br/>
  *
  */
-public class FileManagerFragment extends MVPCSupportDialogFragment<IFileManagerViewContract.View, IFileManagerViewContract.Presenter> implements IFileManagerViewContract.View {
+public class FileManagerFragment extends MVPCSupportDialogFragment<IFileManagerViewContract.View, IFileManagerViewContract.Presenter> implements IFileManagerViewContract.View, IBreadCrumbListener {
 
     /**/
     @SuppressWarnings("unused")
@@ -81,7 +84,7 @@ public class FileManagerFragment extends MVPCSupportDialogFragment<IFileManagerV
     /**/
     private IOnFilePickedListener mOnFilePickedListener;
     /**/
-    private IOnDirectoryChangedListener mOnDirectoryChangedListener;
+    private IOnChooseDirectoryListener mOnChooseDirectoryListener;
     /**/
     private ObservableList<MountPoint> mountPoints;
     /**/
@@ -165,14 +168,31 @@ public class FileManagerFragment extends MVPCSupportDialogFragment<IFileManagerV
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        if (context instanceof IOnChooseDirectoryListener)
+            mOnChooseDirectoryListener = (IOnChooseDirectoryListener) context;
+
+        if (context instanceof IOnFilePickedListener)
+            mOnFilePickedListener = (IOnFilePickedListener) context;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+
+        mOnChooseDirectoryListener = null;
+        mOnFilePickedListener = null;
+    }
+
+    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Log.d(TAG, "onCreate()");
-
         // create adapters
         fsoViewModelAdapter = new FSOViewModelAdapter();
-        breadCrumbAdapter = new BreadCrumbAdapter(R.layout.wm_fm_breadcrumb_item);
+        breadCrumbAdapter = new BreadCrumbAdapter(R.layout.wm_fm_breadcrumb_item, this);
 
         // prepare LayoutManager's
         mVerticalLinearLayoutManager = new LinearLayoutManager(getContext());
@@ -183,15 +203,6 @@ public class FileManagerFragment extends MVPCSupportDialogFragment<IFileManagerV
         // создаем кастомный разделитель из картинки в виде стрелочки
         breadCrumbDividerItemDecoration = new DividerItemDecoration(getContext(), LinearLayoutManager.HORIZONTAL);
         breadCrumbDividerItemDecoration.setDrawable(AndroidHelper.getVectorDrawable(getContext(), R.drawable.wm_fm_ic_chevron_right_24dp));
-
-        // добавляем листенер, что бы при долгом нажатии показывать хинт
-        breadCrumbAdapter.setOnLongClickListener(new IBreadCrumbListener() {
-            @Override
-            public boolean onBreadCrumbLongClick(BreadCrumb breadCrumb) {
-                Toast.makeText(getContext(), breadCrumb.fullPath(), Toast.LENGTH_SHORT).show();
-                return true;
-            }
-        });
     }
 
     /**
@@ -201,7 +212,6 @@ public class FileManagerFragment extends MVPCSupportDialogFragment<IFileManagerV
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Log.d(TAG, "onCreateView()");
 
         if (getShowsDialog()) {
             return super.onCreateView(inflater, container, savedInstanceState);
@@ -226,13 +236,21 @@ public class FileManagerFragment extends MVPCSupportDialogFragment<IFileManagerV
 
         setupView();
 
-        Log.d(TAG, "onCreateDialog()");
-        return new AlertDialog.Builder(getActivity())
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
                 .setIcon(R.drawable.ic_fso_folder_24dp)
                 .setTitle(R.string.wm_fm_app_name)
                 .setView(binding.getRoot())
-                .setNegativeButton(android.R.string.cancel, null)
-                .create();
+                .setNegativeButton(android.R.string.cancel, null);
+
+        if (mOnChooseDirectoryListener != null)
+            builder.setPositiveButton("Choose", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    mOnChooseDirectoryListener.onDirectorySelected(getPresenter().getCurrentDir());
+                }
+            });
+
+        return  builder.create();
     }
 
     @Override
@@ -382,9 +400,6 @@ public class FileManagerFragment extends MVPCSupportDialogFragment<IFileManagerV
     public void onDestroyView() {
         super.onDestroyView();
 
-        mOnFilePickedListener = null;
-        mOnDirectoryChangedListener = null;
-
         binding.setFsoAdapter(null);
         binding.setBreadCrumbAdapter(null);
         fsoViewModelAdapter.onDestroy();
@@ -441,14 +456,14 @@ public class FileManagerFragment extends MVPCSupportDialogFragment<IFileManagerV
 
     @Override
     public void filePicked(String file) {
-        if (mOnFilePickedListener != null)
+        if (mOnFilePickedListener != null) {
             mOnFilePickedListener.onFilePicked(file);
+            this.dismiss();
+        }
     }
 
     @Override
     public void directoryChanged(String dir) {
-        if (mOnDirectoryChangedListener != null)
-            mOnDirectoryChangedListener.onDirectoryChanged(dir);
     }
 
     @Override
@@ -469,6 +484,12 @@ public class FileManagerFragment extends MVPCSupportDialogFragment<IFileManagerV
     @Override
     public boolean goBack() {
         return getPresenter().onGoBack();
+    }
+
+    @Override
+    public boolean onBreadCrumbLongClick(BreadCrumb breadCrumb) {
+        Toast.makeText(getContext(), breadCrumb.fullPath(), Toast.LENGTH_SHORT).show();
+        return true;
     }
 
     public void setTimeFormat(@IFileManagerFileTimeFormat int format) {
@@ -521,28 +542,6 @@ public class FileManagerFragment extends MVPCSupportDialogFragment<IFileManagerV
     @IFileManagerSortMode
     public int getSortMode() {
         return getPresenter().getSortMode();
-    }
-
-    public String getCurrentDirectory() {
-        return getPresenter().getCurrentDir();
-    }
-
-    /**
-     * Method that sets the listener for picked items
-     *
-     * @param onFilePickedListener The listener reference
-     */
-    public void setOnFilePickedListener(IOnFilePickedListener onFilePickedListener) {
-        this.mOnFilePickedListener = onFilePickedListener;
-    }
-
-    /**
-     * Method that sets the listener for directory changes
-     *
-     * @param onDirectoryChangedListener The listener reference
-     */
-    public void setOnDirectoryChangedListener(IOnDirectoryChangedListener onDirectoryChangedListener) {
-        this.mOnDirectoryChangedListener = onDirectoryChangedListener;
     }
 
     private void setupView() {

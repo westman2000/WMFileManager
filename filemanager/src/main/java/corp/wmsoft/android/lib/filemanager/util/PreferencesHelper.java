@@ -18,7 +18,7 @@ import corp.wmsoft.android.lib.filemanager.WMFileManager;
 public class PreferencesHelper {
 
     /**/
-    private static final String TAG = "PreferencesHelper";
+    private static final String TAG = "wmfm:PreferencesHelper";
 
     /**
      * The name of the file manager settings file.

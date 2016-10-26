@@ -12,6 +12,10 @@
         android:id="@+id/navigation_view_details_item"
         android:layout_width="match_parent"
         android:layout_height="@dimen/wm_fm_default_row_height"
+        android:paddingStart="@dimen/wm_fm_default_margin"
+        android:paddingLeft="@dimen/wm_fm_default_margin"
+        android:paddingEnd="@dimen/wm_fm_default_margin"
+        android:paddingRight="@dimen/wm_fm_default_margin"
         android:orientation="horizontal"
         android:onClick="@{() -> presenter.onFSOPicked(viewModel)}"
         android:background="?attr/selectableItemBackground">

@@ -3,7 +3,6 @@ package corp.wmsoft.android.lib.filemanager;
 import android.app.Application;
 import android.content.Context;
 import android.support.annotation.Keep;
-import android.support.v7.app.AppCompatDelegate;
 import android.util.Log;
 import android.util.SparseArray;
 
@@ -32,8 +31,10 @@ public class WMFileManager {
 
     @Keep
     public static void init(Application application) {
+
         mWeakApplicationContext = new WeakReference<>(application.getApplicationContext());
 
+        // TODO - move to other thread
         PreferencesHelper.loadDefaults(application);
 
         //Force the load of mime types
@@ -44,11 +45,10 @@ public class WMFileManager {
         }
 
         // Initialize default restrictions (no restrictions)
-        mRestrictions = new SparseArray(5);
+        mRestrictions = new SparseArray();
     }
 
     /**
-     * @exclude
      * Get application context
      * @return application context
      */
@@ -67,28 +67,24 @@ public class WMFileManager {
         return mRestrictions;
     }
 
-    @Keep
     public static SparseArray createRestrictionOnlyDirectory() {
         SparseArray<Object> restrictions = new SparseArray<>();
         restrictions.put(IFileManagerDisplayRestrictions.DIRECTORY_ONLY_RESTRICTION, true);
         return restrictions;
     }
 
-    @Keep
     public static SparseArray createRestrictionOnlyImages() {
         SparseArray<Object> restrictions = new SparseArray<>();
         restrictions.put(IFileManagerDisplayRestrictions.CATEGORY_TYPE_RESTRICTION, MimeTypeHelper.MimeTypeCategory.IMAGE);
         return restrictions;
     }
 
-    @Keep
     public static SparseArray createRestrictionOnlyTorrents() {
         SparseArray<Object> restrictions = new SparseArray<>();
         restrictions.put(IFileManagerDisplayRestrictions.MIME_TYPE_RESTRICTION, "application/x-bittorrent");
         return restrictions;
     }
 
-    @Keep
     public static SparseArray createRestrictionOnlyTox() {
         SparseArray<Object> restrictions = new SparseArray<>();
         restrictions.put(IFileManagerDisplayRestrictions.MIME_TYPE_RESTRICTION, "tox/x-profile");

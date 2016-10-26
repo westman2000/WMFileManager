@@ -5,14 +5,20 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import corp.wmsoft.android.lib.filemanager.IOnChooseDirectoryListener;
+import corp.wmsoft.android.lib.filemanager.IOnFilePickedListener;
+import corp.wmsoft.android.lib.filemanager.WMFileManager;
 import corp.wmsoft.android.lib.filemanager.ui.widgets.nav.FileManagerFragment;
 
 
-public class FMActivity extends AppCompatActivity {
+public class FMActivity extends AppCompatActivity implements IOnChooseDirectoryListener, IOnFilePickedListener {
+
+    private static final String TAG = "FMActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,13 +55,25 @@ public class FMActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_show_as_dialog) {
+            WMFileManager.setRestrictions(WMFileManager.createRestrictionOnlyImages());
             FileManagerFragment.showAsDialog(getSupportFragmentManager());
             return true;
         } else if (id == R.id.action_show_as_fragment) {
+            WMFileManager.setRestrictions(WMFileManager.createRestrictionOnlyTorrents());
             FileManagerFragment.replaceInFragmentManager(getSupportFragmentManager(), R.id.contentPanel);
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onDirectorySelected(String dir) {
+        Log.d(TAG, "onDirectoryChanged: "+dir);
+    }
+
+    @Override
+    public void onFilePicked(String file) {
+        Log.d(TAG, "onFilePicked: "+file);
     }
 }
