@@ -15,3 +15,10 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+
+# FileManager library
+-dontwarn android.databinding.**
+-keep class android.databinding.** { *; }
+
+-keep class corp.wmsoft.android.lib.filemanager.databinding.** { *; }

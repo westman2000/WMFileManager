@@ -25,7 +25,6 @@
             android:id="@+id/navigation_view_item_icon"
             android:layout_width="@dimen/wm_fm_default_row_height"
             android:layout_height="@dimen/wm_fm_default_row_height"
-            app:iconByFso="@{viewModel.fso}"
             android:layout_gravity="center_vertical"
             android:contentDescription="@null" />
 

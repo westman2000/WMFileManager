@@ -11,13 +11,13 @@ import java.io.File;
 /**
  * Created by admin on 10/21/16.
  */
-@Keep
 @AutoValue
 public abstract class BreadCrumb {
 
 
     public abstract String fullPath();
 
+    @Keep
     public abstract String title();
 
 

@@ -2,7 +2,7 @@ ext {
     compileSdkVer = 25
     buildToolsVer = "25.0.0"
 
-    minSdkVer = 14
+    minSdkVer    = 14
     targetSdkVer = 25
 
     verCode = 1

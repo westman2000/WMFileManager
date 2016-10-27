@@ -66,10 +66,12 @@ public class WMFileManager {
         return mWeakApplicationContext.get();
     }
 
+    @Keep
     public static void setRestrictions(SparseArray mRestrictions) {
         WMFileManager.mRestrictions = mRestrictions.clone();
     }
 
+    @Keep
     public static void replaceInFragmentManager(FragmentManager fragmentManager, @IdRes int containerId) {
         FragmentTransaction ft = fragmentManager.beginTransaction();
         Fragment prev = fragmentManager.findFragmentByTag(TAG);
@@ -80,6 +82,7 @@ public class WMFileManager {
                 .commit();
     }
 
+    @Keep
     public static void showAsDialog(FragmentManager fragmentManager) {
         // DialogFragment.show() will take care of adding the fragment
         // in a transaction.  We also want to remove any currently showing
@@ -103,18 +106,21 @@ public class WMFileManager {
         return frag;
     }
 
+    @Keep
     public static SparseArray createRestrictionOnlyDirectory() {
         SparseArray<Object> restrictions = new SparseArray<>();
         restrictions.put(IFileManagerDisplayRestrictions.DIRECTORY_ONLY_RESTRICTION, true);
         return restrictions;
     }
 
+    @Keep
     public static SparseArray createRestrictionOnlyImages() {
         SparseArray<Object> restrictions = new SparseArray<>();
         restrictions.put(IFileManagerDisplayRestrictions.CATEGORY_TYPE_RESTRICTION, MimeTypeHelper.MimeTypeCategory.IMAGE);
         return restrictions;
     }
 
+    @Keep
     public static SparseArray createRestrictionOnlyTorrents() {
         SparseArray<Object> restrictions = new SparseArray<>();
         restrictions.put(IFileManagerDisplayRestrictions.MIME_TYPE_RESTRICTION, "application/x-bittorrent");

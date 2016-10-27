@@ -1,19 +1,27 @@
 package corp.wmsoft.android.lib.filemanager.adapters;
 
-import android.databinding.BindingAdapter;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableList;
+import android.databinding.OnRebindCallback;
+import android.databinding.ViewDataBinding;
+import android.support.annotation.CallSuper;
 import android.support.annotation.Keep;
+import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
 
 import java.util.List;
 
-import corp.wmsoft.android.lib.filemanager.BR;
 import corp.wmsoft.android.lib.filemanager.IFileManagerNavigationMode;
-import corp.wmsoft.android.lib.filemanager.R;
-import corp.wmsoft.android.lib.filemanager.adapters.base.BaseDataBoundAdapter;
-import corp.wmsoft.android.lib.filemanager.adapters.base.BaseDataBoundViewHolder;
-import corp.wmsoft.android.lib.filemanager.ui.widgets.FixedSizeImageView;
+import corp.wmsoft.android.lib.filemanager.adapters.holders.NavigationViewBaseItemViewHolder;
+import corp.wmsoft.android.lib.filemanager.adapters.holders.NavigationViewDetailsItemViewHolder;
+import corp.wmsoft.android.lib.filemanager.adapters.holders.NavigationViewIconsItemViewHolder;
+import corp.wmsoft.android.lib.filemanager.adapters.holders.NavigationViewSimpleItemViewHolder;
+import corp.wmsoft.android.lib.filemanager.databinding.WmFmNavigationViewDetailsItemBinding;
+import corp.wmsoft.android.lib.filemanager.databinding.WmFmNavigationViewIconsItemBinding;
+import corp.wmsoft.android.lib.filemanager.databinding.WmFmNavigationViewSimpleItemBinding;
 import corp.wmsoft.android.lib.filemanager.ui.widgets.nav.FSOViewModel;
 import corp.wmsoft.android.lib.filemanager.ui.widgets.nav.IFileManagerViewContract;
 
@@ -21,11 +29,18 @@ import corp.wmsoft.android.lib.filemanager.ui.widgets.nav.IFileManagerViewContra
 /**
  * <br/>Created by WestMan2000 on 9/1/16 at 12:09 PM.<br/>
  */
-public class FSOViewModelAdapter extends BaseDataBoundAdapter {
+public class FSOViewModelAdapter extends RecyclerView.Adapter<NavigationViewBaseItemViewHolder> {
 
     /**/
     @SuppressWarnings("unused")
     private static final String TAG = "wmfm::FMViewInternal";
+
+    /**/
+    private static final Object DB_PAYLOAD = new Object();
+
+    /**/
+    @Nullable
+    private RecyclerView mRecyclerView;
 
     /**/
     private ObservableList<FSOViewModel> fsoViewModels = new ObservableArrayList<>();
@@ -37,9 +52,49 @@ public class FSOViewModelAdapter extends BaseDataBoundAdapter {
     @IFileManagerNavigationMode
     private int mCurrentNavigationMode;
 
+
     @Keep
     public FSOViewModelAdapter() {
         mCurrentNavigationMode = IFileManagerNavigationMode.DETAILS;
+    }
+
+    @Override
+    @CallSuper
+    public NavigationViewBaseItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
+        switch (mCurrentNavigationMode) {
+            case IFileManagerNavigationMode.ICONS:
+                WmFmNavigationViewIconsItemBinding iconsBinding = WmFmNavigationViewIconsItemBinding
+                        .inflate(LayoutInflater.from(parent.getContext()), parent, false);
+                iconsBinding.addOnRebindCallback(mOnRebindCallback);
+                return new NavigationViewIconsItemViewHolder(iconsBinding);
+            case IFileManagerNavigationMode.SIMPLE:
+                WmFmNavigationViewSimpleItemBinding simpleBinding = WmFmNavigationViewSimpleItemBinding
+                        .inflate(LayoutInflater.from(parent.getContext()), parent, false);
+                simpleBinding.addOnRebindCallback(mOnRebindCallback);
+                return new NavigationViewSimpleItemViewHolder(simpleBinding);
+            case IFileManagerNavigationMode.DETAILS:
+            case IFileManagerNavigationMode.UNDEFINED:
+            default:
+                WmFmNavigationViewDetailsItemBinding detailsBinding = WmFmNavigationViewDetailsItemBinding
+                        .inflate(LayoutInflater.from(parent.getContext()), parent, false);
+                detailsBinding.addOnRebindCallback(mOnRebindCallback);
+                return new NavigationViewDetailsItemViewHolder(detailsBinding);
+        }
+    }
+
+    @Override
+    public final void onBindViewHolder(NavigationViewBaseItemViewHolder holder, int position, List<Object> payloads) {
+        // when a VH is rebound to the same item, we don't have to call the setters
+        if (payloads.isEmpty() || hasNonDataBindingInvalidate(payloads)) {
+            holder.bind(fsoViewModels.get(position), presenter);
+        }
+        holder.binding.executePendingBindings();
+    }
+
+    @Override
+    public final void onBindViewHolder(NavigationViewBaseItemViewHolder holder, int position) {
+        throw new IllegalArgumentException("just overridden to make final.");
     }
 
     @Override
@@ -47,24 +102,16 @@ public class FSOViewModelAdapter extends BaseDataBoundAdapter {
         return fsoViewModels.size();
     }
 
+    @CallSuper
     @Override
-    protected void bindItem(BaseDataBoundViewHolder holder, int position, List payloads) {
-        holder.binding.setVariable(BR.viewModel, fsoViewModels.get(position));
-        holder.binding.setVariable(BR.presenter, presenter);
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        mRecyclerView = recyclerView;
     }
 
+    @CallSuper
     @Override
-    public int getItemLayoutId(int position) {
-        switch (mCurrentNavigationMode) {
-            case IFileManagerNavigationMode.ICONS:
-                return R.layout.wm_fm_navigation_view_icons_item;
-            case IFileManagerNavigationMode.SIMPLE:
-                return R.layout.wm_fm_navigation_view_simple_item;
-            case IFileManagerNavigationMode.DETAILS:
-            case IFileManagerNavigationMode.UNDEFINED:
-            default:
-                return R.layout.wm_fm_navigation_view_details_item;
-        }
+    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
+        mRecyclerView = null;
     }
 
     public void setList(ObservableList<FSOViewModel> list) {
@@ -95,6 +142,34 @@ public class FSOViewModelAdapter extends BaseDataBoundAdapter {
         notifyItemRangeChanged(0, getItemCount(), new Object());
     }
 
+    /**
+     * This is used to block items from updating themselves. RecyclerView wants to know when an
+     * item is invalidated and it prefers to refresh it via onRebind. It also helps with performance
+     * since data binding will not update views that are not changed.
+     */
+    private final OnRebindCallback mOnRebindCallback = new OnRebindCallback() {
+        @Override
+        public boolean onPreBind(ViewDataBinding binding) {
+            if (mRecyclerView == null || mRecyclerView.isComputingLayout()) {
+                return true;
+            }
+            int childAdapterPosition = mRecyclerView.getChildAdapterPosition(binding.getRoot());
+            if (childAdapterPosition == RecyclerView.NO_POSITION) {
+                return true;
+            }
+            notifyItemChanged(childAdapterPosition, DB_PAYLOAD);
+            return false;
+        }
+    };
+
+    private boolean hasNonDataBindingInvalidate(List<Object> payloads) {
+        for (Object payload : payloads) {
+            if (payload != DB_PAYLOAD) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     /**
      *

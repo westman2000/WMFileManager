@@ -1,7 +1,6 @@
 package corp.wmsoft.android.lib.filemanager.ui.widgets.nav;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Dialog;
 import android.content.Context;
@@ -11,15 +10,10 @@ import android.databinding.ObservableList;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DividerItemDecoration;
@@ -40,7 +34,6 @@ import corp.wmsoft.android.lib.filemanager.IFileManagerFileTimeFormat;
 import corp.wmsoft.android.lib.filemanager.IFileManagerNavigationMode;
 import corp.wmsoft.android.lib.filemanager.IFileManagerSortMode;
 import corp.wmsoft.android.lib.filemanager.IOnChooseDirectoryListener;
-import corp.wmsoft.android.lib.filemanager.IOnDirectoryChangedListener;
 import corp.wmsoft.android.lib.filemanager.IOnFilePickedListener;
 import corp.wmsoft.android.lib.filemanager.R;
 import corp.wmsoft.android.lib.filemanager.adapters.BreadCrumbAdapter;
@@ -161,7 +154,7 @@ public class FileManagerFragment extends MVPCSupportDialogFragment<IFileManagerV
 
         // create adapters
         fsoViewModelAdapter = new FSOViewModelAdapter();
-        breadCrumbAdapter = new BreadCrumbAdapter(R.layout.wm_fm_breadcrumb_item, this);
+        breadCrumbAdapter = new BreadCrumbAdapter(this);
 
         // prepare LayoutManager's
         mVerticalLinearLayoutManager = new LinearLayoutManager(getContext());
@@ -517,18 +510,28 @@ public class FileManagerFragment extends MVPCSupportDialogFragment<IFileManagerV
 
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
+        Log.d(TAG, "setupView: 1");
+        Log.d(TAG, "binding="+binding);
+        Log.d(TAG, "binding.fsoList: "+binding.fsoList);
         binding.fsoList.setHasFixedSize(true);
+        Log.d(TAG, "setupView: 2");
         binding.breadCrumbList.setHasFixedSize(true);
+        Log.d(TAG, "setupView: 3");
 
         // init breadcrumbs list
         binding.breadCrumbList.setLayoutManager(breadCrumbsLinearLayoutManager);
+        Log.d(TAG, "setupView: 4");
         binding.breadCrumbList.addItemDecoration(breadCrumbDividerItemDecoration);
+        Log.d(TAG, "setupView: 5");
 
         // передаем адаптеры в биндинг
         binding.setFsoAdapter(fsoViewModelAdapter);
+        Log.d(TAG, "setupView: 6");
         binding.setBreadCrumbAdapter(breadCrumbAdapter);
+        Log.d(TAG, "setupView: 7");
 
         binding.mountPoints.addOnTabSelectedListener(onTabSelectedListener);
+        Log.d(TAG, "setupView: 8");
     }
 
     private TabLayout.OnTabSelectedListener onTabSelectedListener = new TabLayout.OnTabSelectedListener() {

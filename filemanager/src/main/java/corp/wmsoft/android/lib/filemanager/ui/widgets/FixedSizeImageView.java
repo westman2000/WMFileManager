@@ -13,7 +13,6 @@ import android.util.AttributeSet;
  * (not wrap_content / match_parent). Doing so it can
  * optimize the drawable change code paths.
  */
-@Keep
 public class FixedSizeImageView extends AppCompatImageView {
 
     /**/
