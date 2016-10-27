@@ -3,12 +3,9 @@ package corp.wmsoft.android.lib.filemanager.ui.widgets;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.support.annotation.Keep;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
-
-import corp.wmsoft.android.lib.filemanager.ui.widgets.nav.FSOViewModel;
-import corp.wmsoft.android.lib.filemanager.util.IconsHelper;
-import corp.wmsoft.android.lib.filemanager.util.MimeTypeHelper;
 
 
 /**
@@ -16,6 +13,7 @@ import corp.wmsoft.android.lib.filemanager.util.MimeTypeHelper;
  * (not wrap_content / match_parent). Doing so it can
  * optimize the drawable change code paths.
  */
+@Keep
 public class FixedSizeImageView extends AppCompatImageView {
 
     /**/
@@ -64,10 +62,4 @@ public class FixedSizeImageView extends AppCompatImageView {
         }
     }
 
-    public void setImageByFso(FSOViewModel fsoViewModel) {
-        int iconResId = MimeTypeHelper.getIcon(getContext(), fsoViewModel.fso, true);
-        Drawable drawable = IconsHelper.getDrawable(iconResId);
-        IconsHelper.loadDrawable(this, fsoViewModel.fso, drawable);
-        this.setAlpha(fsoViewModel.fso.isHidden() ? 0.3f : 1.0f);
-    }
 }

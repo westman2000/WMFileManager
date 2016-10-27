@@ -15,7 +15,6 @@ import java.lang.annotation.RetentionPolicy;
  * @see IFileManagerDisplayRestrictions#SIZE_RESTRICTION
  * @see IFileManagerDisplayRestrictions#DIRECTORY_ONLY_RESTRICTION
  */
-@Keep
 @Documented
 @IntDef({
         IFileManagerDisplayRestrictions.CATEGORY_TYPE_RESTRICTION,

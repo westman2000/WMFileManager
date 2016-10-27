@@ -2,6 +2,7 @@ package corp.wmsoft.android.lib.filemanager.adapters;
 
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableList;
+import android.support.annotation.Keep;
 import android.support.annotation.LayoutRes;
 
 import java.util.List;
@@ -37,6 +38,7 @@ public class BreadCrumbAdapter extends SingleTypeDataBoundAdapter<WmFmBreadcrumb
      *
      * @param layoutId The layout to be used for items. It must use data binding.
      */
+    @Keep
     public BreadCrumbAdapter(@LayoutRes int layoutId, IBreadCrumbListener listener) {
         super(layoutId);
         onBreadCrumbLongClickListener = listener;

@@ -17,7 +17,6 @@ import java.lang.annotation.RetentionPolicy;
  * @see IFileManagerFileTimeFormat#MMDDYYYY_HHMMSS
  * @see IFileManagerFileTimeFormat#YYYYMMDD_HHMMSS
  */
-@Keep
 @Documented
 @IntDef({
         IFileManagerFileTimeFormat.SYSTEM,

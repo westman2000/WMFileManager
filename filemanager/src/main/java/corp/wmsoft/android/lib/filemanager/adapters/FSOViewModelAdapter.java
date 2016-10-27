@@ -3,6 +3,7 @@ package corp.wmsoft.android.lib.filemanager.adapters;
 import android.databinding.BindingAdapter;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableList;
+import android.support.annotation.Keep;
 import android.util.Log;
 
 import java.util.List;
@@ -36,6 +37,7 @@ public class FSOViewModelAdapter extends BaseDataBoundAdapter {
     @IFileManagerNavigationMode
     private int mCurrentNavigationMode;
 
+    @Keep
     public FSOViewModelAdapter() {
         mCurrentNavigationMode = IFileManagerNavigationMode.DETAILS;
     }
@@ -63,11 +65,6 @@ public class FSOViewModelAdapter extends BaseDataBoundAdapter {
             default:
                 return R.layout.wm_fm_navigation_view_details_item;
         }
-    }
-
-    @BindingAdapter("iconByFso")
-    public static void iconByFso(FixedSizeImageView view, FSOViewModel fsoViewModel) {
-        view.setImageByFso(fsoViewModel);
     }
 
     public void setList(ObservableList<FSOViewModel> list) {

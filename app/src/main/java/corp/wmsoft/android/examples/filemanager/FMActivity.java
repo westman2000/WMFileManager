@@ -13,7 +13,6 @@ import android.view.View;
 import corp.wmsoft.android.lib.filemanager.IOnChooseDirectoryListener;
 import corp.wmsoft.android.lib.filemanager.IOnFilePickedListener;
 import corp.wmsoft.android.lib.filemanager.WMFileManager;
-import corp.wmsoft.android.lib.filemanager.ui.widgets.nav.FileManagerFragment;
 
 
 public class FMActivity extends AppCompatActivity implements IOnChooseDirectoryListener, IOnFilePickedListener {
@@ -56,11 +55,11 @@ public class FMActivity extends AppCompatActivity implements IOnChooseDirectoryL
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_show_as_dialog) {
             WMFileManager.setRestrictions(WMFileManager.createRestrictionOnlyImages());
-            FileManagerFragment.showAsDialog(getSupportFragmentManager());
+            WMFileManager.showAsDialog(getSupportFragmentManager());
             return true;
         } else if (id == R.id.action_show_as_fragment) {
             WMFileManager.setRestrictions(WMFileManager.createRestrictionOnlyTorrents());
-            FileManagerFragment.replaceInFragmentManager(getSupportFragmentManager(), R.id.contentPanel);
+            WMFileManager.replaceInFragmentManager(getSupportFragmentManager(), R.id.contentPanel);
             return true;
         }
 

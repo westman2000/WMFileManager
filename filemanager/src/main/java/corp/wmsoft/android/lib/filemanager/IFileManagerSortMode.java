@@ -20,7 +20,6 @@ import java.lang.annotation.RetentionPolicy;
  * @see IFileManagerSortMode#TYPE_ASC
  * @see IFileManagerSortMode#TYPE_DESC
  */
-@Keep
 @Documented
 @IntDef({
         IFileManagerSortMode.NAME_ASC,

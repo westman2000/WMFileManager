@@ -2,12 +2,19 @@ package corp.wmsoft.android.lib.filemanager;
 
 import android.app.Application;
 import android.content.Context;
+import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.support.annotation.Keep;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.util.SparseArray;
 
 import java.lang.ref.WeakReference;
 
+import corp.wmsoft.android.lib.filemanager.ui.widgets.nav.FileManagerFragment;
 import corp.wmsoft.android.lib.filemanager.util.MimeTypeHelper;
 import corp.wmsoft.android.lib.filemanager.util.PreferencesHelper;
 
@@ -63,8 +70,37 @@ public class WMFileManager {
         WMFileManager.mRestrictions = mRestrictions.clone();
     }
 
-    public static SparseArray getRestrictions() {
-        return mRestrictions;
+    public static void replaceInFragmentManager(FragmentManager fragmentManager, @IdRes int containerId) {
+        FragmentTransaction ft = fragmentManager.beginTransaction();
+        Fragment prev = fragmentManager.findFragmentByTag(TAG);
+        if (prev != null) {
+            ft.remove(prev);
+        }
+        ft.replace(containerId, newInstance(), FileManagerFragment.TAG)
+                .commit();
+    }
+
+    public static void showAsDialog(FragmentManager fragmentManager) {
+        // DialogFragment.show() will take care of adding the fragment
+        // in a transaction.  We also want to remove any currently showing
+        // dialog, so make our own transaction and take care of that here.
+        FragmentTransaction ft = fragmentManager.beginTransaction();
+        Fragment prev = fragmentManager.findFragmentByTag(TAG);
+        if (prev != null) {
+            ft.remove(prev);
+        }
+        ft.addToBackStack(null);
+
+        // Create and show the dialog.
+        DialogFragment newFragment = newInstance();
+        newFragment.show(ft, TAG);
+    }
+
+    private static FileManagerFragment newInstance() {
+        FileManagerFragment frag = new FileManagerFragment();
+        Bundle args = new Bundle();
+        frag.setArguments(args);
+        return frag;
     }
 
     public static SparseArray createRestrictionOnlyDirectory() {
@@ -89,5 +125,9 @@ public class WMFileManager {
         SparseArray<Object> restrictions = new SparseArray<>();
         restrictions.put(IFileManagerDisplayRestrictions.MIME_TYPE_RESTRICTION, "tox/x-profile");
         return restrictions;
+    }
+
+    public static SparseArray getRestrictions() {
+        return mRestrictions;
     }
 }

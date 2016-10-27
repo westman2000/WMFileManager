@@ -3,6 +3,7 @@ package corp.wmsoft.android.lib.filemanager.ui.widgets.nav;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableList;
+import android.support.annotation.Keep;
 
 import corp.wmsoft.android.lib.filemanager.models.BreadCrumb;
 import corp.wmsoft.android.lib.filemanager.models.MountPoint;
@@ -26,8 +27,10 @@ public class FileManagerViewModel {
     MountPoint selectedMountPoint;
 
     // показывать ли процесс загрузки
+    @Keep
     public final ObservableBoolean isLoading = new ObservableBoolean(true);
 
+    @Keep
     public final ObservableBoolean isEmptyFolder = new ObservableBoolean(false);
 
 }

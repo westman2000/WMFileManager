@@ -1,5 +1,7 @@
 package corp.wmsoft.android.lib.filemanager.ui.widgets.nav;
 
+import android.support.annotation.Keep;
+
 import corp.wmsoft.android.lib.filemanager.IFileManagerFileTimeFormat;
 import corp.wmsoft.android.lib.filemanager.IFileManagerNavigationMode;
 import corp.wmsoft.android.lib.filemanager.IFileManagerSortMode;
@@ -54,6 +56,7 @@ public interface IFileManagerViewContract {
 
         void                            onExternalStoragePermissionsNotGranted();
 
+        @Keep
         void                            onFSOPicked(FSOViewModel fsoViewModel);
 
         void                            onMountPointSelect(MountPoint mountPoint);
@@ -80,6 +83,7 @@ public interface IFileManagerViewContract {
 
         boolean                         onGoBack();
 
+        @Keep
         void                            onBreadCrumbClick(BreadCrumb breadCrumb);
     }
 }

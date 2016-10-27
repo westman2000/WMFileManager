@@ -1,5 +1,6 @@
 package corp.wmsoft.android.lib.filemanager.models;
 
+import android.support.annotation.Keep;
 import android.support.annotation.NonNull;
 
 import com.google.auto.value.AutoValue;
@@ -10,6 +11,7 @@ import java.io.File;
 /**
  * Created by admin on 10/21/16.
  */
+@Keep
 @AutoValue
 public abstract class BreadCrumb {
 

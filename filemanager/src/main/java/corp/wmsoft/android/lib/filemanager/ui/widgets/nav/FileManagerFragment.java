@@ -120,38 +120,7 @@ public class FileManagerFragment extends MVPCSupportDialogFragment<IFileManagerV
             };
 
 
-    public static void replaceInFragmentManager(FragmentManager fragmentManager, @IdRes int containerId) {
-        FragmentTransaction ft = fragmentManager.beginTransaction();
-        Fragment prev = fragmentManager.findFragmentByTag(TAG);
-        if (prev != null) {
-            ft.remove(prev);
-        }
-        ft.replace(containerId, FileManagerFragment.newInstance(), FileManagerFragment.TAG)
-          .commit();
-    }
 
-    public static void showAsDialog(FragmentManager fragmentManager) {
-        // DialogFragment.show() will take care of adding the fragment
-        // in a transaction.  We also want to remove any currently showing
-        // dialog, so make our own transaction and take care of that here.
-        FragmentTransaction ft = fragmentManager.beginTransaction();
-        Fragment prev = fragmentManager.findFragmentByTag(TAG);
-        if (prev != null) {
-            ft.remove(prev);
-        }
-        ft.addToBackStack(null);
-
-        // Create and show the dialog.
-        DialogFragment newFragment = FileManagerFragment.newInstance();
-        newFragment.show(ft, TAG);
-    }
-
-    private static FileManagerFragment newInstance() {
-        FileManagerFragment frag = new FileManagerFragment();
-        Bundle args = new Bundle();
-        frag.setArguments(args);
-        return frag;
-    }
 
     @Override
     protected IMVPCPresenterFactory<IFileManagerViewContract.View, IFileManagerViewContract.Presenter> providePresenterFactory() {

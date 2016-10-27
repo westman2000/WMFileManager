@@ -18,7 +18,6 @@ import java.lang.annotation.RetentionPolicy;
  * @see IFileManagerNavigationMode#SIMPLE
  * @see IFileManagerNavigationMode#DETAILS
  */
-@Keep
 @Documented
 @IntDef({
         IFileManagerNavigationMode.UNDEFINED,
