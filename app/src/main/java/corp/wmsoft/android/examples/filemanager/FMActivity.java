@@ -15,7 +15,7 @@ import corp.wmsoft.android.lib.filemanager.IOnFilePickedListener;
 import corp.wmsoft.android.lib.filemanager.WMFileManager;
 
 
-public class FMActivity extends AppCompatActivity implements IOnChooseDirectoryListener, IOnFilePickedListener {
+public class FMActivity extends AppCompatActivity implements IOnChooseDirectoryListener {
 
     private static final String TAG = "FMActivity";
 
@@ -54,12 +54,7 @@ public class FMActivity extends AppCompatActivity implements IOnChooseDirectoryL
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_show_as_dialog) {
-            WMFileManager.setRestrictions(WMFileManager.createRestrictionOnlyImages());
-            WMFileManager.showAsDialog(getSupportFragmentManager());
-            return true;
-        } else if (id == R.id.action_show_as_fragment) {
-            WMFileManager.setRestrictions(WMFileManager.createRestrictionOnlyTorrents());
-            WMFileManager.replaceInFragmentManager(getSupportFragmentManager(), R.id.contentPanel);
+            WMFileManager.showDialogChooseFolder(getSupportFragmentManager());
             return true;
         }
 
@@ -71,8 +66,4 @@ public class FMActivity extends AppCompatActivity implements IOnChooseDirectoryL
         Log.d(TAG, "onDirectoryChanged: "+dir);
     }
 
-    @Override
-    public void onFilePicked(String file) {
-        Log.d(TAG, "onFilePicked: "+file);
-    }
 }

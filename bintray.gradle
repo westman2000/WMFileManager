@@ -1,0 +1,95 @@
+apply plugin: 'com.jfrog.bintray'
+apply plugin: 'com.github.dcendents.android-maven'
+
+group = 'corp.wmsoft.android.lib' // Change this to match your package name
+version = verName // Change this to match your version number
+
+// BinTray staff
+
+android.libraryVariants.all { variant ->
+    def javadocTask = task("generate${variant.name.capitalize()}Javadoc", type: Javadoc) {
+        description "Generates Javadoc for $variant.name."
+        source = variant.javaCompile.source
+        ext.androidJar = project.files(android.getBootClasspath().join(File.pathSeparator))
+        classpath = files(variant.javaCompile.classpath.files) + files(ext.androidJar)
+        exclude '**/BuildConfig.java'
+        exclude '**/R.java'
+    }
+
+    javadocTask.dependsOn variant.javaCompile
+
+    def jarJavadocTask = task("jar${variant.name.capitalize()}Javadoc", type: Jar) {
+        description "Generate Javadoc Jar for $variant.name"
+        classifier = 'javadoc'
+        from javadocTask.destinationDir
+    }
+
+    jarJavadocTask.dependsOn javadocTask
+    artifacts.add('archives', jarJavadocTask)
+
+    def jarSourceTask = task("jar${variant.name.capitalize()}Sources", type: Jar) {
+        description "Generates Java Sources for $variant.name."
+        classifier = 'sources'
+        from variant.javaCompile.source
+    }
+
+    jarSourceTask.dependsOn variant.javaCompile
+    artifacts.add('archives', jarSourceTask)
+}
+
+bintray {
+    user = getBinTrayUserName()
+    key = getBinTrayKey()
+    pkg {
+        repo = 'maven'
+        name = libraryName // the name of the package in BinTray
+
+        //noinspection GroovyAssignabilityCheck
+        version {
+            name = libraryName // the name of your library project
+            desc = libraryDesc
+            released  = new Date()
+            vcsTag = verName // the version
+        }
+
+        licenses = ['Apache-2.0']
+        vcsUrl = 'https://github.com/westman2000/WMFileManager.git' // your GitHub repo
+        websiteUrl = 'https://github.com/westman2000/MVPCAndroid' // your website or whatever has documentation
+    }
+    configurations = ['archives']
+}
+
+/**
+ * Read BinTray user name from local.properties
+ * @return BinTray user name
+ */
+def getBinTrayUserName() {
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+    def user = properties.getProperty('bintray.user', null)
+    if (user == null)
+        throw new GradleException("BinTray user name not found. Define bintray user name with bintray.user in the local.properties file.")
+
+    return user
+}
+
+/**
+ * Read BinTray user key from local.properties
+ * @return BinTray user key
+ */
+def getBinTrayKey() {
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+    def key = properties.getProperty('bintray.key', null)
+    if (key == null)
+        throw new GradleException("BinTray user key not found. Define bintray user key with bintray.key in the local.properties file.")
+
+    return key
+}
+
+// HOWTO
+// http://code.tutsplus.com/tutorials/creating-and-publishing-an-android-library--cms-24582
+
+// 1. Run Gradle -> :mvpc_rx -> Tasks -> other -> install
+// 2. Run Gradle -> :mvpc_rx -> Tasks -> publishing -> bintrayUpload
+

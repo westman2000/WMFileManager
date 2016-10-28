@@ -30,7 +30,4 @@ public class FileManagerViewModel {
     @Keep
     public final ObservableBoolean isLoading = new ObservableBoolean(true);
 
-    @Keep
-    public final ObservableBoolean isEmptyFolder = new ObservableBoolean(false);
-
 }

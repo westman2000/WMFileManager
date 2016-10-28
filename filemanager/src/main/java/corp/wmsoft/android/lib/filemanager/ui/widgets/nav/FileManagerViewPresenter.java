@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.databinding.ObservableList;
 import android.os.FileObserver;
 import android.util.Log;
 
@@ -62,34 +61,6 @@ class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewContract.Vi
     private int mCurrentMode = IFileManagerNavigationMode.UNDEFINED;
     /**/
     private String mCurrentDir;
-    /**/
-    private ObservableList.OnListChangedCallback<ObservableList<FSOViewModel>> mViewModelListener =
-            new ObservableList.OnListChangedCallback<ObservableList<FSOViewModel>>() {
-                @Override
-                public void onChanged(ObservableList<FSOViewModel> fsoViewModels) {
-                    mViewModel.isEmptyFolder.set(fsoViewModels.size() == 1 && fsoViewModels.get(0).fso.isParentDirectory());
-                }
-
-                @Override
-                public void onItemRangeChanged(ObservableList<FSOViewModel> fsoViewModels,
-                                               int positionStart, int itemCount) {}
-
-                @Override
-                public void onItemRangeInserted(ObservableList<FSOViewModel> fsoViewModels,
-                                                int positionStart, int itemCount) {
-                    mViewModel.isEmptyFolder.set(fsoViewModels.size() == 1 && fsoViewModels.get(0).fso.isParentDirectory());
-                }
-
-                @Override
-                public void onItemRangeMoved(ObservableList<FSOViewModel> fsoViewModels,
-                                             int fromPosition, int toPosition, int itemCount) {}
-
-                @Override
-                public void onItemRangeRemoved(ObservableList<FSOViewModel> fsoViewModels,
-                                               int positionStart, int itemCount) {
-                    mViewModel.isEmptyFolder.set(fsoViewModels.size() == 1 && fsoViewModels.get(0).fso.isParentDirectory());
-                }
-            };
 
 
     FileManagerViewPresenter(
@@ -106,7 +77,6 @@ class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewContract.Vi
 
         //Initialize variables
         mViewModel = new FileManagerViewModel();
-        mViewModel.fsoViewModels.addOnListChangedCallback(mViewModelListener);
 
         registerExternalStorageListener();
     }
@@ -121,8 +91,9 @@ class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewContract.Vi
     @Override
     public void onDestroyed() {
         super.onDestroyed();
+        Log.d(TAG, "onDestroyed()");
+
         releaseFileObserver();
-        mViewModel.fsoViewModels.removeOnListChangedCallback(mViewModelListener);
         unRegisterExternalStorageListener();
     }
 
@@ -435,6 +406,7 @@ class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewContract.Vi
     }
 
     private void releaseFileObserver() {
+        Log.d(TAG, "releaseFileObserver()");
         if (mFileObserver != null) {
             mFileObserver.stopWatching();
             mFileObserver = null;

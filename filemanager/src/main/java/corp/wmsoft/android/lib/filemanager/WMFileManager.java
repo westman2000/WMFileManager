@@ -67,73 +67,48 @@ public class WMFileManager {
     }
 
     @Keep
-    public static void setRestrictions(SparseArray mRestrictions) {
-        WMFileManager.mRestrictions = mRestrictions.clone();
-    }
+    public static void showDialogChooseFolder(FragmentManager fragmentManager) {
+        // set restrictions
+        setRestrictions(createRestrictionOnlyDirectory());
 
-    @Keep
-    public static void replaceInFragmentManager(FragmentManager fragmentManager, @IdRes int containerId) {
         FragmentTransaction ft = fragmentManager.beginTransaction();
-        Fragment prev = fragmentManager.findFragmentByTag(TAG);
-        if (prev != null) {
-            ft.remove(prev);
-        }
-        ft.replace(containerId, newInstance(), FileManagerFragment.TAG)
-                .commit();
-    }
-
-    @Keep
-    public static void showAsDialog(FragmentManager fragmentManager) {
-        // DialogFragment.show() will take care of adding the fragment
-        // in a transaction.  We also want to remove any currently showing
-        // dialog, so make our own transaction and take care of that here.
-        FragmentTransaction ft = fragmentManager.beginTransaction();
-        Fragment prev = fragmentManager.findFragmentByTag(TAG);
+        Fragment prev = fragmentManager.findFragmentByTag(FileManagerFragment.TAG);
         if (prev != null) {
             ft.remove(prev);
         }
         ft.addToBackStack(null);
 
         // Create and show the dialog.
-        DialogFragment newFragment = newInstance();
-        newFragment.show(ft, TAG);
-    }
-
-    private static FileManagerFragment newInstance() {
-        FileManagerFragment frag = new FileManagerFragment();
-        Bundle args = new Bundle();
-        frag.setArguments(args);
-        return frag;
-    }
-
-    @Keep
-    public static SparseArray createRestrictionOnlyDirectory() {
-        SparseArray<Object> restrictions = new SparseArray<>();
-        restrictions.put(IFileManagerDisplayRestrictions.DIRECTORY_ONLY_RESTRICTION, true);
-        return restrictions;
-    }
-
-    @Keep
-    public static SparseArray createRestrictionOnlyImages() {
-        SparseArray<Object> restrictions = new SparseArray<>();
-        restrictions.put(IFileManagerDisplayRestrictions.CATEGORY_TYPE_RESTRICTION, MimeTypeHelper.MimeTypeCategory.IMAGE);
-        return restrictions;
-    }
-
-    @Keep
-    public static SparseArray createRestrictionOnlyTorrents() {
-        SparseArray<Object> restrictions = new SparseArray<>();
-        restrictions.put(IFileManagerDisplayRestrictions.MIME_TYPE_RESTRICTION, "application/x-bittorrent");
-        return restrictions;
-    }
-
-    public static SparseArray createRestrictionOnlyTox() {
-        SparseArray<Object> restrictions = new SparseArray<>();
-        restrictions.put(IFileManagerDisplayRestrictions.MIME_TYPE_RESTRICTION, "tox/x-profile");
-        return restrictions;
+        DialogFragment newFragment = FileManagerFragment.newInstance();
+        newFragment.show(ft, FileManagerFragment.TAG);
     }
 
     public static SparseArray getRestrictions() {
         return mRestrictions;
     }
+
+    static void setRestrictions(SparseArray mRestrictions) {
+        WMFileManager.mRestrictions = mRestrictions.clone();
+    }
+
+    static SparseArray createRestrictionOnlyDirectory() {
+        SparseArray<Object> restrictions = new SparseArray<>();
+        restrictions.put(IFileManagerDisplayRestrictions.DIRECTORY_ONLY_RESTRICTION, true);
+        return restrictions;
+    }
+
+    static SparseArray createRestrictionForMimeTypeCategory(MimeTypeHelper.MimeTypeCategory mimeTypeCategory) {
+        SparseArray<Object> restrictions = new SparseArray<>();
+        restrictions.put(IFileManagerDisplayRestrictions.CATEGORY_TYPE_RESTRICTION, mimeTypeCategory);
+        return restrictions;
+    }
+
+    // "application/x-bittorrent"
+    // "tox/x-profile"
+    static SparseArray createRestrictionForMimeType(String mimeType) {
+        SparseArray<Object> restrictions = new SparseArray<>();
+        restrictions.put(IFileManagerDisplayRestrictions.MIME_TYPE_RESTRICTION, mimeType);
+        return restrictions;
+    }
+
 }

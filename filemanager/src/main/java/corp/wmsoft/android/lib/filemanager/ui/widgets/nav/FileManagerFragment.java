@@ -113,7 +113,12 @@ public class FileManagerFragment extends MVPCSupportDialogFragment<IFileManagerV
             };
 
 
-
+    public static FileManagerFragment newInstance() {
+        FileManagerFragment frag = new FileManagerFragment();
+        Bundle args = new Bundle();
+        frag.setArguments(args);
+        return frag;
+    }
 
     @Override
     protected IMVPCPresenterFactory<IFileManagerViewContract.View, IFileManagerViewContract.Presenter> providePresenterFactory() {
@@ -510,28 +515,18 @@ public class FileManagerFragment extends MVPCSupportDialogFragment<IFileManagerV
 
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
-        Log.d(TAG, "setupView: 1");
-        Log.d(TAG, "binding="+binding);
-        Log.d(TAG, "binding.fsoList: "+binding.fsoList);
         binding.fsoList.setHasFixedSize(true);
-        Log.d(TAG, "setupView: 2");
         binding.breadCrumbList.setHasFixedSize(true);
-        Log.d(TAG, "setupView: 3");
 
         // init breadcrumbs list
         binding.breadCrumbList.setLayoutManager(breadCrumbsLinearLayoutManager);
-        Log.d(TAG, "setupView: 4");
         binding.breadCrumbList.addItemDecoration(breadCrumbDividerItemDecoration);
-        Log.d(TAG, "setupView: 5");
 
         // передаем адаптеры в биндинг
         binding.setFsoAdapter(fsoViewModelAdapter);
-        Log.d(TAG, "setupView: 6");
         binding.setBreadCrumbAdapter(breadCrumbAdapter);
-        Log.d(TAG, "setupView: 7");
 
         binding.mountPoints.addOnTabSelectedListener(onTabSelectedListener);
-        Log.d(TAG, "setupView: 8");
     }
 
     private TabLayout.OnTabSelectedListener onTabSelectedListener = new TabLayout.OnTabSelectedListener() {

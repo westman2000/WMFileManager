@@ -41,10 +41,11 @@ public class BreadCrumbAdapter extends RecyclerView.Adapter<BreadCrumbItemViewHo
     /**/
     private IBreadCrumbListener onBreadCrumbLongClickListener;
 
-    /**
-     *
-     */
+
     @Keep
+    public BreadCrumbAdapter() {
+    }
+
     public BreadCrumbAdapter(IBreadCrumbListener listener) {
         onBreadCrumbLongClickListener = listener;
     }

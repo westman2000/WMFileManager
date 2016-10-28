@@ -12,4 +12,7 @@ ext {
     mvpcrxLibVer     = "0.0.6"
     autoValueLibVer  = "1.3"
     leakcanaryLibVer = "1.5"
+
+    libraryName      = 'FileManager'
+    libraryDesc      = 'File manager fragment'
 }
