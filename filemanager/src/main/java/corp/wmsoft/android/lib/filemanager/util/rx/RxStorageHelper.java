@@ -21,7 +21,6 @@ import rx.Observable;
 import rx.Subscriber;
 
 /**
- * Created by WestMan2000 on 8/28/16. <br/>
  * A helper class with useful methods for deal with storage's.
  */
 public class RxStorageHelper {
@@ -35,7 +34,8 @@ public class RxStorageHelper {
      * reflection to retrieve the method if API < 24
      *
      * @param context The current context to get application context
-     * @return Observable<StorageVolume> The storage volume defined in the system
+     * @param forceReload is reload
+     * @return Observable The storage volume defined in the system
      */
     @RequiresPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
     public static Observable<StorageVolume> getStorageVolumes(Context context, boolean forceReload) {
@@ -167,6 +167,7 @@ public class RxStorageHelper {
     /**
      * Returns true if the volume is removable.
      *
+     * @param storageVolume storage volume
      * @return is removable
      */
     public static boolean isStorageVolumeRemovable(StorageVolume storageVolume) {

@@ -49,18 +49,16 @@ public class FileHelper {
 
     /**
      * The root directory.
-     * @hide
      */
     public static final String ROOT_DIRECTORY = "/";
 
     /**
      * The parent directory string.
-     * @hide
      */
     public static final String PARENT_DIRECTORY = "..";
 
     /**
-     * @hide
+     *
      */
     public static boolean sReloadDateTimeFormats = true;
     private static String sDateTimeFormatOrder = null;
@@ -117,6 +115,7 @@ public class FileHelper {
      * Method that returns a more human readable of the size
      * of a file system object.
      *
+     * @param context context
      * @param fso File system object
      * @return String The human readable size (void if fso don't supports size)
      */
@@ -132,6 +131,7 @@ public class FileHelper {
     /**
      * Method that returns a more human readable of a size in bytes.
      *
+     * @param context context
      * @param size The size in bytes
      * @return String The human readable size
      */
@@ -215,7 +215,7 @@ public class FileHelper {
      * (sort mode, hidden files, ...).
      *
      * @param files The listed files
-     * @return List<FileSystemObject> The applied mode listed files
+     * @return List The applied mode listed files
      */
     // TODO - переделать на RX filter - ибо пиздец!
     public static List<FileSystemObject> applyUserPreferences(List<FileSystemObject> files) {

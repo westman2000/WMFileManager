@@ -17,9 +17,8 @@ import corp.wmsoft.android.lib.mvpcrx.util.MVPCSchedulerProvider;
 public class Injection {
 
 
-    /***********************************************************
-     * UseCases
-     */
+
+    // UseCases
     public static IMVPCSchedulerProvider provideMVPCSchedulerProvider() {
         return MVPCSchedulerProvider.getInstance();
     }

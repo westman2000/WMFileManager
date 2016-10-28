@@ -48,7 +48,6 @@ import corp.wmsoft.android.lib.mvpcrx.presenter.factory.IMVPCPresenterFactory;
 
 
 /**
- * <br/>Created by WestMan2000 on 8/31/16 at 2:42 PM.<br/>
  *
  */
 public class FileManagerFragment extends MVPCSupportDialogFragment<IFileManagerViewContract.View, IFileManagerViewContract.Presenter> implements IFileManagerViewContract.View, IBreadCrumbListener {

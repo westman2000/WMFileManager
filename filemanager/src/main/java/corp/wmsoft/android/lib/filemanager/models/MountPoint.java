@@ -16,7 +16,7 @@ import corp.wmsoft.android.lib.mvpcrx.viewmodel.IMVPCViewModel;
 
 
 /**
- * <br/>Created by WestMan2000 on 9/2/16 at 2:04 PM.<br/>
+ *
  */
 @AutoValue
 public abstract class MountPoint implements IMVPCViewModel {
@@ -43,6 +43,7 @@ public abstract class MountPoint implements IMVPCViewModel {
     public abstract boolean  isPrimary();
     /**/
     public abstract String   state();
+
     /**
      * Is mount point mounted
      * @return true if mounted, false otherwise

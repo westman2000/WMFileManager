@@ -27,7 +27,7 @@ import corp.wmsoft.android.lib.filemanager.ui.widgets.nav.IFileManagerViewContra
 
 
 /**
- * <br/>Created by WestMan2000 on 9/1/16 at 12:09 PM.<br/>
+ *
  */
 public class FSOViewModelAdapter extends RecyclerView.Adapter<NavigationViewBaseItemViewHolder> {
 

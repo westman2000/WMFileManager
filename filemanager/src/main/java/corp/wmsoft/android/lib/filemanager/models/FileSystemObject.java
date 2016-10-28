@@ -13,7 +13,6 @@ import corp.wmsoft.android.lib.filemanager.util.FileHelper;
 
 
 /**
- * <br/>Created by WestMan2000 on 8/31/16 at 10:33 AM.<br/>
  * A class that represents an abstract file system object.
  */
 @AutoValue

@@ -12,7 +12,6 @@ import corp.wmsoft.android.lib.filemanager.WMFileManager;
 
 
 /**
- * <br/>Created by WestMan2000 on 9/6/16 at 3:49 PM.<br/>
  * A helper class for access and manage the preferences of the application.
  */
 public class PreferencesHelper {
@@ -22,7 +21,6 @@ public class PreferencesHelper {
 
     /**
      * The name of the file manager settings file.
-     * @hide
      */
     public static final String SETTINGS_FILENAME = "corp.wmsoft.android.lib.filemanager";
 
@@ -31,7 +29,6 @@ public class PreferencesHelper {
      * Method that returns the shared preferences of the application.
      *
      * @return SharedPreferences The shared preferences of the application
-     * @hide
      */
     public static SharedPreferences getSharedPreferences() {
         return WMFileManager.getApplicationContext().getSharedPreferences(SETTINGS_FILENAME, Context.MODE_PRIVATE);
@@ -39,6 +36,8 @@ public class PreferencesHelper {
 
     /**
      * Method that initializes the defaults preferences of the application.
+     *
+     * @param context context
      */
     public static void loadDefaults(Context context) {
         // Setting Default Values before start

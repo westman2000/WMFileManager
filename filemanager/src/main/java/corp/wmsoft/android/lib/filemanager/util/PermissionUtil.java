@@ -13,6 +13,8 @@ public abstract class PermissionUtil {
      * Check that all given permissions have been granted by verifying that each entry in the
      * given array is of the value {@link PackageManager#PERMISSION_GRANTED}.
      *
+     * @param grantResults results
+     * @return is granted
      * @see Activity#onRequestPermissionsResult(int, String[], int[])
      */
     public static boolean verifyPermissions(int[] grantResults) {
