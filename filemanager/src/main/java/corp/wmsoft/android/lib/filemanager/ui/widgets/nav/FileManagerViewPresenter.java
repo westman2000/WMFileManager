@@ -91,8 +91,6 @@ class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewContract.Vi
     @Override
     public void onDestroyed() {
         super.onDestroyed();
-        Log.d(TAG, "onDestroyed()");
-
         releaseFileObserver();
         unRegisterExternalStorageListener();
     }
@@ -406,7 +404,6 @@ class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewContract.Vi
     }
 
     private void releaseFileObserver() {
-        Log.d(TAG, "releaseFileObserver()");
         if (mFileObserver != null) {
             mFileObserver.stopWatching();
             mFileObserver = null;

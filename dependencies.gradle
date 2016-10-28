@@ -5,11 +5,11 @@ ext {
     minSdkVer    = 14
     targetSdkVer = 25
 
-    verCode = 1
-    verName = "0.0.1"
+    verCode = 2
+    verName = "0.0.2"
 
     supportLibVer    = "25.0.0"
-    mvpcrxLibVer     = "0.0.6"
+    mvpcrxLibVer     = "0.0.8"
     autoValueLibVer  = "1.3"
     leakcanaryLibVer = "1.5"
 
