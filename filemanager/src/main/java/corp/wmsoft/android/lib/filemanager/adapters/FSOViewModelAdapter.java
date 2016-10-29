@@ -85,16 +85,22 @@ public class FSOViewModelAdapter extends RecyclerView.Adapter<NavigationViewBase
 
     @Override
     public final void onBindViewHolder(NavigationViewBaseItemViewHolder holder, int position, List<Object> payloads) {
+//        Log.d(TAG, "onBindViewHolder("+position+", "+payloads+"): ");
         // when a VH is rebound to the same item, we don't have to call the setters
-        if (payloads.isEmpty() || hasNonDataBindingInvalidate(payloads)) {
+        if (hasNonDataBindingInvalidate(payloads)) {
             holder.bind(fsoViewModels.get(position), presenter);
+            holder.binding.executePendingBindings();
+        } else {
+            super.onBindViewHolder(holder, position, payloads);
         }
-        holder.binding.executePendingBindings();
+
     }
 
     @Override
     public final void onBindViewHolder(NavigationViewBaseItemViewHolder holder, int position) {
-        throw new IllegalArgumentException("just overridden to make final.");
+//        Log.d(TAG, "onBindViewHolder("+position+"): ");
+//        holder.bind(fsoViewModels.get(position), presenter);
+//        holder.binding.executePendingBindings();
     }
 
     @Override
@@ -138,7 +144,6 @@ public class FSOViewModelAdapter extends RecyclerView.Adapter<NavigationViewBase
     }
 
     public void notifyDataPayloadChanged() {
-        Log.d(TAG, "notifyDataPayloadChanged()");
         notifyItemRangeChanged(0, getItemCount(), new Object());
     }
 
@@ -163,6 +168,9 @@ public class FSOViewModelAdapter extends RecyclerView.Adapter<NavigationViewBase
     };
 
     private boolean hasNonDataBindingInvalidate(List<Object> payloads) {
+        if (payloads == null || payloads.size() == 0) {
+            return true;
+        }
         for (Object payload : payloads) {
             if (payload != DB_PAYLOAD) {
                 return true;

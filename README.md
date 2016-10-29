@@ -13,3 +13,10 @@ To use this library project, main project must use DataBinding
         }
     }
 ```
+
+on jcenter:
+
+**build.gradle**
+```
+compile 'corp.wmsoft.android.lib:filemanager:+'
+```

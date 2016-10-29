@@ -19,7 +19,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -126,7 +125,6 @@ public class FileManagerFragment extends MVPCSupportDialogFragment<IFileManagerV
 
     @Override
     public void onInitializePresenter(IFileManagerViewContract.Presenter presenter) {
-        Log.d(TAG, "onInitializePresenter() ["+fsoViewModelAdapter+"] ["+breadCrumbAdapter+"]");
         if (fsoViewModelAdapter != null)
             fsoViewModelAdapter.setPresenter(presenter);
         if (breadCrumbAdapter != null)
