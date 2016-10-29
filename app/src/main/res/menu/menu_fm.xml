@@ -7,13 +7,7 @@
     <item
         android:id="@+id/action_show_as_dialog"
         android:orderInCategory="100"
-        android:title="show_as_dialog"
-        app:showAsAction="never" />
-
-    <item
-        android:id="@+id/action_show_as_fragment"
-        android:orderInCategory="101"
-        android:title="show_as_fragment"
+        android:title="dialog from activity"
         app:showAsAction="never" />
 
 </menu>
