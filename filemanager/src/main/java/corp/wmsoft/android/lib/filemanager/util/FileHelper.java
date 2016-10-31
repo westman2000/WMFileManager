@@ -19,7 +19,6 @@ import corp.wmsoft.android.lib.filemanager.IFileManagerDisplayRestrictions;
 import corp.wmsoft.android.lib.filemanager.IFileManagerFileTimeFormat;
 import corp.wmsoft.android.lib.filemanager.IFileManagerSortMode;
 import corp.wmsoft.android.lib.filemanager.R;
-import corp.wmsoft.android.lib.filemanager.WMFileManager;
 import corp.wmsoft.android.lib.filemanager.models.FileSystemObject;
 
 
@@ -56,6 +55,11 @@ public class FileHelper {
      * The parent directory string.
      */
     public static final String PARENT_DIRECTORY = "..";
+
+    /**
+     * Restrictions. Initialize default restrictions (no restrictions)
+     */
+    private static SparseArray restrictions = new SparseArray();
 
     /**
      *
@@ -387,14 +391,22 @@ public class FileHelper {
     }
 
     /**
+     * Set global restrictions for visible file types
+     * @param mRestrictions array of restrictions, where key - {@linkplain IFileManagerDisplayRestrictions type}, value - value
+     *
+     * @see IFileManagerDisplayRestrictions
+     */
+    public static void setRestrictions(SparseArray mRestrictions) {
+        restrictions = mRestrictions.clone();
+    }
+
+    /**
      * Method that check if a file should be displayed according to the restrictions
      *
      * @param fso The file system object to check
      * @return boolean If the file should be displayed
      */
     private static boolean isDisplayAllowed(FileSystemObject fso) {
-
-        SparseArray restrictions = WMFileManager.getRestrictions();
 
         for (int i=0; i<restrictions.size(); i++) {
             @IFileManagerDisplayRestrictions int key = restrictions.keyAt(i);

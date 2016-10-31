@@ -8,14 +8,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import corp.wmsoft.android.lib.filemanager.IOnChooseDirectoryListener;
+import corp.wmsoft.android.lib.filemanager.IOnFilePickedListener;
 import corp.wmsoft.android.lib.filemanager.WMFileManager;
+import corp.wmsoft.android.lib.filemanager.WMFileManagerDialog;
 
 
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MainActivityFragment extends Fragment implements IOnChooseDirectoryListener {
+public class MainActivityFragment extends Fragment implements IOnFilePickedListener {
 
     private static final String TAG = "wmfm:MainFragment";
 
@@ -45,7 +46,7 @@ public class MainActivityFragment extends Fragment implements IOnChooseDirectory
         view.findViewById(R.id.fileManager).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                WMFileManager.showDialogChooseFolder(getFragmentManager());
+                WMFileManagerDialog.chooseFileByMimeType(getFragmentManager(), "Choose image", "image/jpeg");
             }
         });
 
@@ -53,7 +54,7 @@ public class MainActivityFragment extends Fragment implements IOnChooseDirectory
     }
 
     @Override
-    public void onDirectorySelected(String dir) {
-        Log.d(TAG, "onDirectorySelected: "+dir);
+    public void onFilePicked(String file) {
+        Log.d(TAG, "onFilePicked: "+file);
     }
 }

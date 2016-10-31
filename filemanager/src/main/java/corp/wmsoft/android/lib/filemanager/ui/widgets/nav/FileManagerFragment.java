@@ -56,6 +56,9 @@ public class FileManagerFragment extends MVPCSupportDialogFragment<IFileManagerV
     public static final String TAG = "wmfm::FMViewInternal";
 
     /**/
+    private static final String BUNDLE_DIALOG_TITLE = "BUNDLE_DIALOG_TITLE";
+
+    /**/
     private static final int FILE_MANAGER_PERMISSIONS_REQUEST   = 123;
 
     /**/
@@ -111,9 +114,10 @@ public class FileManagerFragment extends MVPCSupportDialogFragment<IFileManagerV
             };
 
 
-    public static FileManagerFragment newInstance() {
+    public static FileManagerFragment newInstance(String dialogTitle) {
         FileManagerFragment frag = new FileManagerFragment();
         Bundle args = new Bundle();
+        args.putString(BUNDLE_DIALOG_TITLE, dialogTitle);
         frag.setArguments(args);
         return frag;
     }
@@ -201,8 +205,7 @@ public class FileManagerFragment extends MVPCSupportDialogFragment<IFileManagerV
         setupView();
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
-                .setIcon(R.drawable.ic_fso_folder_24dp)
-                .setTitle(R.string.wm_fm_app_name)
+                .setTitle(getArguments().getString(BUNDLE_DIALOG_TITLE))
                 .setView(binding.getRoot())
                 .setNegativeButton(android.R.string.cancel, null);
 
