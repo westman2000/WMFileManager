@@ -46,7 +46,7 @@ public class MainActivityFragment extends Fragment implements IOnFilePickedListe
         view.findViewById(R.id.fileManager).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                WMFileManagerDialog.chooseFileByMimeType(getFragmentManager(), "Choose image", "image/jpeg");
+                WMFileManagerDialog.chooseFileByMimeType(getFragmentManager(), MainActivityFragment.this,  "Choose image", "image/jpeg");
             }
         });
 

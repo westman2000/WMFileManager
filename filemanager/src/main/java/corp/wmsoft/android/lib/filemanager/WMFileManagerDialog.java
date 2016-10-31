@@ -45,8 +45,9 @@ public class WMFileManagerDialog {
     }
 
     /**
+     * For activities.
      * Show dialog to choose file. You can specify which file type to show by passing array of mime
-     * types, only this file types will be visible. Caller must implement {@link IOnFilePickedListener}
+     * types, only this file types will be visible. Activity must implement {@link IOnFilePickedListener}
      * to be able receive event when file is picked.
      *
      * @param fragmentManager caller FragmentManager
@@ -55,6 +56,22 @@ public class WMFileManagerDialog {
      */
     @Keep
     public static void chooseFileByMimeType(@NonNull FragmentManager fragmentManager, @NonNull String dialogTitle, @Nullable String... mimeTypes) {
+        chooseFileByMimeType(fragmentManager, null, dialogTitle, mimeTypes);
+    }
+
+    /**
+     * For fragments.
+     * Show dialog to choose file. You can specify which file type to show by passing array of mime
+     * types, only this file types will be visible. Fragment must implement {@link IOnFilePickedListener}
+     * to be able receive event when file is picked.
+     *
+     * @param fragmentManager caller FragmentManager
+     * @param targetFragment fragment which implements {@link IOnFilePickedListener}
+     * @param dialogTitle dialog title
+     * @param mimeTypes array of mime types strings. if null or empty - all file types will be visible
+     */
+    @Keep
+    public static void chooseFileByMimeType(@NonNull FragmentManager fragmentManager, Fragment targetFragment, @NonNull String dialogTitle, @Nullable String... mimeTypes) {
         // set restrictions
         setRestrictionForMimeTypes(mimeTypes);
 
@@ -67,6 +84,10 @@ public class WMFileManagerDialog {
 
         // Create and show the dialog.
         DialogFragment newFragment = FileManagerFragment.newInstance(dialogTitle);
+
+        if (targetFragment != null)
+            newFragment.setTargetFragment(targetFragment, 0);
+
         newFragment.show(ft, FileManagerFragment.TAG);
     }
 

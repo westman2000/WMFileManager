@@ -11,7 +11,7 @@ import corp.wmsoft.android.lib.filemanager.IOnChooseDirectoryListener;
 import corp.wmsoft.android.lib.filemanager.WMFileManagerDialog;
 
 
-public class FMActivity extends AppCompatActivity implements IOnChooseDirectoryListener {
+public class FMActivity extends AppCompatActivity {
 
     private static final String TAG = "wmfm:FMActivity";
 
@@ -55,9 +55,9 @@ public class FMActivity extends AppCompatActivity implements IOnChooseDirectoryL
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onDirectorySelected(String dir) {
-        Log.d(TAG, "onDirectoryChanged: "+dir);
-    }
+//    @Override
+//    public void onDirectorySelected(String dir) {
+//        Log.d(TAG, "onDirectoryChanged: "+dir);
+//    }
 
 }

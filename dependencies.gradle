@@ -5,8 +5,8 @@ ext {
     minSdkVer    = 14
     targetSdkVer = 25
 
-    verCode = 4
-    verName = "0.0.4"
+    verCode = 5
+    verName = "0.0.5"
 
     supportLibVer    = "25.0.0"
     mvpcrxLibVer     = "0.0.8"

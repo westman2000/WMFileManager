@@ -19,6 +19,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -142,8 +143,14 @@ public class FileManagerFragment extends MVPCSupportDialogFragment<IFileManagerV
         if (context instanceof IOnChooseDirectoryListener)
             mOnChooseDirectoryListener = (IOnChooseDirectoryListener) context;
 
+        if (getTargetFragment() != null && (getTargetFragment() instanceof IOnChooseDirectoryListener))
+            mOnChooseDirectoryListener = (IOnChooseDirectoryListener) getTargetFragment();
+
         if (context instanceof IOnFilePickedListener)
             mOnFilePickedListener = (IOnFilePickedListener) context;
+
+        if (getTargetFragment() != null && (getTargetFragment() instanceof IOnFilePickedListener))
+            mOnFilePickedListener = (IOnFilePickedListener) getTargetFragment();
     }
 
     @Override
@@ -392,15 +399,6 @@ public class FileManagerFragment extends MVPCSupportDialogFragment<IFileManagerV
         mountPoints = viewModel.mountPoints;
         mountPoints.addOnListChangedCallback(mountPointsListCallback);
         addMountPointTabItems(mountPoints, 0, mountPoints.size());
-    }
-
-    @Override
-    public void onExternalStoragePermissionsGranted() {
-        getPresenter().onExternalStoragePermissionsGranted();
-    }
-
-    @Override
-    public void onExternalStoragePermissionsNotGranted() {
     }
 
     @Override

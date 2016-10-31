@@ -25,10 +25,6 @@ public interface IFileManagerViewContract {
 
         void setViewModel(FileManagerViewModel viewModel);
 
-        void onExternalStoragePermissionsGranted();
-
-        void onExternalStoragePermissionsNotGranted();
-
         void showAsList();
 
         void showAsGrid();
