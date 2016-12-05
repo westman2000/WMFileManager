@@ -9,7 +9,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.SparseArray;
 
-import corp.wmsoft.android.lib.filemanager.ui.widgets.nav.FileManagerFragment;
+import corp.wmsoft.android.lib.filemanager.ui.FileManagerFragment;
 import corp.wmsoft.android.lib.filemanager.util.FileHelper;
 import corp.wmsoft.android.lib.filemanager.util.MimeTypeHelper;
 

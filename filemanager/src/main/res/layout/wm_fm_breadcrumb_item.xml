@@ -2,15 +2,15 @@
 
     <data>
         <variable name="viewModel" type="corp.wmsoft.android.lib.filemanager.models.BreadCrumb"/>
-        <variable name="presenter" type="corp.wmsoft.android.lib.filemanager.ui.widgets.nav.IFileManagerViewContract.Presenter"/>
-        <variable name="listener" type="corp.wmsoft.android.lib.filemanager.ui.widgets.nav.IBreadCrumbListener"/>
+        <variable name="presenter" type="corp.wmsoft.android.lib.filemanager.ui.IFileManagerViewContract.Presenter"/>
+        <variable name="listener" type="corp.wmsoft.android.lib.filemanager.ui.IBreadCrumbListener"/>
     </data>
 
     <!--suppress AndroidUnknownAttribute -->
     <TextView
         android:textAppearance="@style/wm_fm_primary_text_appearance"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="@dimen/wm_fm_breadcrumb_item_min_size"
         android:text="@{viewModel.title}"
         android:onClick="@{() -> presenter.onBreadCrumbClick(viewModel)}"
         android:onLongClick="@{() -> listener.onBreadCrumbLongClick(viewModel)}"

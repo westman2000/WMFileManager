@@ -1,8 +1,8 @@
 package corp.wmsoft.android.lib.filemanager.adapters.holders;
 
 import corp.wmsoft.android.lib.filemanager.databinding.WmFmNavigationViewDetailsItemBinding;
-import corp.wmsoft.android.lib.filemanager.ui.widgets.nav.FSOViewModel;
-import corp.wmsoft.android.lib.filemanager.ui.widgets.nav.IFileManagerViewContract;
+import corp.wmsoft.android.lib.filemanager.ui.FSOViewModel;
+import corp.wmsoft.android.lib.filemanager.ui.IFileManagerViewContract;
 
 
 /**

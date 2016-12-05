@@ -1,4 +1,4 @@
-package corp.wmsoft.android.lib.filemanager.ui.widgets.nav;
+package corp.wmsoft.android.lib.filemanager.ui;
 
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;

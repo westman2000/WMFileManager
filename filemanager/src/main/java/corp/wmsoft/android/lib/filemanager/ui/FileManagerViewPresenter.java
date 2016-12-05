@@ -1,4 +1,4 @@
-package corp.wmsoft.android.lib.filemanager.ui.widgets.nav;
+package corp.wmsoft.android.lib.filemanager.ui;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

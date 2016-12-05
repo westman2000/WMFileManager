@@ -4,8 +4,8 @@ import android.content.Context;
 
 import java.util.concurrent.Callable;
 
-import corp.wmsoft.android.lib.filemanager.ui.widgets.nav.FSOViewModel;
-import corp.wmsoft.android.lib.filemanager.ui.widgets.nav.FileManagerViewModel;
+import corp.wmsoft.android.lib.filemanager.ui.FSOViewModel;
+import corp.wmsoft.android.lib.filemanager.ui.FileManagerViewModel;
 import corp.wmsoft.android.lib.filemanager.util.FileHelper;
 import corp.wmsoft.android.lib.mvpcrx.interactor.MVPCUseCase;
 import corp.wmsoft.android.lib.mvpcrx.util.IMVPCSchedulerProvider;

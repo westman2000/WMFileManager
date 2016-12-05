@@ -4,8 +4,8 @@ import android.support.v7.widget.RecyclerView;
 
 import corp.wmsoft.android.lib.filemanager.databinding.WmFmBreadcrumbItemBinding;
 import corp.wmsoft.android.lib.filemanager.models.BreadCrumb;
-import corp.wmsoft.android.lib.filemanager.ui.widgets.nav.IBreadCrumbListener;
-import corp.wmsoft.android.lib.filemanager.ui.widgets.nav.IFileManagerViewContract;
+import corp.wmsoft.android.lib.filemanager.ui.IBreadCrumbListener;
+import corp.wmsoft.android.lib.filemanager.ui.IFileManagerViewContract;
 
 
 /**

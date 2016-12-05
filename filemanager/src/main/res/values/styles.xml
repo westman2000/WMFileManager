@@ -19,4 +19,19 @@
         <item name="android:background">?android:attr/windowBackground</item>
     </style>
 
+    <style name="AppTheme.Dialog" parent="Theme.AppCompat.Light.Dialog.Alert" >
+        <item name="colorPrimary">@color/wm_fm_colorPrimary</item>
+        <item name="colorPrimaryDark">@color/wm_fm_colorPrimaryDark</item>
+        <item name="colorAccent">@color/wm_fm_colorAccent</item>
+    </style>
+
+    <style name="AppTheme.Dialog.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">false</item>
+    </style>
+
+    <style name="AppTheme.Dialog.NoActionBar.NoTitle">
+        <item name="windowNoTitle">true</item>
+    </style>
+
 </resources>

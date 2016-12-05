@@ -1,4 +1,4 @@
-package corp.wmsoft.android.lib.filemanager.ui.widgets.nav;
+package corp.wmsoft.android.lib.filemanager.ui;
 
 import android.Manifest;
 import android.annotation.TargetApi;
@@ -12,8 +12,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DividerItemDecoration;
@@ -65,6 +68,8 @@ public class FileManagerFragment extends MVPCSupportDialogFragment<IFileManagerV
     /**/
     private WmFmFileManagerViewLayoutBinding binding;
     /**/
+    private DialogInterface.OnDismissListener onDismissListener;
+    /**/
     private LinearLayoutManager mVerticalLinearLayoutManager;
     private LinearLayoutManager breadCrumbsLinearLayoutManager;
     /**/
@@ -115,6 +120,14 @@ public class FileManagerFragment extends MVPCSupportDialogFragment<IFileManagerV
             };
 
 
+    public static void showFileManager(FragmentManager manager, String dialogTitle) {
+        // for not show it twice
+        if (manager.findFragmentByTag("FileManagerFragment") == null) {
+            DialogFragment newFragment = FileManagerFragment.newInstance(dialogTitle);
+            newFragment.show(manager, "FileManagerFragment");
+        }
+    }
+
     public static FileManagerFragment newInstance(String dialogTitle) {
         FileManagerFragment frag = new FileManagerFragment();
         Bundle args = new Bundle();
@@ -140,6 +153,12 @@ public class FileManagerFragment extends MVPCSupportDialogFragment<IFileManagerV
     public void onAttach(Context context) {
         super.onAttach(context);
 
+        try {
+            onDismissListener = (DialogInterface.OnDismissListener) context;
+            Log.d(TAG, "onAttach onDismissListener: "+onDismissListener);
+        } catch (ClassCastException ignored) {
+        }
+
         if (context instanceof IOnChooseDirectoryListener)
             mOnChooseDirectoryListener = (IOnChooseDirectoryListener) context;
 
@@ -157,6 +176,7 @@ public class FileManagerFragment extends MVPCSupportDialogFragment<IFileManagerV
     public void onDetach() {
         super.onDetach();
 
+        onDismissListener = null;
         mOnChooseDirectoryListener = null;
         mOnFilePickedListener = null;
     }
@@ -184,19 +204,28 @@ public class FileManagerFragment extends MVPCSupportDialogFragment<IFileManagerV
      * Method that initializes the view. This method loads all the necessary
      * information and create an appropriate layout for the view.
      */
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-        if (getShowsDialog()) {
-            return super.onCreateView(inflater, container, savedInstanceState);
-        }
-
-        // Create data binding
-        binding = WmFmFileManagerViewLayoutBinding.inflate(inflater, container, false);
-        setupView();
-        return binding.getRoot();
-    }
+//    @Nullable
+//    @Override
+//    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+//
+//        if (getShowsDialog()) {
+//            return super.onCreateView(inflater, container, savedInstanceState);
+//        }
+//
+//        // Create data binding
+//        binding = WmFmFileManagerViewLayoutBinding.inflate(inflater, container, false);
+//
+//        setupView();
+//
+//        View view = binding.getRoot();
+//
+//        Log.d(TAG, "getPaddingBottom view: "+view.getPaddingBottom());
+//        Log.d(TAG, "getPaddingTop view: "+view.getPaddingTop());
+//        Log.d(TAG, "getPaddingLeft view: "+view.getPaddingLeft());
+//        Log.d(TAG, "getPaddingRight view: "+view.getPaddingRight());
+//
+//        return binding.getRoot();
+//    }
 
     @NonNull
     @Override
@@ -206,8 +235,8 @@ public class FileManagerFragment extends MVPCSupportDialogFragment<IFileManagerV
         binding = WmFmFileManagerViewLayoutBinding.inflate(getActivity().getLayoutInflater(), null, false);
 
         // small hack for dialog only
-        binding.fsoList.setPadding(0, 0, 0, getResources().getDimensionPixelSize(R.dimen.wm_fm_breadcrumb_item_max_size));
-        binding.appBar.setBackgroundColor(Color.WHITE);
+//        binding.fsoList.setPadding(0, 0, 0, getResources().getDimensionPixelSize(R.dimen.wm_fm_breadcrumb_item_max_size));
+//        binding.appBar.setBackgroundColor(Color.WHITE);
 
         setupView();
 
@@ -224,7 +253,13 @@ public class FileManagerFragment extends MVPCSupportDialogFragment<IFileManagerV
                 }
             });
 
-        return  builder.create();
+        return builder.create();
+    }
+
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        if (onDismissListener != null)
+            onDismissListener.onDismiss(dialog);
     }
 
     @Override
@@ -405,13 +440,13 @@ public class FileManagerFragment extends MVPCSupportDialogFragment<IFileManagerV
     public void showAsList() {
         // use a linear layout manager for simple and details mode
         binding.fsoList.setLayoutManager(mVerticalLinearLayoutManager);
-        binding.fsoList.addItemDecoration(mDividerItemDecoration);
+//        binding.fsoList.addItemDecoration(mDividerItemDecoration);
     }
 
     @Override
     public void showAsGrid() {
         binding.fsoList.setLayoutManager(mGridLayoutManager);
-        binding.fsoList.removeItemDecoration(mDividerItemDecoration);
+//        binding.fsoList.removeItemDecoration(mDividerItemDecoration);
     }
 
     @Override

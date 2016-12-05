@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import corp.wmsoft.android.lib.filemanager.IOnFilePickedListener;
 import corp.wmsoft.android.lib.filemanager.WMFileManager;
 import corp.wmsoft.android.lib.filemanager.WMFileManagerDialog;
+import corp.wmsoft.android.lib.filemanager.ui.FileManagerActivity;
 
 
 /**
@@ -46,7 +47,8 @@ public class MainActivityFragment extends Fragment implements IOnFilePickedListe
         view.findViewById(R.id.fileManager).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                WMFileManagerDialog.chooseFileByMimeType(getFragmentManager(), MainActivityFragment.this,  "Choose image", "image/jpeg");
+                showFM();
+//                WMFileManagerDialog.chooseFileByMimeType(getFragmentManager(), MainActivityFragment.this,  "Choose image", "image/jpeg");
             }
         });
 
@@ -57,4 +59,9 @@ public class MainActivityFragment extends Fragment implements IOnFilePickedListe
     public void onFilePicked(String file) {
         Log.d(TAG, "onFilePicked: "+file);
     }
+
+    private void showFM() {
+        FileManagerActivity.startAsDialogActivity(getContext(), "_fragment_dialog_title_");
+    }
+
 }

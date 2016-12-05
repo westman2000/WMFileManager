@@ -6,8 +6,8 @@ import android.support.v7.widget.RecyclerView;
 
 import corp.wmsoft.android.lib.filemanager.models.FileSystemObject;
 import corp.wmsoft.android.lib.filemanager.ui.widgets.FixedSizeImageView;
-import corp.wmsoft.android.lib.filemanager.ui.widgets.nav.FSOViewModel;
-import corp.wmsoft.android.lib.filemanager.ui.widgets.nav.IFileManagerViewContract;
+import corp.wmsoft.android.lib.filemanager.ui.FSOViewModel;
+import corp.wmsoft.android.lib.filemanager.ui.IFileManagerViewContract;
 import corp.wmsoft.android.lib.filemanager.util.IconsHelper;
 import corp.wmsoft.android.lib.filemanager.util.MimeTypeHelper;
 

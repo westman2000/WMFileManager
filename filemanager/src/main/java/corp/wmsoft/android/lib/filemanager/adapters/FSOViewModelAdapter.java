@@ -8,7 +8,6 @@ import android.support.annotation.CallSuper;
 import android.support.annotation.Keep;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -22,8 +21,8 @@ import corp.wmsoft.android.lib.filemanager.adapters.holders.NavigationViewSimple
 import corp.wmsoft.android.lib.filemanager.databinding.WmFmNavigationViewDetailsItemBinding;
 import corp.wmsoft.android.lib.filemanager.databinding.WmFmNavigationViewIconsItemBinding;
 import corp.wmsoft.android.lib.filemanager.databinding.WmFmNavigationViewSimpleItemBinding;
-import corp.wmsoft.android.lib.filemanager.ui.widgets.nav.FSOViewModel;
-import corp.wmsoft.android.lib.filemanager.ui.widgets.nav.IFileManagerViewContract;
+import corp.wmsoft.android.lib.filemanager.ui.FSOViewModel;
+import corp.wmsoft.android.lib.filemanager.ui.IFileManagerViewContract;
 
 
 /**

@@ -9,6 +9,7 @@ import android.view.MenuItem;
 
 import corp.wmsoft.android.lib.filemanager.IOnChooseDirectoryListener;
 import corp.wmsoft.android.lib.filemanager.WMFileManagerDialog;
+import corp.wmsoft.android.lib.filemanager.ui.FileManagerActivity;
 
 
 public class FMActivity extends AppCompatActivity {
@@ -48,7 +49,7 @@ public class FMActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_show_as_dialog) {
-            WMFileManagerDialog.chooseFolder(getSupportFragmentManager(), "Choose folder");
+            FileManagerActivity.startAsDialogActivity(this, "_activity_dialog_title_");
             return true;
         }
 

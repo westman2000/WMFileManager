@@ -6,7 +6,7 @@ import java.util.List;
 
 import corp.wmsoft.android.lib.filemanager.WMFileManager;
 import corp.wmsoft.android.lib.filemanager.models.FileSystemObject;
-import corp.wmsoft.android.lib.filemanager.ui.widgets.nav.FSOViewModel;
+import corp.wmsoft.android.lib.filemanager.ui.FSOViewModel;
 import corp.wmsoft.android.lib.filemanager.util.FileHelper;
 import rx.Observable;
 import rx.functions.Func1;

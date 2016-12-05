@@ -7,7 +7,7 @@ import java.util.concurrent.Callable;
 
 import corp.wmsoft.android.lib.filemanager.mapper.FileSystemObjectMapper;
 import corp.wmsoft.android.lib.filemanager.models.FileSystemObject;
-import corp.wmsoft.android.lib.filemanager.ui.widgets.nav.FSOViewModel;
+import corp.wmsoft.android.lib.filemanager.ui.FSOViewModel;
 import corp.wmsoft.android.lib.filemanager.util.FileHelper;
 import corp.wmsoft.android.lib.filemanager.util.rx.RxStorageHelper;
 import corp.wmsoft.android.lib.mvpcrx.interactor.MVPCUseCase;
