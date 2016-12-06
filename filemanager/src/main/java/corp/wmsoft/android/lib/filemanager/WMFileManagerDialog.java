@@ -9,7 +9,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.SparseArray;
 
-import corp.wmsoft.android.lib.filemanager.ui.FileManagerFragment;
 import corp.wmsoft.android.lib.filemanager.util.FileHelper;
 import corp.wmsoft.android.lib.filemanager.util.MimeTypeHelper;
 
@@ -32,16 +31,16 @@ public class WMFileManagerDialog {
         // set restrictions
         setRestrictionOnlyDirectory();
 
-        FragmentTransaction ft = fragmentManager.beginTransaction();
-        Fragment prev = fragmentManager.findFragmentByTag(FileManagerFragment.TAG);
-        if (prev != null) {
-            ft.remove(prev);
-        }
-        ft.addToBackStack(null);
-
-        // Create and show the dialog.
-        DialogFragment newFragment = FileManagerFragment.newInstance(dialogTitle);
-        newFragment.show(ft, FileManagerFragment.TAG);
+//        FragmentTransaction ft = fragmentManager.beginTransaction();
+//        Fragment prev = fragmentManager.findFragmentByTag(FileManagerFragment.TAG);
+//        if (prev != null) {
+//            ft.remove(prev);
+//        }
+//        ft.addToBackStack(null);
+//
+//        // Create and show the dialog.
+//        DialogFragment newFragment = FileManagerFragment.newInstance(dialogTitle);
+//        newFragment.show(ft, FileManagerFragment.TAG);
     }
 
     /**
@@ -74,21 +73,21 @@ public class WMFileManagerDialog {
     public static void chooseFileByMimeType(@NonNull FragmentManager fragmentManager, Fragment targetFragment, @NonNull String dialogTitle, @Nullable String... mimeTypes) {
         // set restrictions
         setRestrictionForMimeTypes(mimeTypes);
-
-        FragmentTransaction ft = fragmentManager.beginTransaction();
-        Fragment prev = fragmentManager.findFragmentByTag(FileManagerFragment.TAG);
-        if (prev != null) {
-            ft.remove(prev);
-        }
-        ft.addToBackStack(null);
-
-        // Create and show the dialog.
-        DialogFragment newFragment = FileManagerFragment.newInstance(dialogTitle);
-
-        if (targetFragment != null)
-            newFragment.setTargetFragment(targetFragment, 0);
-
-        newFragment.show(ft, FileManagerFragment.TAG);
+//
+//        FragmentTransaction ft = fragmentManager.beginTransaction();
+//        Fragment prev = fragmentManager.findFragmentByTag(FileManagerFragment.TAG);
+//        if (prev != null) {
+//            ft.remove(prev);
+//        }
+//        ft.addToBackStack(null);
+//
+//        // Create and show the dialog.
+//        DialogFragment newFragment = FileManagerFragment.newInstance(dialogTitle);
+//
+//        if (targetFragment != null)
+//            newFragment.setTargetFragment(targetFragment, 0);
+//
+//        newFragment.show(ft, FileManagerFragment.TAG);
     }
 
     private static void setRestrictionOnlyDirectory() {
