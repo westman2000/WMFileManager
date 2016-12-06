@@ -12,6 +12,7 @@
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingBottom="@dimen/wm_fm_default_margin"
         android:background="@android:color/white"
         tools:context=".ui.FileManagerActivity">
 
@@ -37,6 +38,11 @@
 
             </android.support.design.widget.CollapsingToolbarLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@drawable/list_divider"/>
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/breadCrumbList"
                 android:layout_width="match_parent"
@@ -46,6 +52,11 @@
                 android:paddingEnd="@dimen/wm_fm_default_margin"
                 android:paddingRight="@dimen/wm_fm_default_margin"
                 app:adapter="@{breadCrumbAdapter}"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@drawable/list_divider"/>
 
         </android.support.design.widget.AppBarLayout>
 

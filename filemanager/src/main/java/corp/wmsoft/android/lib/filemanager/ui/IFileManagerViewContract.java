@@ -36,8 +36,6 @@ public interface IFileManagerViewContract {
         void directoryChanged(String dir);
 
         void selectMountPoint(MountPoint mountPoint);
-
-        boolean goBack();
     }
 
     interface Presenter extends IMVPCPresenter<View> {
@@ -77,6 +75,10 @@ public interface IFileManagerViewContract {
 
         String                          getCurrentDir();
 
+        /**
+         * Go to parent folder
+         * @return true if was handled, moved to previous path, false otherwise
+         */
         boolean                         onGoBack();
 
         @Keep

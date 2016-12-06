@@ -95,6 +95,15 @@ public class FileManagerActivity extends MVPCAppCompatActivity<IFileManagerViewC
     }
 
     @Override
+    public void onBackPressed() {
+
+        if (getPresenter().onGoBack())
+            return;
+
+        super.onBackPressed();
+    }
+
+    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -110,6 +119,7 @@ public class FileManagerActivity extends MVPCAppCompatActivity<IFileManagerViewC
         mGridLayoutManager = new GridLayoutManager(this, getResources().getInteger(R.integer.wm_fm_default_grid_columns));
         // create item decoration for fso list
         mDividerItemDecoration = new DividerItemDecoration(this, LinearLayoutManager.VERTICAL);
+        mDividerItemDecoration.setDrawable(ContextCompat.getDrawable(this, R.drawable.list_divider));
         // создаем кастомный разделитель из картинки в виде стрелочки
         breadCrumbDividerItemDecoration = new DividerItemDecoration(this, LinearLayoutManager.HORIZONTAL);
         breadCrumbDividerItemDecoration.setDrawable(AndroidHelper.getVectorDrawable(this, R.drawable.wm_fm_ic_chevron_right_24dp));
@@ -172,6 +182,7 @@ public class FileManagerActivity extends MVPCAppCompatActivity<IFileManagerViewC
 
         mountPoints = viewModel.mountPoints;
         mountPoints.addOnListChangedCallback(mountPointsListCallback);
+        binding.mountPoints.removeAllTabs();
         addMountPointTabItems(mountPoints, 0, mountPoints.size());
     }
 
@@ -179,13 +190,13 @@ public class FileManagerActivity extends MVPCAppCompatActivity<IFileManagerViewC
     public void showAsList() {
         // use a linear layout manager for simple and details mode
         binding.fsoList.setLayoutManager(mVerticalLinearLayoutManager);
-//        binding.fsoList.addItemDecoration(mDividerItemDecoration);
+        binding.fsoList.addItemDecoration(mDividerItemDecoration);
     }
 
     @Override
     public void showAsGrid() {
         binding.fsoList.setLayoutManager(mGridLayoutManager);
-//        binding.fsoList.removeItemDecoration(mDividerItemDecoration);
+        binding.fsoList.removeItemDecoration(mDividerItemDecoration);
     }
 
     @Override
@@ -214,11 +225,6 @@ public class FileManagerActivity extends MVPCAppCompatActivity<IFileManagerViewC
                 }
             }
         }
-    }
-
-    @Override
-    public boolean goBack() {
-        return getPresenter().onGoBack();
     }
 
     @Override
