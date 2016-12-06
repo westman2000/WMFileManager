@@ -9,104 +9,191 @@
         <variable name="viewModel" type="corp.wmsoft.android.lib.filemanager.ui.FileManagerViewModel"/>
     </data>
 
-    <android.support.design.widget.CoordinatorLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingBottom="@dimen/wm_fm_default_margin"
-        android:background="@android:color/white"
-        tools:context=".ui.FileManagerActivity">
+        android:paddingBottom="@dimen/wm_fm_default_margin">
 
-        <android.support.design.widget.AppBarLayout
-            android:id="@+id/app_bar"
+        <FrameLayout
+            android:id="@+id/saveField"
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/white"
-            android:theme="@style/WMFMAppTheme.AppBarOverlay">
+            android:layout_height="56dp"
+            android:layout_alignParentBottom="true"
+            android:visibility="gone">
 
-            <android.support.design.widget.CollapsingToolbarLayout
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed">
+                android:layout_height="1px"
+                android:background="@drawable/wm_fm_list_divider"/>
 
-                <RelativeLayout
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingRight="56dp"
+                android:paddingEnd="56dp"
+                tools:ignore="RtlSymmetry">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/fileNameToSave"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:lines="1"
+                    android:singleLine="true"
+                    android:hint="@string/wm_fm_hint_file_name"/>
 
-                    <ImageButton
-                        android:id="@+id/moreAction"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:minWidth="48dp"
-                        app:srcCompat="@drawable/wm_fm_ic_more_vert_24dp"
-                        android:clickable="true"
-                        android:background="?attr/selectableItemBackground"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:contentDescription="more actions icon"
-                        tools:ignore="HardcodedText" />
+            </android.support.design.widget.TextInputLayout>
 
-                    <android.support.design.widget.TabLayout
-                        android:id="@+id/mountPoints"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentStart="true"
-                        android:layout_toLeftOf="@id/moreAction"
-                        android:layout_toStartOf="@id/moreAction"
-                        app:tabGravity="fill"
-                        app:tabMode="scrollable"
-                        app:tabIndicatorColor="@color/wm_fm_colorAccent"/>
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fabSave"
+                app:srcCompat="@drawable/wm_fm_ic_save_24dp"
+                app:fabSize="mini"
+                android:layout_marginEnd="@dimen/wm_fm_extra_margin"
+                android:layout_marginRight="@dimen/wm_fm_extra_margin"
+                android:layout_gravity="center_vertical|end"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
-                </RelativeLayout>
+        </FrameLayout>
 
-            </android.support.design.widget.CollapsingToolbarLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:background="@drawable/wm_fm_list_divider"/>
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/breadCrumbList"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/wm_fm_breadcrumb_item_min_size"
-                android:paddingStart="@dimen/wm_fm_default_margin"
-                android:paddingLeft="@dimen/wm_fm_default_margin"
-                android:paddingEnd="@dimen/wm_fm_default_margin"
-                android:paddingRight="@dimen/wm_fm_default_margin"
-                app:adapter="@{breadCrumbAdapter}"/>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:background="@drawable/wm_fm_list_divider"/>
-
-        </android.support.design.widget.AppBarLayout>
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/fsoList"
+        <android.support.design.widget.CoordinatorLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            app:adapter="@{fsoAdapter}"/>
+            android:layout_alignParentTop="true"
+            android:layout_above="@id/saveField"
+            android:background="@android:color/white"
+            tools:context=".ui.FileManagerActivity">
 
-        <ProgressBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:visibility="@{viewModel.isLoading ? View.VISIBLE : View.GONE}"/>
+            <android.support.design.widget.AppBarLayout
+                android:id="@+id/app_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"
+                android:theme="@style/WMFMAppTheme.AppBarOverlay">
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab"
-            app:srcCompat="@drawable/wm_fm_ic_done_24dp"
-            app:fabSize="normal"
-            android:visibility="gone"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="16dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+                <android.support.design.widget.CollapsingToolbarLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-    </android.support.design.widget.CoordinatorLayout>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:id="@+id/actionButtons"
+                            android:orientation="horizontal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_centerVertical="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_alignParentEnd="true">
+
+                            <ImageButton
+                                android:id="@+id/newFolderAction"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:minWidth="42dp"
+                                android:minHeight="42dp"
+                                app:srcCompat="@drawable/wm_fm_ic_create_new_folder_24dp"
+                                android:clickable="true"
+                                android:background="?attr/selectableItemBackground"
+                                android:contentDescription="more actions icon"
+                                android:visibility="gone"
+                                tools:ignore="HardcodedText" />
+
+                            <ImageButton
+                                android:id="@+id/moreAction"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:minWidth="42dp"
+                                android:minHeight="42dp"
+                                app:srcCompat="@drawable/wm_fm_ic_more_vert_24dp"
+                                android:clickable="true"
+                                android:background="?attr/selectableItemBackground"
+                                android:contentDescription="more actions icon"
+                                tools:ignore="HardcodedText" />
+
+                            <ImageButton
+                                android:id="@+id/closeDialogAction"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:minWidth="42dp"
+                                android:minHeight="42dp"
+                                app:srcCompat="@drawable/wm_fm_ic_close_24dp"
+                                android:clickable="true"
+                                android:background="?attr/selectableItemBackground"
+                                android:contentDescription="close dialog"
+                                tools:ignore="HardcodedText" />
+
+                        </LinearLayout>
+
+                        <android.support.design.widget.TabLayout
+                            android:id="@+id/mountPoints"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true"
+                            android:layout_toLeftOf="@id/actionButtons"
+                            android:layout_toStartOf="@id/actionButtons"
+                            app:tabGravity="fill"
+                            app:tabMode="scrollable"
+                            app:tabIndicatorColor="@color/wm_fm_colorAccent"/>
+
+                    </RelativeLayout>
+
+                </android.support.design.widget.CollapsingToolbarLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@drawable/wm_fm_list_divider"/>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/breadCrumbList"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/wm_fm_breadcrumb_item_min_size"
+                    android:paddingStart="@dimen/wm_fm_default_margin"
+                    android:paddingLeft="@dimen/wm_fm_default_margin"
+                    android:paddingEnd="@dimen/wm_fm_default_margin"
+                    android:paddingRight="@dimen/wm_fm_default_margin"
+                    app:adapter="@{breadCrumbAdapter}"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@drawable/wm_fm_list_divider"/>
+
+            </android.support.design.widget.AppBarLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/fsoList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                app:adapter="@{fsoAdapter}"/>
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="@{viewModel.isLoading ? View.VISIBLE : View.GONE}"/>
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab"
+                app:srcCompat="@drawable/wm_fm_ic_done_24dp"
+                app:fabSize="normal"
+                android:visibility="gone"
+                android:layout_gravity="bottom|end"
+                android:layout_margin="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </android.support.design.widget.CoordinatorLayout>
+
+    </RelativeLayout>
+
+
 
 </layout>

@@ -2,6 +2,7 @@ package corp.wmsoft.android.lib.filemanager.ui;
 
 import android.Manifest;
 import android.annotation.TargetApi;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
@@ -14,14 +15,18 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import java.util.List;
@@ -55,9 +60,11 @@ public class FileManagerActivity extends MVPCAppCompatActivity<IFileManagerViewC
     public static final String EXTRA_RESULT = "EXTRA_RESULT";
     /**/
     public static final String EXTRA_TYPE = "EXTRA_TYPE";
+    public static final String EXTRA_DEFAULT_FILE_NAME = "EXTRA_DEFAULT_FILE_NAME";
     /**/
     public static final int TYPE_DIRECTORY_ONLY = 100;
     public static final int TYPE_FILE_PICKER = 200;
+    public static final int TYPE_SAVE_FILE = 300;
 
     /**/
     private static final int FILE_MANAGER_PERMISSIONS_REQUEST   = 123;
@@ -115,20 +122,17 @@ public class FileManagerActivity extends MVPCAppCompatActivity<IFileManagerViewC
 
         binding = DataBindingUtil.setContentView(this, R.layout.wm_fm_file_manager_view_layout);
 
-        if (getIntent().getIntExtra(EXTRA_TYPE, 0) == TYPE_DIRECTORY_ONLY) {
-            binding.fab.setVisibility(View.VISIBLE);
-            binding.fab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    sendResultAndFinish(getPresenter().getCurrentDir());
-                }
-            });
-        }
-
         binding.moreAction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 showPopup(view);
+            }
+        });
+
+        binding.closeDialogAction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
             }
         });
 
@@ -394,6 +398,42 @@ public class FileManagerActivity extends MVPCAppCompatActivity<IFileManagerViewC
         binding.setBreadCrumbAdapter(breadCrumbAdapter);
 
         binding.mountPoints.addOnTabSelectedListener(onTabSelectedListener);
+
+        initViewItemsByType();
+    }
+
+    private void initViewItemsByType() {
+        if (getIntent().getIntExtra(EXTRA_TYPE, 0) == TYPE_DIRECTORY_ONLY) {
+            binding.fab.setVisibility(View.VISIBLE);
+            binding.newFolderAction.setVisibility(View.VISIBLE);
+        }
+
+        if (getIntent().getIntExtra(EXTRA_TYPE, 0) == TYPE_SAVE_FILE) {
+            binding.saveField.setVisibility(View.VISIBLE);
+            binding.fileNameToSave.setText(getIntent().getStringExtra(EXTRA_DEFAULT_FILE_NAME));
+            binding.newFolderAction.setVisibility(View.VISIBLE);
+        }
+
+        binding.fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sendResultAndFinish(getPresenter().getCurrentDir());
+            }
+        });
+
+        binding.newFolderAction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showCreateNewFolderDialog();
+            }
+        });
+
+        binding.fabSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG, "onClick: fabSave");
+            }
+        });
     }
 
     private TabLayout.OnTabSelectedListener onTabSelectedListener = new TabLayout.OnTabSelectedListener() {
@@ -500,5 +540,36 @@ public class FileManagerActivity extends MVPCAppCompatActivity<IFileManagerViewC
             menu.findItem(R.id.action_sort_by_type_desc).setChecked(true);
     }
 
+    private void showCreateNewFolderDialog() { // https://developer.android.com/guide/topics/ui/dialogs.html
+        Log.d(TAG, "showCreateNewFolderDialog()");
+        AlertDialog.Builder builder = new AlertDialog.Builder(FileManagerActivity.this);
+        builder.setTitle(R.string.wm_fm_hint_new_folder);
+        builder.setNegativeButton(android.R.string.cancel, null);
+        builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+
+        // Get the layout inflater
+        LayoutInflater inflater = getLayoutInflater();
+
+        // Inflate and set the layout for the dialog
+        // Pass null as the parent view because its going in the dialog layout
+        View customView = inflater.inflate(R.layout.wm_fm_create_new_folder, null);
+        builder.setView(customView);
+
+        final AlertDialog dialog = builder.create();
+
+        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+                dialog.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(false);
+            }
+        });
+
+        dialog.show();
+    }
 
 }

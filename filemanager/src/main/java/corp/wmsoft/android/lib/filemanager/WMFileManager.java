@@ -61,6 +61,22 @@ public class WMFileManager {
     }
 
     /**
+     * Show dialog "Save As...". Implement {@link Activity#onActivityResult(int, int, Intent)} to get result
+     * @param activity activity to handle result
+     * @param defaultFileName default file name
+     */
+    public static void showFileSaveAsDialog(Activity activity, @Nullable String defaultFileName) {
+
+        // set restrictions
+        setRestrictionOnlyDirectory();
+
+        Intent intent = new Intent(activity, FileManagerActivity.class);
+        intent.putExtra(FileManagerActivity.EXTRA_TYPE, FileManagerActivity.TYPE_SAVE_FILE);
+        intent.putExtra(FileManagerActivity.EXTRA_DEFAULT_FILE_NAME, defaultFileName);
+        activity.startActivityForResult(intent, FileManagerActivity.REQUEST_CODE);
+    }
+
+    /**
      * Show dialog to pick file. Implement {@link Activity#onActivityResult(int, int, Intent)} to get result
      * @param activity activity
      * @param mimeTypes show only this file types
@@ -96,11 +112,13 @@ public class WMFileManager {
     // "tox/x-profile"
     private static void setRestrictionForMimeTypes(@Nullable String... mimeTypes) {
 
-        if (mimeTypes == null) return;
-
-        if (mimeTypes.length == 0) return;
-
         SparseArray<Object> restrictions = new SparseArray<>();
+
+        if (mimeTypes == null) {
+            FileHelper.setRestrictions(restrictions);
+            return;
+        }
+
         for (String mimeType : mimeTypes) {
             restrictions.put(IFileManagerDisplayRestrictions.MIME_TYPE_RESTRICTION, mimeType);
         }

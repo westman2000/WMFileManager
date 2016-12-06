@@ -39,6 +39,18 @@
             android:layout_height="wrap_content"
             android:text="file picker by mime type (from activity)"/>
 
+        <Button
+            android:id="@+id/filePickerAll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="file picker all (from activity)"/>
+
+        <Button
+            android:id="@+id/saveAsDialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="save as (from activity)"/>
+
         <FrameLayout
             android:id="@+id/contentPanel"
             android:layout_width="match_parent"

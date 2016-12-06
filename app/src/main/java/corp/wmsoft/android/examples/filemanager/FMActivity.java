@@ -45,6 +45,19 @@ public class FMActivity extends AppCompatActivity {
                 WMFileManager.showAsFilePicker(FMActivity.this, "image/jpeg");
             }
         });
+        findViewById(R.id.filePickerAll).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //noinspection ConfusingArgumentToVarargsMethod
+                WMFileManager.showAsFilePicker(FMActivity.this, null);
+            }
+        });
+        findViewById(R.id.saveAsDialog).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                WMFileManager.showFileSaveAsDialog(FMActivity.this, "test file name.txt");
+            }
+        });
     }
 
     @Override

@@ -2,6 +2,10 @@
 <resources>
     <string name="wm_fm_app_name">File Manager</string>
 
+    <!-- Hints -->
+    <string name="wm_fm_hint_file_name">File name</string>
+    <string name="wm_fm_hint_new_folder">New folder</string>
+
     <!-- Date/time format order (%1$s: date; %2$s: time) -->
     <string name="wm_fm_datetime_format_order">%1$s %2$s</string>
 

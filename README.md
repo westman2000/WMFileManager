@@ -20,3 +20,11 @@ on jcenter:
 ```
 compile 'corp.wmsoft.android.lib:filemanager:+'
 ```
+
+You can override colorAccent used in library, by override color:
+
+**colors.xml**
+
+```
+<color name="wm_fm_colorAccent">#ff33bc14</color>
+```
