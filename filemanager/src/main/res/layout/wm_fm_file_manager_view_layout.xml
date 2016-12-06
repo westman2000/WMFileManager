@@ -21,27 +21,51 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/white"
-            android:theme="@style/AppTheme.AppBarOverlay">
+            android:theme="@style/WMFMAppTheme.AppBarOverlay">
 
             <android.support.design.widget.CollapsingToolbarLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-                <android.support.design.widget.TabLayout
-                    android:id="@+id/mountPoints"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:tabGravity="fill"
-                    app:tabMode="scrollable"
-                    app:tabIndicatorColor="@color/wm_fm_colorAccent"/>
+                    android:layout_height="wrap_content">
+
+                    <ImageButton
+                        android:id="@+id/moreAction"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:minWidth="48dp"
+                        app:srcCompat="@drawable/wm_fm_ic_more_vert_24dp"
+                        android:clickable="true"
+                        android:background="?attr/selectableItemBackground"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:contentDescription="more actions icon"
+                        tools:ignore="HardcodedText" />
+
+                    <android.support.design.widget.TabLayout
+                        android:id="@+id/mountPoints"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_toLeftOf="@id/moreAction"
+                        android:layout_toStartOf="@id/moreAction"
+                        app:tabGravity="fill"
+                        app:tabMode="scrollable"
+                        app:tabIndicatorColor="@color/wm_fm_colorAccent"/>
+
+                </RelativeLayout>
 
             </android.support.design.widget.CollapsingToolbarLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="@drawable/list_divider"/>
+                android:background="@drawable/wm_fm_list_divider"/>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/breadCrumbList"
@@ -56,7 +80,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="@drawable/list_divider"/>
+                android:background="@drawable/wm_fm_list_divider"/>
 
         </android.support.design.widget.AppBarLayout>
 
@@ -72,6 +96,16 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:visibility="@{viewModel.isLoading ? View.VISIBLE : View.GONE}"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            app:srcCompat="@drawable/wm_fm_ic_done_24dp"
+            app:fabSize="normal"
+            android:visibility="gone"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
     </android.support.design.widget.CoordinatorLayout>
 

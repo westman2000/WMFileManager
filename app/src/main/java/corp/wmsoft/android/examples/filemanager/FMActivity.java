@@ -1,20 +1,21 @@
 package corp.wmsoft.android.examples.filemanager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 
-import corp.wmsoft.android.lib.filemanager.IOnChooseDirectoryListener;
-import corp.wmsoft.android.lib.filemanager.WMFileManagerDialog;
+import corp.wmsoft.android.lib.filemanager.WMFileManager;
 import corp.wmsoft.android.lib.filemanager.ui.FileManagerActivity;
 
 
 public class FMActivity extends AppCompatActivity {
 
     private static final String TAG = "wmfm:FMActivity";
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,34 +32,30 @@ public class FMActivity extends AppCompatActivity {
                     .replace(R.id.contentPanel, MainActivityFragment.newInstance())
                     .commit();
         }
+
+        findViewById(R.id.dirChooser).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                WMFileManager.showAsDirectoryChooser(FMActivity.this);
+            }
+        });
+        findViewById(R.id.filePickerByMimeType).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                WMFileManager.showAsFilePicker(FMActivity.this, "image/jpeg");
+            }
+        });
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_fm, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_show_as_dialog) {
-            FileManagerActivity.startAsDialogActivity(this, "_activity_dialog_title_");
-            return true;
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Check which request we're responding to
+        if (requestCode == FileManagerActivity.REQUEST_CODE) {
+            // Make sure the request was successful
+            if (resultCode == RESULT_OK) {
+                Toast.makeText(this, data.getStringExtra(FileManagerActivity.EXTRA_RESULT), Toast.LENGTH_SHORT).show();
+            }
         }
-
-        return super.onOptionsItemSelected(item);
     }
-
-//    @Override
-//    public void onDirectorySelected(String dir) {
-//        Log.d(TAG, "onDirectoryChanged: "+dir);
-//    }
 
 }

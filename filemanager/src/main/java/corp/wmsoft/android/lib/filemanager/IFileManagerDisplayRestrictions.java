@@ -1,11 +1,11 @@
 package corp.wmsoft.android.lib.filemanager;
 
 import android.support.annotation.IntDef;
-import android.support.annotation.Keep;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+
 
 /**
  * An enumeration of the restrictions that can be applied when displaying list of files.

@@ -2,7 +2,6 @@ package corp.wmsoft.android.lib.filemanager.ui;
 
 import android.Manifest;
 import android.annotation.TargetApi;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
@@ -18,12 +17,18 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
 import java.util.List;
 
+import corp.wmsoft.android.lib.filemanager.IFileManagerFileTimeFormat;
 import corp.wmsoft.android.lib.filemanager.IFileManagerNavigationMode;
+import corp.wmsoft.android.lib.filemanager.IFileManagerSortMode;
 import corp.wmsoft.android.lib.filemanager.R;
 import corp.wmsoft.android.lib.filemanager.adapters.BreadCrumbAdapter;
 import corp.wmsoft.android.lib.filemanager.adapters.FSOViewModelAdapter;
@@ -39,13 +44,20 @@ import corp.wmsoft.android.lib.mvpcrx.presenter.factory.IMVPCPresenterFactory;
 /**
  *
  */
-public class FileManagerActivity extends MVPCAppCompatActivity<IFileManagerViewContract.View, IFileManagerViewContract.Presenter> implements IFileManagerViewContract.View, IBreadCrumbListener {
+public class FileManagerActivity extends MVPCAppCompatActivity<IFileManagerViewContract.View, IFileManagerViewContract.Presenter> implements IFileManagerViewContract.View, IBreadCrumbListener, PopupMenu.OnMenuItemClickListener {
 
     /**/
     private static final String TAG = "wmfm::Activity";
 
     /**/
-    public static final String EXTRA_TITLE = "EXTRA_TITLE";
+    public static final int REQUEST_CODE = 926;
+    /**/
+    public static final String EXTRA_RESULT = "EXTRA_RESULT";
+    /**/
+    public static final String EXTRA_TYPE = "EXTRA_TYPE";
+    /**/
+    public static final int TYPE_DIRECTORY_ONLY = 100;
+    public static final int TYPE_FILE_PICKER = 200;
 
     /**/
     private static final int FILE_MANAGER_PERMISSIONS_REQUEST   = 123;
@@ -88,12 +100,6 @@ public class FileManagerActivity extends MVPCAppCompatActivity<IFileManagerViewC
             };
 
 
-    public static void startAsDialogActivity(Context context, String title) {
-        Intent intent = new Intent(context, FileManagerActivity.class);
-        intent.putExtra(EXTRA_TITLE, title);
-        context.startActivity(intent);
-    }
-
     @Override
     public void onBackPressed() {
 
@@ -109,6 +115,23 @@ public class FileManagerActivity extends MVPCAppCompatActivity<IFileManagerViewC
 
         binding = DataBindingUtil.setContentView(this, R.layout.wm_fm_file_manager_view_layout);
 
+        if (getIntent().getIntExtra(EXTRA_TYPE, 0) == TYPE_DIRECTORY_ONLY) {
+            binding.fab.setVisibility(View.VISIBLE);
+            binding.fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    sendResultAndFinish(getPresenter().getCurrentDir());
+                }
+            });
+        }
+
+        binding.moreAction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showPopup(view);
+            }
+        });
+
         // create adapters
         fsoViewModelAdapter = new FSOViewModelAdapter();
         breadCrumbAdapter = new BreadCrumbAdapter(this);
@@ -119,7 +142,7 @@ public class FileManagerActivity extends MVPCAppCompatActivity<IFileManagerViewC
         mGridLayoutManager = new GridLayoutManager(this, getResources().getInteger(R.integer.wm_fm_default_grid_columns));
         // create item decoration for fso list
         mDividerItemDecoration = new DividerItemDecoration(this, LinearLayoutManager.VERTICAL);
-        mDividerItemDecoration.setDrawable(ContextCompat.getDrawable(this, R.drawable.list_divider));
+        mDividerItemDecoration.setDrawable(ContextCompat.getDrawable(this, R.drawable.wm_fm_list_divider));
         // создаем кастомный разделитель из картинки в виде стрелочки
         breadCrumbDividerItemDecoration = new DividerItemDecoration(this, LinearLayoutManager.HORIZONTAL);
         breadCrumbDividerItemDecoration.setDrawable(AndroidHelper.getVectorDrawable(this, R.drawable.wm_fm_ic_chevron_right_24dp));
@@ -133,7 +156,6 @@ public class FileManagerActivity extends MVPCAppCompatActivity<IFileManagerViewC
 
         binding.setFsoAdapter(null);
         binding.setBreadCrumbAdapter(null);
-        fsoViewModelAdapter.onDestroy();
         breadCrumbAdapter.onDestroy();
 
         binding.mountPoints.removeOnTabSelectedListener(onTabSelectedListener);
@@ -167,6 +189,77 @@ public class FileManagerActivity extends MVPCAppCompatActivity<IFileManagerViewC
             fsoViewModelAdapter.setPresenter(presenter);
         if (breadCrumbAdapter != null)
             breadCrumbAdapter.setPresenter(presenter);
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_icons) {
+            setNavigationMode(IFileManagerNavigationMode.ICONS);
+            return true;
+        } else if (id == R.id.action_simple) {
+            setNavigationMode(IFileManagerNavigationMode.SIMPLE);
+            return true;
+        } else if (id == R.id.action_details) {
+            setNavigationMode(IFileManagerNavigationMode.DETAILS);
+            return true;
+        } else if (id == R.id.action_system) {
+            getPresenter().onSetTimeFormat(IFileManagerFileTimeFormat.SYSTEM);
+            return true;
+        } else if (id == R.id.action_locale) {
+            getPresenter().onSetTimeFormat(IFileManagerFileTimeFormat.LOCALE);
+            return true;
+        } else if (id == R.id.action_ddmmyyyy) {
+            getPresenter().onSetTimeFormat(IFileManagerFileTimeFormat.DDMMYYYY_HHMMSS);
+            return true;
+        } else if (id == R.id.action_mmddyyyy) {
+            getPresenter().onSetTimeFormat(IFileManagerFileTimeFormat.MMDDYYYY_HHMMSS);
+            return true;
+        } else if (id == R.id.action_yyyymmdd) {
+            getPresenter().onSetTimeFormat(IFileManagerFileTimeFormat.YYYYMMDD_HHMMSS);
+            return true;
+        } else if (id == R.id.action_is_show_hidden) {
+            item.setChecked(!item.isChecked());
+            getPresenter().setShowHidden(item.isChecked());
+            return true;
+        } else if (id == R.id.action_dirs_first) {
+            item.setChecked(!item.isChecked());
+            getPresenter().setShowDirsFirst(item.isChecked());
+            return true;
+        } else if (id == R.id.action_show_thumbs) {
+            item.setChecked(!item.isChecked());
+            getPresenter().setShowThumbs(item.isChecked());
+            fsoViewModelAdapter.notifyDataSetChanged();
+            return true;
+        } else if (id == R.id.action_sort_by_name_asc) {
+            getPresenter().setSortMode(IFileManagerSortMode.NAME_ASC);
+            return true;
+        } else if (id == R.id.action_sort_by_name_desc) {
+            getPresenter().setSortMode(IFileManagerSortMode.NAME_DESC);
+            return true;
+        } else if (id == R.id.action_sort_by_date_asc) {
+            getPresenter().setSortMode(IFileManagerSortMode.DATE_ASC);
+            return true;
+        } else if (id == R.id.action_sort_by_date_desc) {
+            getPresenter().setSortMode(IFileManagerSortMode.DATE_DESC);
+            return true;
+        } else if (id == R.id.action_sort_by_size_asc) {
+            getPresenter().setSortMode(IFileManagerSortMode.SIZE_ASC);
+            return true;
+        } else if (id == R.id.action_sort_by_size_desc) {
+            getPresenter().setSortMode(IFileManagerSortMode.SIZE_DESC);
+            return true;
+        } else if (id == R.id.action_sort_by_type_asc) {
+            getPresenter().setSortMode(IFileManagerSortMode.TYPE_ASC);
+            return true;
+        } else if (id == R.id.action_sort_by_type_desc) {
+            getPresenter().setSortMode(IFileManagerSortMode.TYPE_DESC);
+            return true;
+        }
+
+
+        return false;
     }
 
     @Override
@@ -206,6 +299,7 @@ public class FileManagerActivity extends MVPCAppCompatActivity<IFileManagerViewC
 
     @Override
     public void filePicked(String file) {
+        sendResultAndFinish(file);
     }
 
     @Override
@@ -345,4 +439,66 @@ public class FileManagerActivity extends MVPCAppCompatActivity<IFileManagerViewC
         }
 
     }
+
+    private void sendResultAndFinish(String result) {
+        Intent intent = new Intent();
+        intent.putExtra(EXTRA_RESULT, result);
+        setResult(RESULT_OK, intent);
+        finish();
+    }
+
+    private void showPopup(View anchorView) {
+        PopupMenu popup = new PopupMenu(this, anchorView);
+        MenuInflater inflater = popup.getMenuInflater();
+        inflater.inflate(R.menu.file_manager, popup.getMenu());
+
+        preparePopupMenu(popup.getMenu());
+        // This activity implements OnMenuItemClickListener
+        popup.setOnMenuItemClickListener(this);
+
+        popup.show();
+    }
+
+    private void preparePopupMenu(Menu menu) {
+        if (getNavigationMode() == IFileManagerNavigationMode.ICONS)
+            menu.findItem(R.id.action_icons).setChecked(true);
+        else if (getNavigationMode() == IFileManagerNavigationMode.SIMPLE)
+            menu.findItem(R.id.action_simple).setChecked(true);
+        else if (getNavigationMode() == IFileManagerNavigationMode.DETAILS)
+            menu.findItem(R.id.action_details).setChecked(true);
+
+        if (getPresenter().getCurrentFileTimeFormat() == IFileManagerFileTimeFormat.SYSTEM)
+            menu.findItem(R.id.action_system).setChecked(true);
+        else if (getPresenter().getCurrentFileTimeFormat() == IFileManagerFileTimeFormat.LOCALE)
+            menu.findItem(R.id.action_locale).setChecked(true);
+        else if (getPresenter().getCurrentFileTimeFormat() == IFileManagerFileTimeFormat.DDMMYYYY_HHMMSS)
+            menu.findItem(R.id.action_ddmmyyyy).setChecked(true);
+        else if (getPresenter().getCurrentFileTimeFormat() == IFileManagerFileTimeFormat.MMDDYYYY_HHMMSS)
+            menu.findItem(R.id.action_mmddyyyy).setChecked(true);
+        else if (getPresenter().getCurrentFileTimeFormat() == IFileManagerFileTimeFormat.YYYYMMDD_HHMMSS)
+            menu.findItem(R.id.action_yyyymmdd).setChecked(true);
+
+        menu.findItem(R.id.action_is_show_hidden).setChecked(getPresenter().isShowHidden());
+        menu.findItem(R.id.action_dirs_first).setChecked(getPresenter().isShowDirsFirst());
+        menu.findItem(R.id.action_show_thumbs).setChecked(getPresenter().isShowThumbs());
+
+        if (getPresenter().getSortMode() == IFileManagerSortMode.NAME_ASC)
+            menu.findItem(R.id.action_sort_by_name_asc).setChecked(true);
+        else if (getPresenter().getSortMode() == IFileManagerSortMode.NAME_DESC)
+            menu.findItem(R.id.action_sort_by_name_desc).setChecked(true);
+        else if (getPresenter().getSortMode() == IFileManagerSortMode.DATE_ASC)
+            menu.findItem(R.id.action_sort_by_date_asc).setChecked(true);
+        else if (getPresenter().getSortMode() == IFileManagerSortMode.DATE_DESC)
+            menu.findItem(R.id.action_sort_by_date_desc).setChecked(true);
+        else if (getPresenter().getSortMode() == IFileManagerSortMode.SIZE_ASC)
+            menu.findItem(R.id.action_sort_by_size_asc).setChecked(true);
+        else if (getPresenter().getSortMode() == IFileManagerSortMode.SIZE_DESC)
+            menu.findItem(R.id.action_sort_by_size_desc).setChecked(true);
+        else if (getPresenter().getSortMode() == IFileManagerSortMode.TYPE_ASC)
+            menu.findItem(R.id.action_sort_by_type_asc).setChecked(true);
+        else if (getPresenter().getSortMode() == IFileManagerSortMode.TYPE_DESC)
+            menu.findItem(R.id.action_sort_by_type_desc).setChecked(true);
+    }
+
+
 }

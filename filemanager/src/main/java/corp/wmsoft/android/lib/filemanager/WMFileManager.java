@@ -1,12 +1,18 @@
 package corp.wmsoft.android.lib.filemanager;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.Keep;
+import android.support.annotation.Nullable;
 import android.util.Log;
+import android.util.SparseArray;
 
 import java.lang.ref.WeakReference;
 
+import corp.wmsoft.android.lib.filemanager.ui.FileManagerActivity;
+import corp.wmsoft.android.lib.filemanager.util.FileHelper;
 import corp.wmsoft.android.lib.filemanager.util.MimeTypeHelper;
 import corp.wmsoft.android.lib.filemanager.util.PreferencesHelper;
 
@@ -41,6 +47,35 @@ public class WMFileManager {
     }
 
     /**
+     * Show dialog to choose folder. Implement {@link Activity#onActivityResult(int, int, Intent)} to get result
+     * @param activity activity
+     */
+    public static void showAsDirectoryChooser(Activity activity) {
+
+        // set restrictions
+        setRestrictionOnlyDirectory();
+
+        Intent intent = new Intent(activity, FileManagerActivity.class);
+        intent.putExtra(FileManagerActivity.EXTRA_TYPE, FileManagerActivity.TYPE_DIRECTORY_ONLY);
+        activity.startActivityForResult(intent, FileManagerActivity.REQUEST_CODE);
+    }
+
+    /**
+     * Show dialog to pick file. Implement {@link Activity#onActivityResult(int, int, Intent)} to get result
+     * @param activity activity
+     * @param mimeTypes show only this file types
+     */
+    public static void showAsFilePicker(Activity activity, @Nullable String... mimeTypes) {
+
+        // set restrictions
+        setRestrictionForMimeTypes(mimeTypes);
+
+        Intent intent = new Intent(activity, FileManagerActivity.class);
+        intent.putExtra(FileManagerActivity.EXTRA_TYPE, FileManagerActivity.TYPE_FILE_PICKER);
+        activity.startActivityForResult(intent, FileManagerActivity.REQUEST_CODE);
+    }
+
+    /**
      * Get application context
      * @return application context
      */
@@ -51,4 +86,31 @@ public class WMFileManager {
         return mWeakApplicationContext.get();
     }
 
+    private static void setRestrictionOnlyDirectory() {
+        SparseArray<Object> restrictions = new SparseArray<>();
+        restrictions.put(IFileManagerDisplayRestrictions.DIRECTORY_ONLY_RESTRICTION, true);
+        FileHelper.setRestrictions(restrictions);
+    }
+
+    // "application/x-bittorrent"
+    // "tox/x-profile"
+    private static void setRestrictionForMimeTypes(@Nullable String... mimeTypes) {
+
+        if (mimeTypes == null) return;
+
+        if (mimeTypes.length == 0) return;
+
+        SparseArray<Object> restrictions = new SparseArray<>();
+        for (String mimeType : mimeTypes) {
+            restrictions.put(IFileManagerDisplayRestrictions.MIME_TYPE_RESTRICTION, mimeType);
+        }
+
+        FileHelper.setRestrictions(restrictions);
+    }
+
+    private static SparseArray createRestrictionForMimeTypeCategory(MimeTypeHelper.MimeTypeCategory mimeTypeCategory) {
+        SparseArray<Object> restrictions = new SparseArray<>();
+        restrictions.put(IFileManagerDisplayRestrictions.CATEGORY_TYPE_RESTRICTION, mimeTypeCategory);
+        return restrictions;
+    }
 }

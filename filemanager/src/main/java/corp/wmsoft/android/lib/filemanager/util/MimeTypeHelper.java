@@ -283,8 +283,8 @@ public final class MimeTypeHelper {
                 // Audit the wrong mime/type resource and return the best fso drawable (probably
                 // default)
                 Log.w(TAG, String.format(
-                        "Something was wrong with the drawable of the fso:" + //$NON-NLS-1$
-                        "%s, mime: %s", //$NON-NLS-1$
+                        "Something was wrong with the drawable of the fso:" +
+                        "%s, mime: %s",
                         fso.toString(),
                         mimeTypeInfo.toString()));
             }

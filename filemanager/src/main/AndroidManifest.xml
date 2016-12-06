@@ -12,7 +12,7 @@
         <activity
             android:name=".ui.FileManagerActivity"
             android:label="@string/wm_fm_app_name"
-            android:theme="@style/AppTheme.Dialog.NoActionBar.NoTitle"
+            android:theme="@style/WMFMAppTheme.Dialog.NoActionBar.NoTitle"
             android:excludeFromRecents="true"/>
 
     </application>

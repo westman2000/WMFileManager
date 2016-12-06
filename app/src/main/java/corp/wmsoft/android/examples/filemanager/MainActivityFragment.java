@@ -10,8 +10,6 @@ import android.view.ViewGroup;
 
 import corp.wmsoft.android.lib.filemanager.IOnFilePickedListener;
 import corp.wmsoft.android.lib.filemanager.WMFileManager;
-import corp.wmsoft.android.lib.filemanager.WMFileManagerDialog;
-import corp.wmsoft.android.lib.filemanager.ui.FileManagerActivity;
 
 
 /**
@@ -61,7 +59,7 @@ public class MainActivityFragment extends Fragment implements IOnFilePickedListe
     }
 
     private void showFM() {
-        FileManagerActivity.startAsDialogActivity(getContext(), "_fragment_dialog_title_");
+//        FileManagerActivity.startAsDialogActivity(getContext(), "_fragment_dialog_title_");
     }
 
 }
