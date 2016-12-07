@@ -14,7 +14,6 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -64,8 +63,6 @@ public class FileManagerActivity extends MVPCAppCompatActivity<IFileManagerViewC
     /**/
     private static final String TAG = "wmfm::Activity";
 
-    /**/
-    public static final int REQUEST_CODE = 926;
     /**/
     public static final String EXTRA_RESULT = "EXTRA_RESULT";
     /**/

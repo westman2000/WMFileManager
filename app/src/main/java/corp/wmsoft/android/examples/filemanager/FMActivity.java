@@ -16,6 +16,9 @@ public class FMActivity extends AppCompatActivity {
     private static final String TAG = "wmfm:FMActivity";
 
 
+    int requestCodeDirectoryChooser = 123;
+    int requestCodeFilePicker       = 125;
+    int requestCodeSaveAsDialog     = 127;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,43 +39,45 @@ public class FMActivity extends AppCompatActivity {
         findViewById(R.id.dirChooser).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                WMFileManager.showAsDirectoryChooser(FMActivity.this);
+                WMFileManager.showAsDirectoryChooser(FMActivity.this, requestCodeDirectoryChooser);
             }
         });
         findViewById(R.id.filePickerByMimeType).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                WMFileManager.showAsFilePicker(FMActivity.this, "image/jpeg");
+                WMFileManager.showAsFilePicker(FMActivity.this, requestCodeFilePicker, "image/jpeg");
             }
         });
         findViewById(R.id.filePickerAll).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //noinspection ConfusingArgumentToVarargsMethod
-                WMFileManager.showAsFilePicker(FMActivity.this, null);
+                WMFileManager.showAsFilePicker(FMActivity.this, requestCodeFilePicker, null);
             }
         });
         findViewById(R.id.saveAsDialog).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                WMFileManager.showFileSaveAsDialog(FMActivity.this, "test file name.txt");
+                WMFileManager.showFileSaveAsDialog(FMActivity.this, requestCodeSaveAsDialog, "test file name.txt");
             }
         });
         findViewById(R.id.saveAsDialogWithoutDefault).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                WMFileManager.showFileSaveAsDialog(FMActivity.this, null);
+                WMFileManager.showFileSaveAsDialog(FMActivity.this, requestCodeSaveAsDialog, null);
             }
         });
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // Check which request we're responding to
-        if (requestCode == FileManagerActivity.REQUEST_CODE) {
-            // Make sure the request was successful
-            if (resultCode == RESULT_OK) {
-                Toast.makeText(this, data.getStringExtra(FileManagerActivity.EXTRA_RESULT), Toast.LENGTH_SHORT).show();
+        if (resultCode == RESULT_OK) {
+            if (requestCode == requestCodeDirectoryChooser) {
+                Toast.makeText(this, "DirectoryChooser: "+data.getStringExtra(FileManagerActivity.EXTRA_RESULT), Toast.LENGTH_SHORT).show();
+            } else if (requestCode == requestCodeFilePicker) {
+                Toast.makeText(this, "FilePicker: "+data.getStringExtra(FileManagerActivity.EXTRA_RESULT), Toast.LENGTH_SHORT).show();
+            } else if (requestCode == requestCodeSaveAsDialog) {
+                Toast.makeText(this, "SaveAsDialog: "+data.getStringExtra(FileManagerActivity.EXTRA_RESULT), Toast.LENGTH_SHORT).show();
             }
         }
 
