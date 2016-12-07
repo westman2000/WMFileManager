@@ -2,6 +2,9 @@ package corp.wmsoft.android.lib.filemanager.ui;
 
 import android.support.annotation.Keep;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import corp.wmsoft.android.lib.filemanager.IFileManagerFileTimeFormat;
 import corp.wmsoft.android.lib.filemanager.IFileManagerNavigationMode;
 import corp.wmsoft.android.lib.filemanager.IFileManagerSortMode;
@@ -36,6 +39,8 @@ public interface IFileManagerViewContract {
         void directoryChanged(String dir);
 
         void selectMountPoint(MountPoint mountPoint);
+
+        void showCreateNewFolderView(ArrayList<String> currentPathFolders);
     }
 
     interface Presenter extends IMVPCPresenter<View> {
@@ -83,5 +88,9 @@ public interface IFileManagerViewContract {
 
         @Keep
         void                            onBreadCrumbClick(BreadCrumb breadCrumb);
+
+        void                            onCreateNewFolder();
+
+        void                            onNewFolderCreated(String folderName);
     }
 }

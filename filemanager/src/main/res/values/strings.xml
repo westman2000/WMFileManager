@@ -4,7 +4,11 @@
 
     <!-- Hints -->
     <string name="wm_fm_hint_file_name">File name</string>
-    <string name="wm_fm_hint_new_folder">New folder</string>
+    <string name="wm_fm_hint_new_folder">New folder name</string>
+
+    <!-- Errors -->
+    <string name="wm_fm_error_folder_exist">Folder with this name exist</string>
+    <string name="wm_fm_error_folder_name_illegal">Contains illegal characters</string>
 
     <!-- Date/time format order (%1$s: date; %2$s: time) -->
     <string name="wm_fm_datetime_format_order">%1$s %2$s</string>

@@ -2,7 +2,6 @@ package corp.wmsoft.android.lib.filemanager.ui;
 
 import android.Manifest;
 import android.annotation.TargetApi;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
@@ -15,20 +14,18 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import corp.wmsoft.android.lib.filemanager.IFileManagerFileTimeFormat;
@@ -49,7 +46,11 @@ import corp.wmsoft.android.lib.mvpcrx.presenter.factory.IMVPCPresenterFactory;
 /**
  *
  */
-public class FileManagerActivity extends MVPCAppCompatActivity<IFileManagerViewContract.View, IFileManagerViewContract.Presenter> implements IFileManagerViewContract.View, IBreadCrumbListener, PopupMenu.OnMenuItemClickListener {
+public class FileManagerActivity extends MVPCAppCompatActivity<IFileManagerViewContract.View, IFileManagerViewContract.Presenter>
+        implements  IFileManagerViewContract.View,
+                    IBreadCrumbListener,
+                    PopupMenu.OnMenuItemClickListener,
+                    CreateNewFolderDialogFragment.CreateNewFolderDialogListener {
 
     /**/
     private static final String TAG = "wmfm::Activity";
@@ -59,32 +60,32 @@ public class FileManagerActivity extends MVPCAppCompatActivity<IFileManagerViewC
     /**/
     public static final String EXTRA_RESULT = "EXTRA_RESULT";
     /**/
-    public static final String EXTRA_TYPE = "EXTRA_TYPE";
-    public static final String EXTRA_DEFAULT_FILE_NAME = "EXTRA_DEFAULT_FILE_NAME";
+    public static final String EXTRA_TYPE               = "EXTRA_TYPE";
+    public static final String EXTRA_DEFAULT_FILE_NAME  = "EXTRA_DEFAULT_FILE_NAME";
     /**/
-    public static final int TYPE_DIRECTORY_ONLY = 100;
-    public static final int TYPE_FILE_PICKER = 200;
-    public static final int TYPE_SAVE_FILE = 300;
+    public static final int TYPE_DIRECTORY_ONLY         = 100;
+    public static final int TYPE_FILE_PICKER            = 200;
+    public static final int TYPE_SAVE_FILE              = 300;
 
     /**/
     private static final int FILE_MANAGER_PERMISSIONS_REQUEST   = 123;
 
     /**/
-    private WmFmFileManagerViewLayoutBinding binding;
+    private WmFmFileManagerViewLayoutBinding    binding;
     /**/
-    private LinearLayoutManager mVerticalLinearLayoutManager;
-    private LinearLayoutManager breadCrumbsLinearLayoutManager;
+    private LinearLayoutManager                 mVerticalLinearLayoutManager;
+    private LinearLayoutManager                 breadCrumbsLinearLayoutManager;
     /**/
-    private GridLayoutManager mGridLayoutManager;
+    private GridLayoutManager                   mGridLayoutManager;
     /**/
-    private DividerItemDecoration mDividerItemDecoration;
-    private DividerItemDecoration breadCrumbDividerItemDecoration;
+    private DividerItemDecoration               mDividerItemDecoration;
+    private DividerItemDecoration               breadCrumbDividerItemDecoration;
     /**/
-    private FSOViewModelAdapter fsoViewModelAdapter;
+    private FSOViewModelAdapter                 fsoViewModelAdapter;
     /**/
-    private BreadCrumbAdapter breadCrumbAdapter;
+    private BreadCrumbAdapter                   breadCrumbAdapter;
     /**/
-    private ObservableList<MountPoint> mountPoints;
+    private ObservableList<MountPoint>          mountPoints;
     /**/
     private ObservableList.OnListChangedCallback<ObservableList<MountPoint>> mountPointsListCallback =
             new ObservableList.OnListChangedCallback<ObservableList<MountPoint>>() {
@@ -326,9 +327,19 @@ public class FileManagerActivity extends MVPCAppCompatActivity<IFileManagerViewC
     }
 
     @Override
+    public void showCreateNewFolderView(ArrayList<String> currentPathFolders) {
+        CreateNewFolderDialogFragment.show(getSupportFragmentManager(), currentPathFolders);
+    }
+
+    @Override
     public boolean onBreadCrumbLongClick(BreadCrumb breadCrumb) {
         Toast.makeText(this, breadCrumb.fullPath(), Toast.LENGTH_SHORT).show();
         return true;
+    }
+
+    @Override
+    public void onNewFolderCreated(String folderName) {
+        getPresenter().onNewFolderCreated(folderName);
     }
 
     public void setNavigationMode(@IFileManagerNavigationMode int mode) {
@@ -424,7 +435,7 @@ public class FileManagerActivity extends MVPCAppCompatActivity<IFileManagerViewC
         binding.newFolderAction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showCreateNewFolderDialog();
+                getPresenter().onCreateNewFolder();
             }
         });
 
@@ -538,38 +549,6 @@ public class FileManagerActivity extends MVPCAppCompatActivity<IFileManagerViewC
             menu.findItem(R.id.action_sort_by_type_asc).setChecked(true);
         else if (getPresenter().getSortMode() == IFileManagerSortMode.TYPE_DESC)
             menu.findItem(R.id.action_sort_by_type_desc).setChecked(true);
-    }
-
-    private void showCreateNewFolderDialog() { // https://developer.android.com/guide/topics/ui/dialogs.html
-        Log.d(TAG, "showCreateNewFolderDialog()");
-        AlertDialog.Builder builder = new AlertDialog.Builder(FileManagerActivity.this);
-        builder.setTitle(R.string.wm_fm_hint_new_folder);
-        builder.setNegativeButton(android.R.string.cancel, null);
-        builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-
-            }
-        });
-
-        // Get the layout inflater
-        LayoutInflater inflater = getLayoutInflater();
-
-        // Inflate and set the layout for the dialog
-        // Pass null as the parent view because its going in the dialog layout
-        View customView = inflater.inflate(R.layout.wm_fm_create_new_folder, null);
-        builder.setView(customView);
-
-        final AlertDialog dialog = builder.create();
-
-        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
-            @Override
-            public void onShow(DialogInterface dialogInterface) {
-                dialog.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(false);
-            }
-        });
-
-        dialog.show();
     }
 
 }

@@ -7,6 +7,8 @@ import android.content.IntentFilter;
 import android.os.FileObserver;
 import android.util.Log;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import corp.wmsoft.android.lib.filemanager.IFileManagerFileTimeFormat;
@@ -18,6 +20,7 @@ import corp.wmsoft.android.lib.filemanager.interactors.GetMountPoints;
 import corp.wmsoft.android.lib.filemanager.interactors.OnFileObserverEvent;
 import corp.wmsoft.android.lib.filemanager.interactors.UpdateListSummary;
 import corp.wmsoft.android.lib.filemanager.models.BreadCrumb;
+import corp.wmsoft.android.lib.filemanager.models.FileSystemObject;
 import corp.wmsoft.android.lib.filemanager.models.MountPoint;
 import corp.wmsoft.android.lib.filemanager.util.FileHelper;
 import corp.wmsoft.android.lib.filemanager.util.PreferencesHelper;
@@ -264,6 +267,32 @@ class FileManagerViewPresenter extends MVPCPresenter<IFileManagerViewContract.Vi
         }
 
         changeCurrentDir(mViewModel.breadCrumbs.get(mViewModel.breadCrumbs.size() - 1).fullPath(), false);
+    }
+
+    @Override
+    public void onCreateNewFolder() {
+        ArrayList<String> currentPathFolders = new ArrayList<>();
+
+        // get all folders names
+        for (FSOViewModel fsoViewModel : mViewModel.fsoViewModels) {
+            if (fsoViewModel.fso.isDirectory())
+                currentPathFolders.add(fsoViewModel.fso.name());
+        }
+
+        getView().showCreateNewFolderView(currentPathFolders);
+    }
+
+    @Override
+    public void onNewFolderCreated(String folderName) {
+        Log.d(TAG, "mCurrentDir: "+mCurrentDir);
+        Log.d(TAG, "onNewFolderCreated: "+folderName);
+
+        File newFolder = new File(mCurrentDir + File.separator + folderName);
+        releaseFileObserver();
+        if (newFolder.mkdirs()) {
+            changeCurrentDir(newFolder.getAbsolutePath(), true);
+        }
+
     }
 
     /**

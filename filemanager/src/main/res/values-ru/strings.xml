@@ -4,7 +4,11 @@
 
     <!-- Hints -->
     <string name="wm_fm_hint_file_name">Имя файла</string>
-    <string name="wm_fm_hint_new_folder">Новая папка</string>
+    <string name="wm_fm_hint_new_folder">Имя новой папки</string>
+
+    <!-- Errors -->
+    <string name="wm_fm_error_folder_exist">Папка с таким именем существует</string>
+    <string name="wm_fm_error_folder_name_illegal">Содержит не допустимые символы</string>
 
     <!-- Date/time format order (%1$s: date; %2$s: time) -->
     <string name="wm_fm_datetime_format_order">%1$s %2$s</string>
