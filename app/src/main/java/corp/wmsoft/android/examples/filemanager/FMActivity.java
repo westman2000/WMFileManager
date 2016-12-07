@@ -75,6 +75,8 @@ public class FMActivity extends AppCompatActivity {
                 Toast.makeText(this, data.getStringExtra(FileManagerActivity.EXTRA_RESULT), Toast.LENGTH_SHORT).show();
             }
         }
+
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
 }

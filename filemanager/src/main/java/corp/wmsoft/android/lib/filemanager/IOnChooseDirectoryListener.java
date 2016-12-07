@@ -5,7 +5,7 @@ import android.support.annotation.Keep;
 /**
  * An interface to send current selected directory
  */
-@Keep
+@Deprecated
 public interface IOnChooseDirectoryListener {
     /**
      * Method invoked when dialog closing

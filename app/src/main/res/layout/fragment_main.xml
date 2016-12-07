@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/content_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -15,10 +16,33 @@
         android:text="----- Fragment Buttons ------" />
 
     <Button
-        android:id="@+id/fileManager"
-        android:text="File manager from fragment"
-        android:layout_below="@id/label"
+        android:id="@+id/dirChooser"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="FRAG: dir chooser (from activity)"/>
 
-</RelativeLayout>
+    <Button
+        android:id="@+id/filePickerByMimeType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="FRAG: file picker by mime type (from activity)"/>
+
+    <Button
+        android:id="@+id/filePickerAll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="FRAG: file picker all (from activity)"/>
+
+    <Button
+        android:id="@+id/saveAsDialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="FRAG: save as + default (from activity)"/>
+
+    <Button
+        android:id="@+id/saveAsDialogWithoutDefault"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="FRAG: save as (from activity)"/>
+
+</LinearLayout>

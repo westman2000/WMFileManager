@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.Keep;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.util.SparseArray;
 
@@ -61,6 +62,20 @@ public class WMFileManager {
     }
 
     /**
+     * Show dialog to choose folder. Implement {@link Fragment#onActivityResult(int, int, Intent)} to get result
+     * @param fragment fragment
+     */
+    public static void showAsDirectoryChooser(Fragment fragment) {
+
+        // set restrictions
+        setRestrictionOnlyDirectory();
+
+        Intent intent = new Intent(fragment.getContext(), FileManagerActivity.class);
+        intent.putExtra(FileManagerActivity.EXTRA_TYPE, FileManagerActivity.TYPE_DIRECTORY_ONLY);
+        fragment.startActivityForResult(intent, FileManagerActivity.REQUEST_CODE);
+    }
+
+    /**
      * Show dialog "Save As...". Implement {@link Activity#onActivityResult(int, int, Intent)} to get result
      * @param activity activity to handle result
      * @param defaultFileName default file name
@@ -77,6 +92,22 @@ public class WMFileManager {
     }
 
     /**
+     * Show dialog "Save As...". Implement {@link Fragment#onActivityResult(int, int, Intent)} to get result
+     * @param fragment fragment to handle result
+     * @param defaultFileName default file name
+     */
+    public static void showFileSaveAsDialog(Fragment fragment, @Nullable String defaultFileName) {
+
+        // set restrictions
+        setRestrictionForMimeTypes(null);
+
+        Intent intent = new Intent(fragment.getContext(), FileManagerActivity.class);
+        intent.putExtra(FileManagerActivity.EXTRA_TYPE, FileManagerActivity.TYPE_SAVE_FILE);
+        intent.putExtra(FileManagerActivity.EXTRA_DEFAULT_FILE_NAME, defaultFileName);
+        fragment.startActivityForResult(intent, FileManagerActivity.REQUEST_CODE);
+    }
+
+    /**
      * Show dialog to pick file. Implement {@link Activity#onActivityResult(int, int, Intent)} to get result
      * @param activity activity
      * @param mimeTypes show only this file types
@@ -89,6 +120,21 @@ public class WMFileManager {
         Intent intent = new Intent(activity, FileManagerActivity.class);
         intent.putExtra(FileManagerActivity.EXTRA_TYPE, FileManagerActivity.TYPE_FILE_PICKER);
         activity.startActivityForResult(intent, FileManagerActivity.REQUEST_CODE);
+    }
+
+    /**
+     * Show dialog to pick file. Implement {@link Fragment#onActivityResult(int, int, Intent)} to get result
+     * @param fragment fragment
+     * @param mimeTypes show only this file types
+     */
+    public static void showAsFilePicker(Fragment fragment, @Nullable String... mimeTypes) {
+
+        // set restrictions
+        setRestrictionForMimeTypes(mimeTypes);
+
+        Intent intent = new Intent(fragment.getContext(), FileManagerActivity.class);
+        intent.putExtra(FileManagerActivity.EXTRA_TYPE, FileManagerActivity.TYPE_FILE_PICKER);
+        fragment.startActivityForResult(intent, FileManagerActivity.REQUEST_CODE);
     }
 
     /**
