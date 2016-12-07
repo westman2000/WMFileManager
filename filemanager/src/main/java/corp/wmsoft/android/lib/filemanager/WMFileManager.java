@@ -68,7 +68,7 @@ public class WMFileManager {
     public static void showFileSaveAsDialog(Activity activity, @Nullable String defaultFileName) {
 
         // set restrictions
-        setRestrictionOnlyDirectory();
+        setRestrictionForMimeTypes(null);
 
         Intent intent = new Intent(activity, FileManagerActivity.class);
         intent.putExtra(FileManagerActivity.EXTRA_TYPE, FileManagerActivity.TYPE_SAVE_FILE);

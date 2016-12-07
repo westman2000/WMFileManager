@@ -14,6 +14,8 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import corp.wmsoft.android.lib.filemanager.IFileManagerDisplayRestrictions;
 import corp.wmsoft.android.lib.filemanager.IFileManagerFileTimeFormat;
@@ -398,6 +400,17 @@ public class FileHelper {
      */
     public static void setRestrictions(SparseArray mRestrictions) {
         restrictions = mRestrictions.clone();
+    }
+
+    /**
+     * Check if string contains illegal characters for file name
+     * @param toExamine string to examine
+     * @return true if contains, false otherwise
+     */
+    public static boolean containsIllegals(String toExamine) {
+        Pattern pattern = Pattern.compile("[?:`'*<>|/\\\\^]");
+        Matcher matcher = pattern.matcher(toExamine);
+        return matcher.find();
     }
 
     /**

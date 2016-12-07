@@ -58,6 +58,12 @@ public class FMActivity extends AppCompatActivity {
                 WMFileManager.showFileSaveAsDialog(FMActivity.this, "test file name.txt");
             }
         });
+        findViewById(R.id.saveAsDialogWithoutDefault).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                WMFileManager.showFileSaveAsDialog(FMActivity.this, null);
+            }
+        });
     }
 
     @Override

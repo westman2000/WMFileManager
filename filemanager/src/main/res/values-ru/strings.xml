@@ -8,6 +8,7 @@
 
     <!-- Errors -->
     <string name="wm_fm_error_folder_exist">Папка с таким именем существует</string>
+    <string name="wm_fm_error_file_exist">Файл с таким именем существует</string>
     <string name="wm_fm_error_folder_name_illegal">Содержит не допустимые символы</string>
 
     <!-- Date/time format order (%1$s: date; %2$s: time) -->

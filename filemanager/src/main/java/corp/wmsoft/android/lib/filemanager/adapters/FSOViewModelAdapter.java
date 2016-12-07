@@ -8,6 +8,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import corp.wmsoft.android.lib.filemanager.IFileManagerNavigationMode;
 import corp.wmsoft.android.lib.filemanager.R;
 import corp.wmsoft.android.lib.filemanager.adapters.holders.NavigationViewBaseItemViewHolder;
@@ -109,6 +112,16 @@ public class FSOViewModelAdapter extends RecyclerView.Adapter<NavigationViewBase
     public void setPresenter(IFileManagerViewContract.Presenter presenter) {
         this.presenter = presenter;
         notifyDataSetChanged();
+    }
+
+    public List<String> getFsoNames() {
+        List<String> names = new ArrayList<>();
+
+        for (FSOViewModel fsoViewModel : fsoViewModels) {
+            names.add(fsoViewModel.fso.name());
+        }
+
+        return names;
     }
 
     /**

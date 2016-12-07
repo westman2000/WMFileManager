@@ -14,17 +14,25 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +46,7 @@ import corp.wmsoft.android.lib.filemanager.databinding.WmFmFileManagerViewLayout
 import corp.wmsoft.android.lib.filemanager.models.BreadCrumb;
 import corp.wmsoft.android.lib.filemanager.models.MountPoint;
 import corp.wmsoft.android.lib.filemanager.util.AndroidHelper;
+import corp.wmsoft.android.lib.filemanager.util.FileHelper;
 import corp.wmsoft.android.lib.filemanager.util.PermissionUtil;
 import corp.wmsoft.android.lib.mvpcrx.predefined.MVPCAppCompatActivity;
 import corp.wmsoft.android.lib.mvpcrx.presenter.factory.IMVPCPresenterFactory;
@@ -309,6 +318,7 @@ public class FileManagerActivity extends MVPCAppCompatActivity<IFileManagerViewC
 
     @Override
     public void directoryChanged(String dir) {
+        binding.fabSave.setEnabled(isFileNameValid(binding.fileNameToSave.getText().toString()));
     }
 
     @Override
@@ -421,6 +431,30 @@ public class FileManagerActivity extends MVPCAppCompatActivity<IFileManagerViewC
 
         if (getIntent().getIntExtra(EXTRA_TYPE, 0) == TYPE_SAVE_FILE) {
             binding.saveField.setVisibility(View.VISIBLE);
+
+            binding.fileNameToSave.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    binding.fabSave.setEnabled(isFileNameValid(binding.fileNameToSave.getText().toString()));
+                }
+            });
+            binding.fileNameToSave.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                @Override
+                public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                    if (actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_NULL) {
+                        attemptSaveFile(binding.fileNameToSave.getText().toString());
+                        return true;
+                    }
+                    return false;
+                }
+            });
+
             binding.fileNameToSave.setText(getIntent().getStringExtra(EXTRA_DEFAULT_FILE_NAME));
             binding.newFolderAction.setVisibility(View.VISIBLE);
         }
@@ -443,8 +477,37 @@ public class FileManagerActivity extends MVPCAppCompatActivity<IFileManagerViewC
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "onClick: fabSave");
+                attemptSaveFile(binding.fileNameToSave.getText().toString());
             }
         });
+    }
+
+    private void attemptSaveFile(String fileName) {
+        sendResultAndFinish(getPresenter().getCurrentDir() + File.separator + fileName);
+    }
+
+    private boolean isFileNameValid(String fileName) {
+
+        if (TextUtils.isEmpty(fileName.trim())) {
+            binding.fileNameToSave.setError(null);
+            return false;
+        }
+
+        List<String> names = fsoViewModelAdapter.getFsoNames();
+        for (String fName : names) {
+            if (fileName.equalsIgnoreCase(fName)) {
+                binding.fileNameToSave.setError(getString(R.string.wm_fm_error_file_exist));
+                return false;
+            }
+        }
+
+        if (FileHelper.containsIllegals(fileName)) {
+            binding.fileNameToSave.setError(getString(R.string.wm_fm_error_folder_name_illegal));
+            return false;
+        }
+
+        binding.fileNameToSave.setError(null);
+        return true;
     }
 
     private TabLayout.OnTabSelectedListener onTabSelectedListener = new TabLayout.OnTabSelectedListener() {

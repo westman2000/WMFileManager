@@ -8,6 +8,7 @@
 
     <!-- Errors -->
     <string name="wm_fm_error_folder_exist">Folder with this name exist</string>
+    <string name="wm_fm_error_file_exist">File with this name exist</string>
     <string name="wm_fm_error_folder_name_illegal">Contains illegal characters</string>
 
     <!-- Date/time format order (%1$s: date; %2$s: time) -->

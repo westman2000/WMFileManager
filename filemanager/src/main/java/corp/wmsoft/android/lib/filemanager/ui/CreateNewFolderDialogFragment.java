@@ -26,6 +26,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import corp.wmsoft.android.lib.filemanager.R;
+import corp.wmsoft.android.lib.filemanager.util.FileHelper;
 
 
 /**
@@ -166,19 +167,13 @@ public class CreateNewFolderDialogFragment extends DialogFragment implements Tex
             }
         }
 
-        if (containsIllegals(folderName)) {
+        if (FileHelper.containsIllegals(folderName)) {
             tilNewFolderName.setError(getContext().getString(R.string.wm_fm_error_folder_name_illegal));
             return false;
         }
 
         tilNewFolderName.setError(null);
         return true;
-    }
-
-    private boolean containsIllegals(String toExamine) {
-        Pattern pattern = Pattern.compile("[?:`'*<>|/\\\\^]");
-        Matcher matcher = pattern.matcher(toExamine);
-        return matcher.find();
     }
 
     private void attemptSubmit(String folderName) {

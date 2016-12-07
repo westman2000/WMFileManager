@@ -49,6 +49,12 @@
             android:id="@+id/saveAsDialog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="save as + default (from activity)"/>
+
+        <Button
+            android:id="@+id/saveAsDialogWithoutDefault"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="save as (from activity)"/>
 
         <FrameLayout
