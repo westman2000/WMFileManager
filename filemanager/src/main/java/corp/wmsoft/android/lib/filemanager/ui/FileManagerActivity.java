@@ -445,7 +445,11 @@ public class FileManagerActivity extends MVPCAppCompatActivity<IFileManagerViewC
                 @Override
                 public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
                     if (actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_NULL) {
-                        attemptSaveFile(binding.fileNameToSave.getText().toString());
+
+                        String fileName = binding.fileNameToSave.getText().toString();
+
+                        if (isFileNameValid(fileName))
+                            attemptSaveFile(fileName);
                         return true;
                     }
                     return false;

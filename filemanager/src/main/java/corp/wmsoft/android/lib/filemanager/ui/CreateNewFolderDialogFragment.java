@@ -136,7 +136,11 @@ public class CreateNewFolderDialogFragment extends DialogFragment implements Tex
     @Override
     public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
         if (actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_NULL) {
-            attemptSubmit(newFolderEditText.getText().toString());
+
+            String folderName = newFolderEditText.getText().toString();
+            if (isNewFolderNameValid(folderName))
+                attemptSubmit(folderName);
+
             return true;
         }
         return false;
