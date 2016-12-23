@@ -46,7 +46,7 @@ bintray {
 
         licenses = ['Apache-2.0']
         vcsUrl = 'https://github.com/westman2000/WMFileManager.git' // your GitHub repo
-        websiteUrl = 'https://github.com/westman2000/MVPCAndroid' // your website or whatever has documentation
+        websiteUrl = 'https://github.com/westman2000/WMFileManager' // your website or whatever has documentation
     }
     configurations = ['archives']
 }
